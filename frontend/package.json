@@ -15,14 +15,14 @@
     "e2e": "playwright test"
   },
   "dependencies": {
-    "@shikijs/engine-javascript": "4.4.3",
-    "@shikijs/langs": "4.4.3",
-    "@shikijs/rehype": "4.4.3",
-    "@shikijs/themes": "4.4.3",
-    "hast-util-to-html": "9.0.5",
-    "hast-util-to-jsx-runtime": "2.3.6",
+    "@shikijs/engine-javascript": "4.5.0",
+    "@shikijs/langs": "4.5.0",
+    "@shikijs/rehype": "4.5.0",
+    "@shikijs/themes": "4.5.0",
+    "hast-util-to-html": "9.0.6",
+    "hast-util-to-jsx-runtime": "2.3.7",
     "hast-util-to-string": "3.0.1",
-    "mermaid": "12.1.0",
+    "mermaid": "12.2.0",
     "next": "16.4.2",
     "next-intl": "4.14.9",
     "react": "19.3.0",
@@ -35,9 +35,9 @@
     "remark-gfm": "4.0.1",
     "remark-parse": "11.0.0",
     "remark-rehype": "11.1.2",
-    "shiki": "4.4.3",
+    "shiki": "4.5.0",
     "unified": "11.0.5",
-    "unist-util-visit": "5.0.0"
+    "unist-util-visit": "5.2.0"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
