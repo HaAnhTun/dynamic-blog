@@ -1,0 +1,234 @@
+# Reverse proxy for one domain in front of the compose stack, with Let's Encrypt (certbot).
+# Copy to /etc/nginx/conf.d/blog.conf and replace example.com with the host of SITE_URL (without www).
+# Next listens on 127.0.0.1:3000 (SITE_BIND and SITE_PORT in .env; change the proxy_pass lines if you changed SITE_PORT).
+#
+# Body limits: 1 MB for everything, 6 MB for /admin/. Public pages send nothing over 16 KB (a view beacon is at most 512
+# bytes, a comment at most 16 KB), while the admin's image-upload Server Action POSTs to the page URL /admin/... with up
+# to 5 MiB of image plus the multipart overhead. Next reads EVERY multipart POST to EVERY page up to 5 MiB before it
+# knows whether it is a valid action, so the proxy is the place that stops junk POSTs before they take up Next's memory.
+#
+# The first time, the two 443 blocks point at a certificate that does not exist yet and `nginx -t` rejects the whole
+# file: keep only the port 80 block, get the certificate, then add the other two blocks:
+#
+#   sudo mkdir -p /var/www/certbot
+#   sudo nginx -t && sudo systemctl reload nginx          # with only the port 80 block
+#   sudo certbot certonly --webroot -w /var/www/certbot -d example.com -d www.example.com \
+#     --deploy-hook 'systemctl reload nginx'
+#   sudo nginx -t && sudo systemctl reload nginx          # after adding the two 443 blocks
+#
+# Notes:
+# - `proxy_set_header Host $host` is required: Next compares the host of the Origin header with the request host and
+#   cancels every Server Action that mismatches, so without it every save and upload in the admin is rejected.
+# - `X-Forwarded-For $proxy_add_x_forwarded_for` appends the address nginx sees ($remote_addr) at the END, after whatever the
+#   caller sent; every per-IP limit in Next, and the address Next forwards to the backend, read that entry counting from the right
+#   (TRUSTED_PROXY_HOPS, default 1). That entry is the visitor only when $remote_addr is.
+# - Behind Cloudflare, $remote_addr is Cloudflare's edge, so restore the visitor address in nginx and KEEP TRUSTED_PROXY_HOPS=1:
+#   build /etc/nginx/cloudflare-realip.conf (one `set_real_ip_from <range>;` per range Cloudflare publishes at
+#   https://www.cloudflare.com/ips-v4 and /ips-v6, then `real_ip_header CF-Connecting-IP;`; the command is in docs/INSTALL.md,
+#   "Behind Cloudflare") and uncomment the include line in the main host block below. A request that reaches the origin directly is
+#   not from a listed range, so nginx ignores its CF-Connecting-IP and $remote_addr stays the caller's own address: nobody can
+#   choose the key of the per-IP limits by writing a header, even if the address of the origin leaks.
+# - Use TRUSTED_PROXY_HOPS=2 with Cloudflare in front of this nginx ONLY if the origin accepts connections from Cloudflare alone
+#   (a firewall allow-list of Cloudflare's ranges on 443, Authenticated Origin Pulls, or Cloudflare Tunnel). Without that, a caller who
+#   reaches the origin directly sends its own X-Forwarded-For, nginx appends to it, and the second entry from the right is the
+#   caller's invention: every per-IP limit can be rotated at will.
+# - Next sends the security headers itself, including Strict-Transport-Security (HSTS_MAX_AGE). Do NOT add them here:
+#   two HSTS headers make the browser read only the first one.
+# - Readers must use exactly the host of SITE_URL: the www block below redirects the secondary host to the main host.
+
+# Access log without query strings. A search term (/search?q=..., /api/search/suggest?q=...), the newsletter confirm and
+# unsubscribe tokens and a page cached from before a fix (the admin login form is a POST, an old cached copy would send the
+# password as a GET query string) all travel in the query string, and the default format records the whole request line next to
+# the reader's address. The format below writes $uri (no query) and no referer: the referer of a click on a search result is the
+# search URL, query included. Every server block uses it, so nothing falls back to the distribution's format.
+# nginx's error.log still copies the request line when the upstream fails: keep both logs short-lived (for example logrotate,
+# daily, rotate 7) and do not ship them anywhere that keeps them longer.
+# Place it outside every server block.
+log_format no_query '$remote_addr - $remote_user [$time_local] "$request_method $uri $server_protocol" '
+                    '$status $body_bytes_sent "$http_user_agent"';
+
+# Port 80: http to https://example.com, from www too, in a single redirect. Leaves a path for certbot.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com www.example.com;
+    access_log /var/log/nginx/access.log no_query;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    location / {
+        return 301 https://example.com$request_uri;
+    }
+}
+
+# https://www.example.com to https://example.com. The certificate must include the www name too.
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name www.example.com;
+    access_log /var/log/nginx/access.log no_query;
+    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    # The TLS floor is set here and not left to the distribution's nginx.conf or to certbot's options-ssl-nginx.conf
+    # (`certbot certonly` never adds that file). TLS 1.2 and 1.3 only; the client picks the cipher among the strong ones;
+    # no session tickets (a ticket key lives as long as the worker and would undo forward secrecy); the Server header names
+    # no version. No `ssl_stapling`: Let's Encrypt no longer runs OCSP, so there is nothing to staple. These lines live in
+    # the server blocks on purpose: a Debian or Ubuntu nginx.conf already sets ssl_protocols at http level, and a second
+    # one there is a "directive is duplicate" error.
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_session_tickets off;
+    ssl_session_cache shared:blog_tls:10m;
+    ssl_session_timeout 1d;
+    server_tokens off;
+
+    return 301 https://example.com$request_uri;
+}
+
+# Request limits and a small cache, per client address (outside every server block). `$binary_remote_addr` is the address nginx sees:
+# with Cloudflare in front it is Cloudflare's, so restore the reader's with `set_real_ip_from` and `real_ip_header CF-Connecting-IP`
+# first or every reader shares one limit. Pages and static files get a roomy allowance (a page loads dozens of files at once); the
+# expensive reads (pictures, share cards, feeds, the sitemap) a tighter one. 429 instead of nginx's default 503. Next limits the same
+# paths per address too (docs/SECURITY.md, "Rate limits"), but only nginx stops a request before it costs Next anything.
+limit_req_zone $binary_remote_addr zone=blog_pages:10m rate=20r/s;
+limit_req_zone $binary_remote_addr zone=blog_heavy:10m rate=5r/s;
+limit_req_status 429;
+
+# Pictures are the same for every reader: an hour in this cache turns a flood of requests for one picture into one request to Next
+# (five minutes for a share card). An image address never changes its bytes, and a deleted image leaves this cache within the hour (it
+# is also in the browser for a year, and in a CDN if you have one: docs/INSTALL.md, "A CDN in front"). Create the folder first:
+# sudo mkdir -p /var/cache/nginx/blog
+proxy_cache_path /var/cache/nginx/blog levels=1:2 keys_zone=blog_cache:10m max_size=512m inactive=1d use_temp_path=off;
+
+# Main host.
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name example.com;
+    access_log /var/log/nginx/access.log no_query;
+    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    # TLS floor: see the www block above.
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_session_tickets off;
+    ssl_session_cache shared:blog_tls:10m;
+    ssl_session_timeout 1d;
+    server_tokens off;
+
+    client_max_body_size 1m;
+
+    # Behind Cloudflare only (see the Notes at the top). Not enabled by default: it makes nginx believe CF-Connecting-IP from the
+    # listed ranges, which is wrong for a site that Cloudflare does not front.
+    # include /etc/nginx/cloudflare-realip.conf;
+
+    # TRACE, TRACK and CONNECT make Next throw a 500 and write a stack trace to its log for every request (audit issue 103). Nothing on
+    # this site uses them, so they stop here. (nginx answers 405 to TRACE by itself for a file it serves; it forwards one to a proxy_pass.)
+    if ($request_method ~ ^(TRACE|TRACK|CONNECT)$) {
+        return 405;
+    }
+
+    location / {
+        limit_req zone=blog_pages burst=100 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /admin/ {
+        client_max_body_size 6m;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Keeps the one-time OAuth code (it is in the callback's query string) out of the access log.
+    location = /api/auth/github/callback {
+        access_log off;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # The newsletter tokens and anything typed into the admin login form are in query strings, which the server-level
+    # access_log above already keeps out. This location only keeps the 1 MB limit for them: a regular expression location
+    # wins over the prefix `/admin/` above, so /admin/login does not get its 6 MB.
+    location ~ ^/(([a-z][a-z]/)?(newsletter|api/newsletter)/|admin/login) {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Pictures: the same bytes for every reader, and the most expensive read of the site (an image is read whole from the database).
+    # Cached for an hour here and limited per address. `proxy_ignore_headers` makes the hour apply instead of the year that Next asks for;
+    # errors are never cached (only 200 is listed, and Next marks them no-store). The key is the path WITHOUT the query string: the route
+    # ignores the query, so `/media/<id>.jpg?x=<random>` must find the one cached copy instead of reaching Next every time.
+    location /media/ {
+        limit_req zone=blog_heavy burst=60 nodelay;
+        proxy_cache blog_cache;
+        proxy_cache_valid 200 1h;
+        proxy_ignore_headers Cache-Control Expires;
+        proxy_cache_key $scheme$host$uri;
+        proxy_cache_lock on;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # The image optimizer: same hour, same limit. Here the query IS the picture (the address, the width, the quality), so it stays in the
+    # key. Next limits this path per address too, and it must see the reader's address in X-Forwarded-For, as everywhere.
+    location = /_next/image {
+        limit_req zone=blog_heavy burst=60 nodelay;
+        proxy_cache blog_cache;
+        proxy_cache_valid 200 1h;
+        proxy_ignore_headers Cache-Control Expires;
+        proxy_cache_key $scheme$host$request_uri;
+        proxy_cache_lock on;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Share cards: a 1200x630 PNG drawn on demand, the same for every reader. Five minutes, not an hour: the card of an address that was
+    # asked for before its post existed is the site-wide one, and Next promises it for five minutes (app/api/og/posts/[slug]/route.tsx), and
+    # a post whose title or cover changed should not keep its old card for longer. A flood for one address is still one request to Next.
+    location /api/og/ {
+        limit_req zone=blog_heavy burst=60 nodelay;
+        proxy_cache blog_cache;
+        proxy_cache_valid 200 5m;
+        proxy_ignore_headers Cache-Control Expires;
+        proxy_cache_key $scheme$host$uri;
+        proxy_cache_lock on;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Feeds and the sitemap are read from the backend on every request on purpose (a withdrawn post must leave them at once), so they are
+    # not cached here, only limited per address.
+    location ~ (^/sitemap\.xml$|/feed\.xml$) {
+        limit_req zone=blog_heavy burst=10 nodelay;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # The built scripts and styles: immutable, cheap for Next, and dozens per page load, so no request limit.
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

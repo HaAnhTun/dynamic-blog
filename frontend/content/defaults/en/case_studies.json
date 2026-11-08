@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "slug": "example-case-study",
+      "title": "Example case study: keeping a project easy to inspect",
+      "summary": "An example showing the shape of a case study. Replace it with a real one in Admin > Settings.",
+      "problem": ["Example: a project grows and nobody can tell how big it is or how it changed."],
+      "constraints": ["Example: no new tooling, and the numbers must be checkable by anyone with the repository."],
+      "solution": [
+        "Example: keep history in small commits and every database change in a numbered migration, then measure with plain commands."
+      ],
+      "results": [
+        {
+          "label": "Database migrations in the repository",
+          "value": "39",
+          "source": "ls backend/src/main/resources/db/migration | wc -l"
+        },
+        {
+          "label": "Lines in the backend build file",
+          "value": "266",
+          "source": "wc -l backend/pom.xml"
+        }
+      ],
+      "ifRedone": [
+        "Example: I would record each measurement together with its command from the start, so the numbers never go stale."
+      ],
+      "readMore": [],
+      "lastVerified": "2026-10-11"
+    }
+  ]
+}

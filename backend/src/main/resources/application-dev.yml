@@ -1,0 +1,27 @@
+# Profile "dev": only `mvn spring-boot:run` enables it (spring-boot-maven-plugin in pom.xml).
+# The jar, the Docker image and the E2E stack run with no profile, so they are production (fail-closed, ProductionMode).
+#
+# This profile is the explicit opt-in to development defaults: the dev JWT secret below (JWT_SECRET still wins), the seeded
+# admin password and an empty VIEWS_TOKEN or CLIENT_IP_TOKEN are accepted. A public SITE_URL still makes the backend refuse them.
+#
+# Swagger UI (/swagger-ui.html) and /v3/api-docs are turned back on for dev machines; SPRINGDOC_ENABLED=false can still
+# turn them off (SpringDocExposureTest).
+# A dev machine listens on loopback only: this profile accepts the seeded admin password and the committed JWT secret and serves
+# Swagger UI, none of which may be reachable from the network (DevProfileBindingTest). SERVER_ADDRESS=0.0.0.0 opens it on purpose,
+# for a phone on the LAN. The jar and the Docker image have no profile and keep the default (a container has to listen on every
+# interface of its own network).
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+
+springdoc:
+  api-docs:
+    enabled: ${SPRINGDOC_ENABLED:true}
+  swagger-ui:
+    enabled: ${SPRINGDOC_ENABLED:true}
+
+app:
+  security:
+    jwt-secret: ${JWT_SECRET:dev-only-secret-change-me-this-must-be-at-least-32-bytes-long}
+  mfa:
+    # The throw-away key of a development machine (MFA_ENCRYPTION_KEY still wins). Committed on purpose: it protects nothing.
+    encryption-key: ${MFA_ENCRYPTION_KEY:kKTD05O9CzY77GBpadFxIY3buL3OixPWeQpATErrgxM=}

@@ -1,0 +1,12 @@
+#
+#Sun Oct 11 04:53:19 UTC 2026
+classes\ that\ are\ annotated\ with\ @Entity\ should\ reside\ in\ a\ package\ '..entity..'=a91967d3-26f3-41e4-9a95-ee8c0d521a67
+classes\ that\ reside\ in\ a\ package\ '..repository..'\ should\ only\ have\ dependent\ classes\ that\ reside\ in\ a\ package\ '..service..'\ or\ reside\ in\ a\ package\ '..repository..'\ or\ reside\ in\ a\ package\ '..mapper..'\ or\ reside\ in\ a\ package\ '..specification..'=a87ecfba-0bd7-4048-98cb-ebbbe01663fd
+no\ classes\ should\ access\ standard\ streams=98fe4fcf-1bdc-4f24-b1e2-51b1a4f041b6
+no\ classes\ should\ use\ field\ injection,\ because\ field\ injection\ is\ considered\ harmful;\ use\ constructor\ injection\ or\ setter\ injection\ instead;\ see\ https\://stackoverflow.com/q/39890849\ for\ detailed\ explanations=f8401855-868d-4178-9f86-ca3845c96d8f
+no\ classes\ should\ use\ java.util.logging=cf4ba44f-e911-4b9b-b528-eb5ef8f9e37c
+no\ classes\ that\ reside\ in\ a\ package\ '..controller..'\ should\ depend\ on\ classes\ that\ reside\ in\ a\ package\ '..entity..'=748abe93-db83-474b-b2df-bc97448f7526
+no\ classes\ that\ reside\ in\ a\ package\ '..controller..'\ should\ depend\ on\ classes\ that\ reside\ in\ a\ package\ '..repository..'=0c5d62e1-0056-4061-8542-1305f6eead49
+no\ classes\ that\ reside\ in\ a\ package\ '..dto..'\ should\ be\ annotated\ with\ @Entity=b63fb336-50d2-447c-8dfe-95c237791118
+no\ classes\ that\ reside\ in\ a\ package\ '..service..'\ should\ depend\ on\ classes\ that\ reside\ in\ a\ package\ '..controller..'=023a8829-801e-4d72-b7a5-9f4e684129e3
+no\ classes\ that\ reside\ outside\ of\ package\ '..controller..'\ should\ depend\ on\ classes\ that\ reside\ in\ a\ package\ '..controller..'=d6b773a0-faf6-4d93-bfb5-ebc31fa82804

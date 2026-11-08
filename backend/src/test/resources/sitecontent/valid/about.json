@@ -1,0 +1,7 @@
+{
+  "intro": "A short introduction.",
+  "sections": [
+    { "id": "background", "title": "Background", "body": ["First paragraph.", "Second paragraph."] },
+    { "id": "now-what", "title": "Today", "body": ["One paragraph."] }
+  ]
+}

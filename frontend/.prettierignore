@@ -1,0 +1,14 @@
+.next
+node_modules
+public
+test-results
+playwright-report
+e2e/.auth
+coverage
+out
+tsconfig.tsbuildinfo
+tsconfig.json
+package-lock.json
+next-env.d.ts
+AGENTS.md
+CLAUDE.md

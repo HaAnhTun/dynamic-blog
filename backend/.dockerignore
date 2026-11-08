@@ -1,0 +1,15 @@
+# target/ is the host's build output. Copying it in would put a jar built by another JDK
+# into the context, and `mvn package` inside the image would then reuse stale classes — the
+# same failure mode as running `mvn test` without `clean`, which this project has already
+# paid for once.
+target
+
+.env
+.env.*
+
+.git
+.gitignore
+Dockerfile
+.dockerignore
+docker-compose.yml
+README.md

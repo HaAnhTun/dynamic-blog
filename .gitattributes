@@ -1,0 +1,31 @@
+# A literal NUL byte in a .ts file is legal source, and once one got in nothing
+# noticed: lint, typecheck, build and the test suite were all green. The only
+# symptom was git reclassifying the file as binary, which silently removes it from
+# every diff and therefore from review. Force text diffs so that can never hide.
+*.ts   diff
+*.tsx  diff
+*.mts  diff
+*.cts  diff
+*.js   diff
+*.jsx  diff
+*.mjs  diff
+*.cjs  diff
+*.json diff
+*.css  diff
+*.java diff
+*.sql  diff
+*.xml  diff
+*.yml  diff
+*.yaml diff
+*.md   diff
+*.txt  diff
+.gitignore  diff
+.gitattributes diff
+.env.example   diff
+Dockerfile* diff
+
+# Line endings: LF in the working tree on every platform, because the formatters (Spotless, Prettier) emit LF and
+# their checks would fail on a CRLF checkout (core.autocrlf=true). Windows batch files need CRLF.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf

@@ -1,0 +1,13 @@
+{
+  "name": "Tên của bạn",
+  "location": "Thành phố của bạn, Quốc gia của bạn",
+  "role": "Vai trò của bạn",
+  "seeking": "Hãy ghi bạn đang tìm điều gì, hoặc xoá trường này trong Quản trị > Cài đặt.",
+  "avatar": null,
+  "galleryLead": "Vài tấm ảnh trong những ngày của tôi. Hãy thay dòng này trong Quản trị > Cài đặt.",
+  "hero": {
+    "greeting": "Xin chào, tôi là Tên của bạn.",
+    "headline": "Viết một dòng về việc bạn làm. Hãy thay dòng này trong Quản trị > Cài đặt.",
+    "subline": "Viết một dòng về điều bạn viết."
+  }
+}

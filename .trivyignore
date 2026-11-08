@@ -1,0 +1,4 @@
+# Reviewed exceptions for the Trivy scan of CI (docs/DEVELOPMENT.md, "CI"). One finding per entry, each with:
+#   - why it is not reachable here,
+#   - a review date after which the entry must be removed or justified again.
+# Only a finding without a fix may be listed here: a fixed one is cured by upgrading. The file is empty on purpose.

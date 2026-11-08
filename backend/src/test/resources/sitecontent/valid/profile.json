@@ -1,0 +1,9 @@
+{
+  "name": "Example Person",
+  "location": "Somewhere",
+  "role": "Software engineer",
+  "seeking": null,
+  "avatar": null,
+  "galleryLead": null,
+  "hero": { "greeting": "Hello", "headline": "I build things", "subline": "" }
+}

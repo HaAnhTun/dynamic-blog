@@ -1,0 +1,71 @@
+# Caddy v2 in front of the compose stack: automatic Let's Encrypt TLS, no certbot.
+# Copy to /etc/caddy/Caddyfile and replace example.com with the host of SITE_URL (without www).
+# DNS for example.com and www.example.com must point to this machine and ports 80 and 443 must be open.
+# Next listens on 127.0.0.1:3000 (SITE_BIND and SITE_PORT in .env; change the reverse_proxy lines if you changed SITE_PORT).
+#
+# Body limits (the same as deploy/nginx.conf.example): 1 MB for everything, 6 MB for /admin/. Public pages send nothing
+# over 16 KB, while the admin's image-upload Server Action POSTs to the page URL /admin/... with up to 5 MiB of image plus
+# the multipart overhead. Next reads every multipart POST to every page up to 5 MiB before it knows whether it is a valid
+# action, so the proxy is the place that stops junk POSTs.
+#
+# Notes:
+# - Caddy keeps the Host header and sets X-Forwarded-For (to the client address, ignoring any value the client sent) and
+#   X-Forwarded-Proto by itself, which is what TRUSTED_PROXY_HOPS=1 expects. With Cloudflare in front of Caddy set
+#   TRUSTED_PROXY_HOPS=2 and configure Caddy's trusted_proxies for Cloudflare's ranges: Caddy then keeps the X-Forwarded-For of a
+#   request from those ranges and replaces it for any other caller, so a caller who reaches the origin directly is not believed.
+#   Still let the origin accept Cloudflare alone (firewall allow-list or Authenticated Origin Pulls): it also keeps the WAF in the way.
+# - Next sends the security headers itself, including Strict-Transport-Security (HSTS_MAX_AGE). Do not add them here.
+# - Readers must use exactly the host of SITE_URL: the www block redirects the secondary host.
+# - Caddy has no request rate limit and no response cache of its own: both are plugins (for example the caddy-ratelimit module,
+#   built with xcaddy). The limits and the one-hour picture cache that deploy/nginx.conf.example sets are the ones to copy if you add them,
+#   or put a CDN with a rate rule in front (docs/INSTALL.md, "A CDN in front"). Next limits the same paths per address too
+#   (docs/SECURITY.md, "Rate limits"), and keeps its page cache in memory, bounded by its in-memory LRU (cacheMaxMemorySize).
+
+# Logs. Caddy writes no access log until a `log` directive is added to a site, but its error log, which is on by default,
+# names the request, query string and Referer included, whenever the upstream fails (a search term would sit in the journal
+# with the reader's address). The global `log` below filters that one: the query is cut from the uri and the Referer (the
+# search URL after a click on a result) is dropped. If you add `log` to the site block, give it the same `format filter`
+# block: a site log does not inherit this one. Keep the journal short-lived (journald: MaxRetentionSec=7day).
+{
+	log {
+		format filter {
+			wrap json
+			fields {
+				request>uri regexp \?.* ?
+				request>headers>Referer delete
+			}
+		}
+	}
+}
+
+www.example.com {
+	redir https://example.com{uri} permanent
+}
+
+example.com {
+	# Keeps the one-time OAuth code (callback query string), the newsletter tokens and anything typed into the admin
+	# login form out of the access log: these paths are not logged at all, even if a `log` directive is added later.
+	@private path /api/auth/github/callback /newsletter/* /*/newsletter/* /api/newsletter/* /admin/login /admin/login/*
+	log_skip @private
+
+	# TRACE, TRACK and CONNECT make Next throw a 500 and write a stack trace to its log for every request (audit issue 103). Nothing on
+	# this site uses them, so they stop here, before the other handlers.
+	@badmethod method TRACE TRACK CONNECT
+	handle @badmethod {
+		respond 405
+	}
+
+	handle /admin/* {
+		request_body {
+			max_size 6MB
+		}
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	handle {
+		request_body {
+			max_size 1MB
+		}
+		reverse_proxy 127.0.0.1:3000
+	}
+}

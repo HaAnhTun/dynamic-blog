@@ -1,0 +1,2792 @@
+{
+  "Site": {
+    "account": {
+      "signedOut": "Đã đăng xuất",
+      "signIn": "Đăng nhập",
+      "signInWithGithub": "Đăng nhập bằng GitHub",
+      "accountLabel": "Tài khoản: {name}",
+      "unreadDescription": "Có {count} thông báo chưa đọc",
+      "notifications": "Thông báo",
+      "notificationsWithCount": "Thông báo ({count})",
+      "profile": "Hồ sơ",
+      "bookmarks": "Bài đã lưu",
+      "admin": "Quản trị",
+      "signingOut": "Đang đăng xuất…",
+      "signOut": "Đăng xuất",
+      "signOutFailed": "Không đăng xuất được. Kiểm tra kết nối rồi thử lại."
+    },
+    "login": {
+      "page": {
+        "title": "Đăng nhập",
+        "metaDescription": "Đăng nhập bằng GitHub để bình luận và thích bài viết."
+      },
+      "intro": "Blog chỉ đọc tên, ảnh đại diện và tên người dùng GitHub công khai của bạn.",
+      "continueWithGithub": "Tiếp tục với GitHub",
+      "backHome": "Về trang chủ",
+      "errors": {
+        "denied": "Bạn đã huỷ đăng nhập trên GitHub. Không có gì được lưu.",
+        "state": "Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Hãy thử lại.",
+        "unavailable": "Không kết nối được tới GitHub lúc này. Thử lại sau ít phút.",
+        "suspended": "Tài khoản này đang bị tạm khoá.",
+        "disabled": "Đăng nhập bằng GitHub chưa được bật trên máy chủ này.",
+        "rate": "Bạn thử đăng nhập quá nhiều lần. Đợi vài phút rồi thử lại.",
+        "failed": "Đăng nhập không thành công. Hãy thử lại."
+      }
+    },
+    "profile": {
+      "page": {
+        "title": "Hồ sơ",
+        "metaDescription": "Hồ sơ tài khoản GitHub của bạn trên blog."
+      },
+      "author": {
+        "heading": "Đăng ký làm tác giả",
+        "adminNote": "Bạn là quản trị viên của blog: không cần đăng ký làm tác giả.",
+        "authorNote": "Bạn đã là tác giả: viết và quản lý bài của mình ở <admin>trang quản trị</admin>. Nếu vai trò vừa được đổi, hãy đăng xuất rồi đăng nhập lại.",
+        "loadFailed": "Không tải được trạng thái đơn của bạn.",
+        "retry": "Thử lại",
+        "cannotApply": "Tài khoản của bạn hiện chưa nộp đơn được.",
+        "deadline": "{time} ngày {date}",
+        "status": {
+          "pending": {
+            "title": "Đang chờ duyệt",
+            "sent": "Bạn gửi đơn ngày <time>{date}</time>.",
+            "review": "Quản trị viên sẽ xem xét, và kết quả hiện ở đây."
+          },
+          "approved": {
+            "title": "Đã duyệt — đăng nhập lại để dùng quyền tác giả",
+            "detail": "Đăng xuất rồi đăng nhập lại bằng GitHub, sau đó viết và quản lý bài của bạn ở trang quản trị."
+          },
+          "rejected": {
+            "title": "Bị từ chối",
+            "titleCanApply": "Đơn trước của bạn bị từ chối",
+            "canApply": "Bạn có thể gửi đơn mới bên dưới.",
+            "reapplyFrom": "Bạn nộp lại được từ <time>{deadline}</time>.",
+            "notYet": "Bạn chưa nộp lại được lúc này."
+          }
+        },
+        "form": {
+          "intro": "Tác giả viết và quản lý bài của chính mình trong trang quản trị. Gửi đơn để quản trị viên xem xét; kết quả hiện ở đây.",
+          "motivationLabel": "Vì sao bạn muốn viết cho blog? <optional>(không bắt buộc)</optional>",
+          "hint": "Vài câu về chủ đề bạn định viết. Chữ thường, không định dạng.",
+          "sending": "Đang gửi…",
+          "submit": "Gửi đơn",
+          "signInAgain": "Đăng nhập lại bằng GitHub"
+        },
+        "errors": {
+          "sessionExpired": "Phiên đăng nhập đã hết. Đăng nhập lại bằng GitHub rồi gửi lại.",
+          "network": "Không gửi được. Kiểm tra kết nối rồi thử lại.",
+          "fallback": "Không gửi được đơn. Hãy thử lại.",
+          "tooLong": "Lý do dài tối đa {max} ký tự.",
+          "pending": "Bạn đã có một đơn đang chờ duyệt. Tải lại trang để xem trạng thái của đơn đó.",
+          "cooldown": "Đơn trước của bạn bị từ chối chưa đủ 30 ngày, nên chưa nộp lại được. Tải lại trang để xem ngày nộp lại được.",
+          "notAllowed": "Chỉ tài khoản độc giả mới nộp đơn được. Nếu vai trò của bạn vừa được đổi, hãy tải lại trang.",
+          "rateLimited": "Bạn đã gửi quá nhiều lần trong một giờ qua. Đợi một lúc rồi thử lại.",
+          "suspended": "Tài khoản của bạn đang bị tạm khoá nên không thể nộp đơn."
+        }
+      }
+    },
+    "bookmarks": {
+      "page": {
+        "title": "Bài đã lưu",
+        "metaDescription": "Các bài viết bạn đã lưu để đọc sau."
+      },
+      "signInPrompt": "Đăng nhập bằng GitHub để xem các bài bạn đã lưu.",
+      "signIn": "Đăng nhập bằng GitHub",
+      "loading": "Đang tải…",
+      "loadFailed": "Không tải được danh sách bài đã lưu.",
+      "retry": "Thử lại",
+      "empty": "Chưa lưu bài nào.",
+      "emptyHint": "Bấm “Lưu bài” ở cuối một bài viết để đọc lại sau.",
+      "unsaveLabel": "Bỏ lưu “{title}”",
+      "unsave": "Bỏ lưu",
+      "unsaved": "Đã bỏ lưu bài viết",
+      "loadMore": "Tải thêm"
+    },
+    "notifications": {
+      "page": {
+        "title": "Thông báo",
+        "metaDescription": "Thông báo về bài viết và bình luận của bạn trên blog."
+      },
+      "markedAll": "Đã đánh dấu tất cả là đã đọc",
+      "markAll": "Đánh dấu tất cả đã đọc",
+      "loading": "Đang tải…",
+      "loadFailed": "Không tải được thông báo.",
+      "retry": "Thử lại",
+      "copy": {
+        "lead": {
+          "POST_LIKED": "đã thích bài viết",
+          "POST_COMMENTED": "đã bình luận bài viết",
+          "COMMENT_REPLIED": "đã trả lời bình luận của bạn trong",
+          "COMMENT_LIKED": "đã thích bình luận của bạn trong"
+        },
+        "tail": {
+          "POST_LIKED": " của bạn.",
+          "POST_COMMENTED": ".",
+          "COMMENT_REPLIED": ".",
+          "COMMENT_LIKED": "."
+        }
+      },
+      "errors": {
+        "network": "Không gửi được. Kiểm tra kết nối rồi thử lại.",
+        "generic": "Không thực hiện được. Hãy thử lại."
+      },
+      "item": {
+        "new": "Mới"
+      },
+      "bell": {
+        "label": "Thông báo",
+        "labelUnread": "Thông báo, {count} chưa đọc",
+        "title": "Thông báo",
+        "empty": "Chưa có thông báo nào.",
+        "viewAll": "Xem tất cả thông báo"
+      },
+      "center": {
+        "signInPrompt": "Đăng nhập bằng GitHub để xem thông báo.",
+        "signIn": "Đăng nhập bằng GitHub",
+        "deleted": "Đã xoá thông báo",
+        "filterLabel": "Lọc thông báo",
+        "filterAll": "Tất cả",
+        "filterUnread": "Chưa đọc",
+        "marking": "Đang đánh dấu…",
+        "emptyUnread": "Không có thông báo chưa đọc.",
+        "emptyAll": "Bạn chưa có thông báo nào.",
+        "deleteLabel": "Xoá thông báo của {name}",
+        "loadMore": "Xem thêm"
+      }
+    },
+    "newsletter": {
+      "page": {
+        "title": "Nhận bài qua email",
+        "intro": "Mỗi khi có bài viết mới, bạn nhận một email ngắn: tiêu đề, vài dòng mô tả và đường dẫn tới bài. Không có thư nào khác.",
+        "privacyHeading": "Về địa chỉ của bạn",
+        "privacyStored": "Blog chỉ lưu địa chỉ email, trạng thái của nó (đang chờ hay đã xác nhận) và đã gửi bài nào tới nó.",
+        "privacyDoubleOptIn": "Đăng ký hai bước: bạn chỉ nhận bài sau khi bấm liên kết trong thư xác nhận.",
+        "privacyUnsubscribeLink": "Thư nào cũng có liên kết huỷ đăng ký, không cần đăng nhập.",
+        "privacyNoTracking": "Không pixel theo dõi. Địa chỉ chỉ được giao cho dịch vụ gửi thư để chuyển thư, không cho ai khác.",
+        "privacyDeletion": "Huỷ đăng ký là xoá địa chỉ. Blog chỉ giữ một mã băm một chiều của nó, để không bao giờ gửi lại cho tới khi bạn đăng ký và xác nhận lại."
+      },
+      "form": {
+        "emailLabel": "Địa chỉ email",
+        "submit": "Đăng ký",
+        "sending": "Đang gửi…",
+        "accepted": "Kiểm tra hộp thư để xác nhận. Nếu địa chỉ này chưa đăng ký, thư xác nhận sẽ tới trong vài phút; liên kết trong thư dùng được trong 48 giờ."
+      },
+      "errors": {
+        "emailInvalid": "Nhập một địa chỉ email hợp lệ.",
+        "rateLimited": "Bạn đã gửi quá nhiều lần. Đợi một lúc rồi thử lại.",
+        "network": "Không gửi được. Kiểm tra kết nối rồi thử lại.",
+        "generic": "Không gửi được. Hãy thử lại."
+      },
+      "token": {
+        "linkInvalid": "Liên kết này không hợp lệ hoặc đã hết hạn.",
+        "confirm": {
+          "button": "Xác nhận đăng ký",
+          "busy": "Đang xác nhận…",
+          "done": "Đã xác nhận. Từ giờ bạn sẽ nhận email mỗi khi blog có bài viết mới.",
+          "back": "Đăng ký lại để nhận liên kết mới"
+        },
+        "unsubscribe": {
+          "button": "Huỷ đăng ký",
+          "busy": "Đang huỷ…",
+          "done": "Đã huỷ đăng ký. Địa chỉ của bạn đã bị xoá, và blog không gửi thêm thư nào.",
+          "back": "Về trang nhận bài qua email"
+        }
+      },
+      "confirm": {
+        "title": "Xác nhận đăng ký",
+        "metaDescription": "Xác nhận địa chỉ email để nhận bài viết mới của blog.",
+        "intro": "Bấm nút bên dưới để bắt đầu nhận bài viết mới qua email."
+      },
+      "unsubscribe": {
+        "title": "Huỷ đăng ký",
+        "metaDescription": "Ngừng nhận bài viết mới của blog qua email.",
+        "intro": "Bấm nút bên dưới để ngừng nhận bài qua email. Địa chỉ của bạn sẽ bị xoá."
+      }
+    },
+    "article": {
+      "toc": "Mục lục",
+      "views": "{n, plural, other {{count} lượt xem}}",
+      "readingTime": "{minutes} phút đọc",
+      "updated": "Cập nhật <time>{date}</time>",
+      "tagsLabel": "Thẻ",
+      "tableNumbered": "Bảng {n}",
+      "tableNamed": "Bảng: {label}",
+      "notFoundTitle": "Không tìm thấy bài viết",
+      "readNextTitle": "Đọc gì tiếp",
+      "translations": {
+        "label": "Đọc bài này bằng ngôn ngữ khác"
+      }
+    },
+    "frame": {
+      "sidebarLabel": "Điều hướng trong blog",
+      "skipSidebar": "Bỏ qua thanh bên",
+      "summary": "Khám phá · {current}"
+    },
+    "reader": {
+      "leftLabel": "Bạn đang ở đâu trong blog",
+      "skipToArticle": "Chuyển tới bài viết",
+      "exploreTitle": "Khám phá",
+      "categoryTitle": "Thêm trong {category}",
+      "latestTitle": "Bài mới nhất",
+      "archiveMonth": "Lưu trữ · {month}",
+      "railLabel": "Công cụ đọc bài",
+      "progressLabel": "Đã đọc",
+      "seriesOverview": "Tổng quan",
+      "subscribe": "Đăng ký nhận bài",
+      "nextPart": "Phần tiếp theo",
+      "actionsLabel": "Thao tác với bài viết",
+      "partBadge": "Phần {current}/{total}",
+      "skipToBody": "Chuyển đến nội dung bài viết"
+    },
+    "share": {
+      "label": "Chia sẻ",
+      "shareOn": "Chia sẻ lên {target}",
+      "sendVia": "Gửi qua…",
+      "copyLink": "Sao chép liên kết",
+      "copied": "Đã sao chép liên kết.",
+      "copyFailed": "Không sao chép được. Bạn có thể copy liên kết từ thanh địa chỉ."
+    },
+    "code": {
+      "copy": "Sao chép mã",
+      "copied": "Đã sao chép mã.",
+      "copyFailed": "Không sao chép được mã. Bạn có thể bôi đen đoạn mã rồi tự sao chép.",
+      "copyFailedShort": "Không sao chép được",
+      "highlightedLines": "{count, plural, other {Dòng {lines} được đánh dấu.}}",
+      "lineRange": "{start} đến {end}",
+      "diffHint": "Diff: dòng bắt đầu bằng + là dòng thêm, dòng bắt đầu bằng - là dòng xóa."
+    },
+    "like": {
+      "liked": "Đã thích bài viết",
+      "unliked": "Đã bỏ thích",
+      "ariaLabel": "Thích bài viết ({n, plural, other {{count} lượt thích}})",
+      "guestAriaLabel": "Đăng nhập bằng GitHub để thích bài viết ({n, plural, other {{count} lượt thích}})",
+      "guestLabel": "Đăng nhập bằng GitHub để thích"
+    },
+    "bookmarkButton": {
+      "label": "Lưu bài",
+      "guestName": "Lưu bài — đăng nhập bằng GitHub",
+      "saved": "Đã lưu bài viết",
+      "unsaved": "Đã bỏ lưu bài viết"
+    },
+    "blocks": {
+      "callout": {
+        "types": {
+          "info": "Thông tin",
+          "note": "Ghi chú",
+          "tip": "Mẹo",
+          "warning": "Cảnh báo",
+          "danger": "Nguy hiểm"
+        }
+      },
+      "stepsLabel": "Các bước",
+      "takeawaysLabel": "Điểm chính",
+      "checklistLabel": "Danh sách kiểm tra",
+      "itemDone": "Đã xong:",
+      "itemNotDone": "Chưa xong:",
+      "codeTabs": {
+        "label": "Mã nguồn theo nhiều phiên bản",
+        "tab": "Thẻ {n}"
+      },
+      "diagram": {
+        "label": "Sơ đồ",
+        "failed": "Không vẽ được sơ đồ. Thay vào đó là mã nguồn của sơ đồ."
+      },
+      "fileTreeLabel": "Cây thư mục",
+      "timelineLabel": "Dòng thời gian",
+      "metricsLabel": "Số liệu chính",
+      "metric": {
+        "trend": {
+          "up": "Tăng",
+          "down": "Giảm",
+          "flat": "Đi ngang"
+        }
+      },
+      "tabsLabel": "Các thẻ"
+    },
+    "authorBox": {
+      "eyebrow": "Tác giả",
+      "about": "Giới thiệu <arrow>→</arrow>",
+      "startHere": "Lần đầu ghé? Đọc “Bài viết hay” <arrow>→</arrow>",
+      "email": "Email"
+    },
+    "related": {
+      "title": "Bài viết liên quan"
+    },
+    "postNav": {
+      "navLabel": "Điều hướng bài viết",
+      "previous": "Bài trước",
+      "next": "Bài sau",
+      "previousPart": "Phần trước · {title}",
+      "nextPart": "Phần sau · {title}"
+    },
+    "seriesBlock": {
+      "partOf": "Series · Phần {current}/{total}",
+      "currentPart": "(bài đang đọc)",
+      "viewAll": "Xem cả series <arrow>→</arrow>"
+    },
+    "comments": {
+      "heading": "Bình luận",
+      "announce": {
+        "posted": "Đã đăng bình luận",
+        "replied": "Đã đăng trả lời",
+        "saved": "Đã lưu bình luận",
+        "deleted": "Đã xoá bình luận",
+        "liked": "Đã thích bình luận",
+        "unliked": "Đã bỏ thích bình luận"
+      },
+      "empty": "Chưa có bình luận nào. Hãy là người đầu tiên.",
+      "loadFailed": "Không tải được bình luận.",
+      "retry": "Thử lại",
+      "loadMore": "Xem thêm bình luận",
+      "loadingMore": "Đang tải…",
+      "loading": "Đang tải bình luận…",
+      "loginPrompt": "Đăng nhập bằng GitHub để bình luận.",
+      "rootForm": {
+        "label": "Bình luận của bạn",
+        "submit": "Gửi bình luận"
+      },
+      "replyForm": {
+        "label": "Câu trả lời của bạn",
+        "submit": "Gửi trả lời"
+      },
+      "form": {
+        "pending": "Đang gửi…",
+        "minLength": "Tối thiểu {min} ký tự.",
+        "needsVisibleText": "Cần có chữ nhìn thấy được.",
+        "shortcutHint": "<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> để {action}",
+        "cancel": "Huỷ"
+      },
+      "like": {
+        "ariaLabel": "Thích bình luận của {author} ({n, plural, other {{count} lượt thích}})",
+        "countLabel": "{n, plural, other {lượt thích}}"
+      },
+      "item": {
+        "ownerBadge": "Chủ blog",
+        "deleted": "Bình luận đã bị xoá.",
+        "hidden": "Bình luận đã bị ẩn.",
+        "editedAt": "đã sửa lúc <time>{date}</time>",
+        "edited": "đã sửa",
+        "editLabel": "Sửa bình luận",
+        "editSave": "Lưu",
+        "editPending": "Đang lưu…",
+        "reply": "Trả lời",
+        "edit": "Sửa",
+        "delete": "Xoá",
+        "deleteConfirm": "Xoá bình luận này?",
+        "deleting": "Đang xoá…",
+        "cancel": "Huỷ"
+      }
+    },
+    "footer": {
+      "navLabel": "Liên kết cuối trang",
+      "readTitle": "Đọc",
+      "aboutTitle": "Về mình",
+      "links": {
+        "writing": "Viết",
+        "startHere": "Bài viết hay",
+        "series": "Series",
+        "topics": "Chủ đề",
+        "archive": "Lưu trữ",
+        "random": "Đọc ngẫu nhiên",
+        "about": "Giới thiệu",
+        "caseStudies": "Case study",
+        "gallery": "Ảnh",
+        "rss": "RSS",
+        "newsletter": "Nhận bài qua email"
+      },
+      "copyright": "© {year} {name}"
+    },
+    "startHere": {
+      "title": "Bài viết hay",
+      "eyebrow": "Bắt đầu từ đây",
+      "lead": "Nếu bạn mới ghé blog này, đây là những bài mình muốn bạn đọc trước, xếp theo thứ tự nên đọc.",
+      "readFirst": "Nên đọc trước",
+      "empty": "Chưa có bài nào được chọn.",
+      "allPosts": "Tất cả bài viết",
+      "bySeries": "Đọc theo series",
+      "byCategory": "Theo chuyên mục",
+      "postsUnit": "{count, plural, other {bài}}",
+      "closing": "Danh sách này do mình tự chọn và sắp thứ tự — không dựa trên lượt xem."
+    },
+    "home": {
+      "introTitle": "Giới thiệu ngắn",
+      "aboutLink": "Trang giới thiệu",
+      "featuredTitle": "Bài viết hay",
+      "recentTitle": "Bài viết mới",
+      "featuredLead": "{count, plural, =1 {Nếu mới ghé, hãy bắt đầu từ bài này.} =2 {Nếu mới ghé, hãy bắt đầu từ hai bài này.} =3 {Nếu mới ghé, hãy bắt đầu từ ba bài này.} other {Nếu mới ghé, hãy bắt đầu từ những bài này.}}",
+      "fullList": "Cả danh sách",
+      "allPosts": "Tất cả bài viết",
+      "empty": "Chưa có bài viết nào.",
+      "seriesTitle": "Series",
+      "seriesLead": "Những bài viết nối tiếp nhau, nên đọc theo thứ tự.",
+      "allSeries": "Tất cả series",
+      "now": {
+        "title": "Hiện tại",
+        "updated": "cập nhật <time>{date}</time>"
+      },
+      "timeline": {
+        "title": "Chặng đường",
+        "education": "Học vấn",
+        "experience": "Kinh nghiệm"
+      }
+    },
+    "writing": {
+      "title": "Viết",
+      "statsLine": "{parts, select, postsSeriesViews {{posts, plural, other {# bài viết}} · {series, plural, other {# series}} · {views, plural, other {# lượt xem}}} postsSeries {{posts, plural, other {# bài viết}} · {series, plural, other {# series}}} postsViews {{posts, plural, other {# bài viết}} · {views, plural, other {# lượt xem}}} other {{posts, plural, other {# bài viết}}}}",
+      "random": "Đọc ngẫu nhiên",
+      "filterHeading": "Lọc bài viết",
+      "categories": "Chuyên mục",
+      "discoverTitle": "Gợi ý đọc tiếp"
+    },
+    "discovery": {
+      "popular": "Đọc nhiều",
+      "viewsUnit": "{count, plural, other {lượt xem}}",
+      "readFirst": "Nên đọc trước",
+      "fullList": "Xem cả danh sách",
+      "recent": "Mới viết",
+      "series": "Series",
+      "seriesParts": "{parts, plural, other {# phần}}",
+      "seriesPartsWithTime": "{parts, plural, other {# phần}} · {minutes} phút đọc",
+      "allSeries": "Tất cả series",
+      "tags": "Thẻ",
+      "allTopics": "Tất cả chủ đề",
+      "archive": "Lưu trữ",
+      "fullArchive": "Toàn bộ lưu trữ",
+      "blogroll": "Blog nên đọc",
+      "randomPost": "Đọc một bài ngẫu nhiên",
+      "followRss": "Theo dõi qua RSS",
+      "postsUnit": "{count, plural, other {bài}}"
+    },
+    "topics": {
+      "title": "Chủ đề",
+      "empty": "Chưa có chủ đề nào.",
+      "categories": "Chuyên mục",
+      "tags": "Thẻ",
+      "postCount": "{count, plural, other {# bài}}"
+    },
+    "archive": {
+      "title": "Lưu trữ",
+      "yearTitle": "Lưu trữ năm {year}",
+      "yearDescription": "Các bài đã đăng trong năm {year}, theo tháng.",
+      "notFoundTitle": "Không tìm thấy",
+      "yearSummary": "{count, plural, other {# bài viết}} trong năm {year}",
+      "byYear": "Theo năm",
+      "byMonth": "Theo tháng",
+      "monthLink": "Tháng {month}",
+      "monthPosts": "{count, plural, other {# bài}}",
+      "minutes": "{minutes} phút",
+      "empty": "Chưa có bài viết nào."
+    },
+    "series": {
+      "title": "Series",
+      "empty": "Chưa có series nào.",
+      "pageTitle": "Series: {title}",
+      "defaultDescription": "Các phần của series {title}, theo thứ tự đọc.",
+      "notFoundTitle": "Không tìm thấy series",
+      "startAtPart1": "Bắt đầu từ phần 1",
+      "part": "Phần {number}",
+      "otherSeries": "Các series khác",
+      "otherMeta": "{parts, plural, other {# phần}} · {minutes} phút đọc"
+    },
+    "taxonomy": {
+      "backToAll": "← Tất cả bài viết",
+      "tagEyebrow": "Thẻ",
+      "categoryEyebrow": "Chuyên mục",
+      "tagTitle": "Thẻ: {name}",
+      "categoryTitle": "Chuyên mục: {name}",
+      "tagDescription": "Các bài viết được gắn thẻ {name}.",
+      "categoryDescription": "Các bài viết trong chuyên mục {name}.",
+      "tagNotFoundTitle": "Không tìm thấy thẻ",
+      "categoryNotFoundTitle": "Không tìm thấy chuyên mục",
+      "postCount": "{count, plural, other {# bài viết}}",
+      "tagEmpty": "Thẻ này chưa có bài viết nào.",
+      "categoryEmpty": "Chuyên mục này chưa có bài viết nào."
+    },
+    "about": {
+      "title": "Giới thiệu",
+      "readNext": "Đọc tiếp",
+      "readNextLinks": {
+        "startHere": "Bài viết hay",
+        "caseStudies": "Case study",
+        "writing": "Bài viết",
+        "gallery": "Ảnh"
+      },
+      "onThisPage": "Trên trang này",
+      "skillsTitle": "Kỹ năng",
+      "experienceTitle": "Kinh nghiệm",
+      "educationTitle": "Học vấn"
+    },
+    "gallery": {
+      "title": "Ảnh",
+      "count": "{count, plural, other {# ảnh}}",
+      "empty": "Chưa có ảnh nào.",
+      "seeAll": "Xem tất cả ảnh",
+      "photoName": "Ảnh {number}",
+      "dialogLabel": "Ảnh {index} trên {total}",
+      "close": "Đóng",
+      "previous": "Ảnh trước",
+      "next": "Ảnh sau"
+    },
+    "caseStudies": {
+      "title": "Case study",
+      "intro": "Cả hai dưới đây đều nói về <b>chính trang này</b> và cách mình làm việc trên nó — thứ mình sở hữu toàn bộ và công khai được toàn bộ, kể cả những chỗ làm sai. Mỗi con số trong đó đều kèm lệnh hoặc file để bạn tự kiểm lại.",
+      "resultsMeta": "{count, plural, other {# phép đo}}, mỗi phép đo kèm nguồn · cập nhật {date}",
+      "notFoundTitle": "Không tìm thấy case study",
+      "problem": "Bài toán",
+      "constraints": "Ràng buộc",
+      "solution": "Giải pháp, và vì sao là cách đó",
+      "results": "Kết quả đo được",
+      "lastRun": "Chạy lại lần gần nhất: {date}. Mỗi dòng kèm lệnh hoặc file để tự kiểm — con số không có nguồn thì không được nằm trong bảng này.",
+      "ifRedone": "Nếu làm lại",
+      "readMore": "Đọc sâu hơn",
+      "readNext": "Đọc tiếp",
+      "allCaseStudies": "Tất cả case study",
+      "posts": "Bài viết",
+      "measurement": "Phép đo",
+      "value": "Giá trị",
+      "source": "Nguồn"
+    },
+    "userProfile": {
+      "notFoundTitle": "Không tìm thấy người dùng",
+      "descriptionAuthor": "Hồ sơ của {name} và {count, plural, other {# bài viết}} đã đăng.",
+      "descriptionReader": "Hồ sơ công khai của {name}.",
+      "authorBadge": "Tác giả",
+      "joined": "Tham gia từ <time>{date}</time>",
+      "posts": "Bài viết",
+      "empty": "Chưa có bài viết nào."
+    },
+    "hero": {
+      "readPosts": "Đọc bài viết",
+      "about": "Giới thiệu"
+    },
+    "contact": {
+      "title": "Liên hệ",
+      "form": {
+        "requiredNote": "Các trường có dấu * là bắt buộc.",
+        "nameLabel": "Tên",
+        "emailLabel": "Email",
+        "subjectLabel": "Chủ đề",
+        "optional": "(không bắt buộc)",
+        "messageLabel": "Nội dung",
+        "namePlaceholder": "Tên của bạn",
+        "emailPlaceholder": "ban@example.com",
+        "subjectPlaceholder": "Bạn muốn trao đổi về điều gì?",
+        "messagePlaceholder": "Viết nội dung tin nhắn ở đây",
+        "submit": "Gửi tin nhắn",
+        "sending": "Đang gửi…",
+        "success": "Cảm ơn bạn, tin nhắn đã được gửi. Mình sẽ trả lời qua địa chỉ email bạn đã nhập."
+      },
+      "errors": {
+        "name": "Nhập tên của bạn, tối đa 100 ký tự.",
+        "email": "Nhập một địa chỉ email hợp lệ.",
+        "subject": "Chủ đề chỉ được tối đa 150 ký tự.",
+        "message": "Viết nội dung từ 10 đến 5000 ký tự.",
+        "validation": "Một số trường chưa hợp lệ. Hãy kiểm tra rồi thử lại.",
+        "rateLimited": "Bạn đã gửi quá nhiều tin nhắn. Đợi một lúc rồi thử lại.",
+        "generic": "Không gửi được tin nhắn. Hãy thử lại."
+      },
+      "info": {
+        "expectTitle": "Điều bạn có thể mong đợi",
+        "expectReply": "Mình sẽ trả lời qua địa chỉ email bạn nhập trong biểu mẫu.",
+        "expectWelcome": "Mình luôn sẵn lòng nhận lời mời làm việc, đề xuất hợp tác và những câu hỏi chung.",
+        "responseTitle": "Thời gian phản hồi",
+        "responseBody": "Thường trong vài ngày làm việc."
+      }
+    },
+    "profileCard": {
+      "anonymous": "Bạn chưa đăng nhập.",
+      "signInGithub": "Đăng nhập bằng GitHub",
+      "joined": "Tham gia <time>{date}</time>",
+      "signingOut": "Đang đăng xuất…",
+      "signOut": "Đăng xuất",
+      "signOutFailed": "Không đăng xuất được. Kiểm tra kết nối rồi thử lại."
+    },
+    "pageDescriptions": {
+      "writing": "Ghi chép về lập trình, kiến trúc hệ thống và cách mình làm việc.",
+      "startHere": "Những bài nên đọc trước trên blog của {name}, xếp theo thứ tự nên đọc.",
+      "caseStudies": "Case study cho các dự án cá nhân: bài toán, ràng buộc, giải pháp, kết quả đo được, và thứ sẽ làm khác nếu làm lại.",
+      "about": "Mình là ai, làm với cái gì, thích xây cái gì, đang học gì và viết gì ở đây.",
+      "topics": "Mọi chuyên mục và thẻ trên blog, kèm số bài.",
+      "archive": "Mọi bài đã đăng, theo tháng, mới nhất trước.",
+      "series": "Những loạt bài nên đọc theo thứ tự, từ phần 1.",
+      "gallery": "Ảnh {name} đăng trên blog này.",
+      "newsletter": "Nhận một email ngắn mỗi khi blog có bài viết mới. Xác nhận hai bước, huỷ bằng một cú bấm.",
+      "titles": {
+        "topics": "Chủ đề",
+        "archive": "Lưu trữ",
+        "series": "Series",
+        "gallery": "Ảnh",
+        "newsletter": "Nhận bài qua email"
+      }
+    },
+    "search": {
+      "degraded": "Đang dùng tìm kiếm cơ bản",
+      "heading": "Tìm kiếm",
+      "meta": {
+        "title": "Tìm kiếm",
+        "titleWithQuery": "Tìm kiếm: {query}",
+        "description": "Tìm bài viết theo từ khóa trên toàn bộ nội dung đã đăng.",
+        "descriptionFiltered": "Bài viết khớp bộ lọc đã chọn.",
+        "descriptionWithQuery": "Kết quả tìm kiếm cho “{query}”."
+      },
+      "form": {
+        "keywordLabel": "Từ khóa",
+        "placeholder": "markdown, cài đặt, bản tin…",
+        "submit": "Tìm"
+      },
+      "filters": {
+        "summary": "Bộ lọc",
+        "category": "Chuyên mục",
+        "allCategories": "Tất cả chuyên mục",
+        "series": "Series",
+        "allSeries": "Tất cả series",
+        "tags": "Thẻ",
+        "combineHelp": "<b>Cách kết hợp bộ lọc:</b> bài phải khớp mọi bộ lọc đã chọn; chọn nhiều thẻ thì bài phải có đủ các thẻ đó (tối đa 5 thẻ). Chọn xong, bấm “Tìm”."
+      },
+      "active": {
+        "label": "Đang lọc:",
+        "clear": "Xoá bộ lọc",
+        "chip": {
+          "category": "Chuyên mục: {name}",
+          "tag": "Thẻ: {name}",
+          "series": "Series: {name}"
+        },
+        "remove": {
+          "category": "Bỏ lọc chuyên mục: {name}",
+          "tag": "Bỏ lọc thẻ: {name}",
+          "series": "Bỏ lọc series: {name}"
+        }
+      },
+      "prompt": "Nhập từ khóa để tìm trong tiêu đề, phần mô tả và nội dung của các bài đã đăng. Hoặc xem <link>toàn bộ bài viết</link>.",
+      "busy": "Đang có quá nhiều lượt tìm kiếm. Thử lại sau giây lát.",
+      "badRequest": "Không tìm được với yêu cầu này. Hãy thử một từ khóa ngắn hơn hoặc bỏ bớt bộ lọc.",
+      "noMatch": {
+        "withQuery": "Không có bài viết nào khớp với “{query}”.",
+        "withQueryAndFilters": "Không có bài viết nào khớp với “{query}” và bộ lọc đã chọn.",
+        "filtersOnly": "Không có bài viết nào khớp bộ lọc đã chọn.",
+        "retryKeyword": "Thử một từ khóa ngắn hơn, hoặc xem <link>toàn bộ bài viết</link> và duyệt theo chuyên mục.",
+        "retryKeywordOrFilters": "Thử một từ khóa ngắn hơn hay bỏ bớt bộ lọc, hoặc xem <link>toàn bộ bài viết</link> và duyệt theo chuyên mục.",
+        "retryFilters": "Thử bỏ bớt bộ lọc, hoặc xem <link>toàn bộ bài viết</link> và duyệt theo chuyên mục."
+      },
+      "count": {
+        "withQuery": "{count, plural, other {# kết quả cho “{query}”}}",
+        "filtersOnly": "{count, plural, other {# bài viết khớp bộ lọc}}"
+      },
+      "suggestionsTitle": "Gợi ý đọc"
+    },
+    "palette": {
+      "dialogLabel": "Tìm kiếm",
+      "inputLabel": "Tìm trên blog",
+      "placeholder": "Tìm bài viết, code, chủ đề, tác giả…",
+      "clearQuery": "Xoá từ khoá",
+      "closeLabel": "Đóng (esc)",
+      "closeShort": "Đóng",
+      "maxChars": "Tối đa {max} ký tự.",
+      "tabsLabel": "Loại kết quả",
+      "tabAll": "Tất cả",
+      "groups": {
+        "post": "Bài viết",
+        "topic": "Chủ đề",
+        "series": "Series",
+        "caseStudy": "Case study",
+        "author": "Tác giả",
+        "page": "Trang"
+      },
+      "resultsLabel": "Kết quả",
+      "searchPageGroup": "Trang tìm kiếm",
+      "hints": {
+        "select": "<kbd>↑</kbd> <kbd>↓</kbd> chọn",
+        "open": "<kbd>↵</kbd> mở",
+        "close": "<kbd>esc</kbd> đóng"
+      },
+      "clearRecent": "Xoá tìm gần đây",
+      "announce": {
+        "results": "{count, plural, other {# kết quả}}",
+        "none": "Không có kết quả",
+        "resultsDegraded": "{count, plural, other {# kết quả}}. Đang dùng tìm kiếm cơ bản",
+        "noneDegraded": "Không có kết quả. Đang dùng tìm kiếm cơ bản"
+      },
+      "meta": {
+        "readingMinutes": "{minutes} phút đọc",
+        "categoryCount": "Chuyên mục · {count, plural, other {# bài}}",
+        "tagCount": "Thẻ · {count, plural, other {# bài}}",
+        "parts": "{parts, plural, other {# phần}}"
+      },
+      "noMatch": {
+        "title": "Không có kết quả cho “{query}”.",
+        "tryShorter": "Thử một từ khác, ngắn hơn, hoặc gõ trọn từ.",
+        "searchAllTypes": "Tìm trong tất cả các loại",
+        "openFullSearch": "Mở trang tìm kiếm đầy đủ"
+      },
+      "unavailable": {
+        "rateLimited": "Đang có quá nhiều lượt tìm kiếm. Thử lại sau giây lát.",
+        "failed": "Chưa tìm được lúc này.",
+        "tryPage": "Thử trang tìm kiếm"
+      },
+      "sections": {
+        "nav": "Điều hướng nhanh",
+        "popular": "Đọc nhiều",
+        "recent": "Tìm gần đây"
+      },
+      "bookmarks": {
+        "title": "Bài đã lưu",
+        "description": "Các bài viết bạn đã lưu để đọc sau."
+      },
+      "allResults": "Xem tất cả kết quả cho “{query}”"
+    },
+    "shell": {
+      "backToTop": "Lên đầu trang",
+      "themeToggle": {
+        "label": "Giao diện: {current, select, system {theo hệ thống} light {sáng} other {tối}}. Đổi sang {next, select, system {theo hệ thống} light {sáng} other {tối}}.",
+        "title": "Giao diện: {current, select, system {theo hệ thống} light {sáng} other {tối}}"
+      }
+    },
+    "nav": {
+      "skipToContent": "Bỏ qua, tới nội dung",
+      "mainLabel": "Điều hướng chính",
+      "search": "Tìm kiếm",
+      "writing": "Viết",
+      "startHere": "Bài viết hay",
+      "caseStudies": "Case study",
+      "about": "Giới thiệu"
+    },
+    "pagination": {
+      "label": "Phân trang",
+      "previous": "← Trang trước",
+      "next": "Trang sau →",
+      "status": "Trang {page} / {total}"
+    },
+    "errorPage": {
+      "title": "Không tải được trang này",
+      "lead": "Trang gặp trục trặc trong lúc tải. Thường đây chỉ là lỗi tạm thời: thử lại sau giây lát, hoặc đọc tiếp ở một trang khác.",
+      "retry": "Thử lại",
+      "digest": "Mã lỗi: {digest}",
+      "exits": {
+        "home": "Về trang chủ",
+        "allPosts": "Xem tất cả bài viết",
+        "search": "Tìm kiếm"
+      }
+    },
+    "notFound": {
+      "title": "Không tìm thấy trang",
+      "lead": "Đường dẫn này không tồn tại. Bài viết có thể đã được đổi đường dẫn, hoặc chưa được xuất bản.",
+      "home": "Về trang chủ",
+      "allPosts": "Xem tất cả bài viết",
+      "search": "Tìm kiếm"
+    },
+    "listing": {
+      "empty": "Chưa có bài viết nào.",
+      "partLabel": "Phần {number}/{total}",
+      "sectionNav": {
+        "label": "Xem bài viết theo",
+        "latest": "Mới nhất",
+        "series": "Series",
+        "topics": "Chủ đề",
+        "archive": "Lưu trữ"
+      },
+      "seriesMeta": {
+        "parts": "{count, plural, other {# phần}}",
+        "readingMinutes": "{minutes} phút đọc",
+        "updated": "cập nhật <time>{date}</time>"
+      },
+      "seriesEntry": {
+        "moreParts": "{count, plural, other {+# phần nữa}}",
+        "ofSeries": "của {title}",
+        "startAtPartOne": "Bắt đầu từ phần 1"
+      }
+    },
+    "breadcrumb": {
+      "label": "Đường dẫn",
+      "writing": "Viết",
+      "series": "Series"
+    },
+    "time": {
+      "justNow": "vừa xong"
+    },
+    "languageFallback": {
+      "message": "Chưa có bài viết nào bằng ngôn ngữ này.",
+      "link": "Xem trang này bằng {language}."
+    },
+    "entry": {
+      "techLabel": "Công nghệ",
+      "showMore": "Xem thêm {count, plural, other {# ý}}",
+      "showLess": "Thu gọn"
+    }
+  },
+  "Errors": {
+    "interaction": {
+      "sessionExpired": "Phiên đăng nhập đã hết. Đăng nhập lại bằng GitHub để tiếp tục.",
+      "network": "Không gửi được. Kiểm tra kết nối rồi thử lại.",
+      "fallback": "Không thực hiện được. Hãy thử lại.",
+      "byCode": {
+        "FORBIDDEN": "Bạn không có quyền làm việc này.",
+        "COMMENT_NOT_FOUND": "Bình luận này không còn nữa.",
+        "COMMENT_NOT_REPLYABLE": "Không thể trả lời bình luận này.",
+        "COMMENT_DUPLICATE": "Bạn vừa gửi đúng bình luận này rồi.",
+        "RATE_LIMITED": "Bạn thao tác hơi nhanh. Đợi một lát rồi thử lại."
+      },
+      "userSuspended": {
+        "comment": "Tài khoản của bạn đang bị tạm khoá nên không thể bình luận hay thích bài.",
+        "like": "Tài khoản của bạn đang bị tạm khoá nên không thể bình luận hay thích bài.",
+        "bookmark": "Tài khoản của bạn đang bị tạm khoá nên không thể lưu bài."
+      },
+      "postNotFound": {
+        "comment": "Bài viết này hiện không nhận bình luận.",
+        "like": "Bài viết này hiện không nhận lượt thích.",
+        "bookmark": "Bài viết này hiện không còn công khai."
+      },
+      "invalid": {
+        "comment": "Bình luận cần từ 2 đến 2000 ký tự.",
+        "like": "Yêu cầu không hợp lệ.",
+        "bookmark": "Yêu cầu không hợp lệ."
+      }
+    },
+    "admin": {
+      "codes": {
+        "MEDIA_TOO_LARGE": "Ảnh quá lớn, kể cả sau khi thu nhỏ. Hãy chọn ảnh khác.",
+        "MEDIA_UNSUPPORTED_TYPE": "Chỉ nhận JPEG, PNG hoặc WebP.",
+        "MEDIA_UNREADABLE": "Không đọc được ảnh này; file có thể bị hỏng.",
+        "MEDIA_DIMENSIONS_TOO_LARGE": "Ảnh có quá nhiều điểm ảnh (tối đa 50 triệu).",
+        "MEDIA_QUOTA_EXCEEDED": "Đã hết dung lượng lưu ảnh. Hãy xoá bớt ảnh cũ.",
+        "MEDIA_BUSY": "Máy chủ đang xử lý một ảnh khác, thử lại sau ít giây.",
+        "MEDIA_NOT_FOUND": "Không tìm thấy ảnh; có thể ảnh đã bị gỡ ở nơi khác.",
+        "POST_NOT_FOUND": "Không tìm thấy bài viết; có thể bài đã bị xoá.",
+        "POST_NOT_PUBLISHABLE": "Chưa đăng được: bài đã lưu cần có nội dung và chuyên mục. Chọn chuyên mục, bấm Lưu rồi đăng lại.",
+        "CATEGORY_NOT_FOUND": "Không tìm thấy chuyên mục; có thể chuyên mục đã bị xoá.",
+        "CATEGORY_ALREADY_EXISTS": "Đã có chuyên mục trùng tên.",
+        "CATEGORY_IN_USE": "Chuyên mục còn bài đang dùng. Chuyển các bài đó sang chuyên mục khác rồi xoá.",
+        "TAG_NOT_FOUND": "Không tìm thấy thẻ; có thể thẻ đã bị xoá.",
+        "TAG_ALREADY_EXISTS": "Đã có thẻ trùng tên.",
+        "SERIES_NOT_FOUND": "Không tìm thấy series; có thể series đã bị xoá.",
+        "SERIES_ALREADY_EXISTS": "Đã có series trùng tên.",
+        "GALLERY_PHOTO_NOT_FOUND": "Không tìm thấy ảnh; có thể ảnh đã bị xoá.",
+        "RESOURCE_CONFLICT": "Dữ liệu xung đột với dữ liệu đã có (thường là trùng tên hoặc đường dẫn, hoặc vừa được sửa ở nơi khác). Tải lại trang rồi thử lại.",
+        "FORBIDDEN": "Tài khoản này không có quyền làm việc đó.",
+        "COMMENT_NOT_FOUND": "Bình luận này không còn nữa.",
+        "USER_NOT_FOUND": "Không tìm thấy người dùng này.",
+        "USER_NOT_SUSPENDABLE": "Chỉ tài khoản độc giả mới có thể bị tạm khoá.",
+        "LAST_ADMIN": "Không thể hạ quyền: site phải luôn còn ít nhất một quản trị viên đang hoạt động.",
+        "SITE_OWNER_PROTECTED": "Chỉ chính chủ site mới đổi được vai trò của chủ site.",
+        "ROLE_TARGET_SUSPENDED": "Tài khoản đang bị tạm khoá: mở khoá trước rồi mới đổi vai trò.",
+        "AUTHOR_APPLICATION_NOT_FOUND": "Không tìm thấy đơn này; có thể tài khoản của người nộp đã bị xoá.",
+        "AUTHOR_APPLICATION_PENDING": "Người này đã có một đơn đang chờ duyệt.",
+        "AUTHOR_APPLICATION_COOLDOWN": "Đơn bị từ chối chưa đủ 30 ngày nên chưa nộp lại được.",
+        "AUTHOR_APPLICATION_NOT_ALLOWED": "Chỉ tài khoản độc giả mới nộp đơn được.",
+        "AUTHOR_APPLICATION_DECIDED": "Đơn này vừa được quyết theo hướng khác ở nơi khác. Tải lại trang để xem trạng thái mới.",
+        "RATE_LIMITED": "Bạn đã thao tác quá nhiều lần trong ít phút. Đợi vài phút rồi thử lại.",
+        "REVISION_NOT_FOUND": "Không tìm thấy bản sửa đổi này; có thể nó đã bị dọn (chỉ giữ 20 bản gần nhất). Tải lại trang để xem lịch sử mới.",
+        "TRANSLATION_CONFLICT": "Ngôn ngữ đó đã có một bài khác của cùng bài viết. Hãy gỡ liên kết hoặc đổi bài kia trước.",
+        "SITE_CONTENT_NOT_FOUND": "Nội dung này chưa được lưu cho ngôn ngữ này.",
+        "SITE_CONTENT_INVALID": "Nội dung không hợp lệ. Hãy sửa trường được đánh dấu rồi lưu lại.",
+        "SITE_CONTENT_REVISION_NOT_FOUND": "Phiên bản trước đó không còn tồn tại.",
+        "POST_IMPORT_INVALID_FILE": "Không đọc được một tệp như tệp bài viết. Hãy kiểm tra tên tệp kết thúc bằng .md, tệp không trống và là văn bản UTF-8 thuần.",
+        "POST_IMPORT_INVALID": "Một số tệp có vấn đề. Hãy sửa chúng hoặc bỏ chọn các tệp đó, rồi xem thử lại.",
+        "POST_IMPORT_HASH_MISMATCH": "Các tệp không phải những tệp đã xem thử. Hãy chọn lại các tệp và xem lại bản xem thử.",
+        "POST_IMPORT_PREVIEW_OUT_OF_DATE": "Một số bài viết đã thay đổi kể từ lúc xem thử nên chưa nhập gì cả. Hãy xem thử lại các tệp.",
+        "POST_IMPORT_NOTHING_TO_UNDO": "Không có lần nhập nào để hoàn tác.",
+        "POST_IMPORT_UNDO_CONFLICT": "Một bài viết mà lần nhập đã ghi đã bị sửa sau đó, nên không thể hoàn tác an toàn. Không có gì bị thay đổi.",
+        "POST_IMPORT_MEDIA_QUOTA_EXCEEDED": "Kho lưu ảnh đã đầy nên không lưu được ảnh trong gói và chưa nhập gì cả. Hãy xóa bớt ảnh cũ rồi nhập lại.",
+        "POST_IMPORT_MEDIA_BUSY": "Máy chủ đang xử lý các ảnh khác. Chưa nhập gì cả; hãy thử lại sau vài giây.",
+        "NEWSLETTER_ISSUE_NOT_FOUND": "Thư này không còn chờ duyệt; có thể nó đã được duyệt hoặc từ chối ở tab khác. Hãy tải lại trang.",
+        "NEWSLETTER_ISSUE_CHANGED": "Bài đã được sửa sau khi trang này tải, nên chưa có gì được gửi đi. Nội dung hiện ở đây là bản mới nhất: hãy đọc lại rồi duyệt gửi lần nữa.",
+        "AUTHOR_QUOTA_EXCEEDED": "Bạn đã chạm giới hạn dành cho tác giả: số bài mỗi ngày, số ảnh trong một bài, hoặc độ dài danh sách thẻ và chuyên mục. Hãy thử lại sau, hoặc nhờ quản trị viên nới giới hạn.",
+        "MFA_CODE_INVALID": "Mã không hợp lệ. Kiểm tra lại mã rồi thử lại.",
+        "MFA_RATE_LIMITED": "Bạn thử quá nhiều lần. Đợi một lát rồi thử lại.",
+        "MFA_FROZEN": "Xác minh hai bước đã bị khóa vì nhập sai quá nhiều lần. Chủ máy chủ cần đặt lại.",
+        "REAUTHENTICATION_REQUIRED": "Vì an toàn, hãy đăng nhập lại (đăng xuất rồi đăng nhập), rồi làm lại thao tác này."
+      },
+      "serverError": "Máy chủ gặp lỗi, thử lại sau.",
+      "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+      "invalid": "Dữ liệu chưa hợp lệ.",
+      "invalidDetail": "Dữ liệu chưa hợp lệ: {detail}",
+      "refused": "Không thực hiện được.",
+      "refusedDetail": "Không thực hiện được: {detail}",
+      "staleList": "Danh sách đã thay đổi ở nơi khác, hãy tải lại trang.",
+      "sessionExpired": "Phiên đăng nhập đã hết hạn. Hãy mở trang đăng nhập ở tab mới, đăng nhập lại rồi bấm Lưu lần nữa — nội dung đang soạn vẫn còn ở đây.",
+      "commentStatusChanged": "Bình luận vừa đổi trạng thái ở nơi khác (có thể người viết đã xoá nó). Tải lại trang để xem trạng thái mới."
+    }
+  },
+  "Admin": {
+    "posts": {
+      "import": {
+        "entry": {
+          "header": "Nhập bài viết",
+          "empty": "Nhập bài viết từ tệp"
+        },
+        "page": {
+          "title": "Nhập bài viết",
+          "description": "Tải lên các tệp Markdown hoặc gói ZIP (một bài viết cùng ảnh của nó, gồm cả gói ZIP tải về từ trang sửa bài), xem trước những gì sẽ thay đổi rồi xác nhận. Bài nhập vào luôn là bản nháp và không có gì được ghi trước khi bạn xác nhận.",
+          "back": "Tất cả bài viết"
+        },
+        "route": {
+          "badLocale": "Ngôn ngữ không xác định.",
+          "forbidden": "Bạn không thể tải tệp này.",
+          "unavailable": "Hiện chưa tải được tệp này."
+        },
+        "errors": {
+          "noFile": "Hãy chọn ít nhất một tệp trước.",
+          "emptyFile": "Tệp {position} trống.",
+          "notMarkdown": "Tên tệp {position} phải kết thúc bằng .md hoặc .zip.",
+          "fileTooLarge": "Tệp {position} quá lớn (tối đa {maxKib} KiB).",
+          "packageTooLarge": "Gói {position} quá lớn (tối đa {maxPackageMib} MiB).",
+          "tooMany": "Quá nhiều tệp (tối đa {maxFiles}).",
+          "totalTooLarge": "Tổng dung lượng các tệp quá lớn (tối đa {maxMib} MiB).",
+          "badArguments": "Yêu cầu không hợp lệ. Hãy chọn lại các tệp rồi xem thử.",
+          "articleUnavailable": "Không xem thử được bài viết của tệp này.",
+          "unreachable": "Không kết nối được máy chủ, thử lại sau."
+        },
+        "template": {
+          "heading": "1. Tệp mẫu",
+          "intro": "Tải về định dạng tệp cho ngôn ngữ của bạn: các khóa chính xác, hướng dẫn cho trợ lý AI và một bài viết ví dụ trung tính.",
+          "language": "Ngôn ngữ của tệp mẫu",
+          "download": "Tải tệp mẫu",
+          "authoringIntro": "Với bài viết có các khối (hộp chú ý, các bước, sơ đồ, bảng so sánh) và ảnh, hãy đưa cho trợ lý AI lời nhắc soạn bài: nó liệt kê các khối được hỗ trợ và cách đóng gói bài viết cùng ảnh thành một gói ZIP.",
+          "authoringDownload": "Tải lời nhắc soạn bài"
+        },
+        "files": {
+          "heading": "2. Tệp",
+          "intro": "Chọn tối đa {maxFiles} tệp, mỗi tệp một bài viết, hoặc thả vào đây: tệp Markdown (.md) tối đa {maxKib} KiB, hoặc gói ZIP (.zip) tối đa {maxPackageMib} MiB chứa một bài viết cùng ảnh của nó. Tổng cộng {maxMib} MiB.",
+          "inputLabel": "Tệp bài viết (.md hoặc .zip)",
+          "dropTitle": "Chọn tệp hoặc thả vào đây",
+          "dropHint": "Markdown (.md) hoặc gói ZIP (.zip), tối đa {maxFiles} tệp",
+          "hint": "Máy chủ kiểm tra lại các tệp khi bạn nhập.",
+          "listLabel": "Các tệp đã chọn",
+          "size": "({kib} KiB)",
+          "choose": "Chọn tệp khác",
+          "remove": "Gỡ tất cả tệp",
+          "previewAgain": "Xem thử lại"
+        },
+        "status": {
+          "previewing": "Đang đọc các tệp và chuẩn bị bản xem thử…",
+          "previewReady": "Bản xem thử đã sẵn sàng. Chưa ghi gì cả.",
+          "checking": "Bản xem thử đã sẵn sàng. Đang kiểm tra các khối của bài viết…",
+          "articleLoading": "Đang chuẩn bị bản xem thử bài viết…",
+          "articleReady": "Bản xem thử bài viết đã sẵn sàng.",
+          "applying": "Đang nhập các bài viết…",
+          "applied": "Đã nhập xong."
+        },
+        "preview": {
+          "heading": "3. Xem thử",
+          "nothingWritten": "Chưa ghi gì cả. Bài nhập vào luôn là bản nháp: nhập bài không bao giờ đăng bài.",
+          "listLabel": "Các tệp của lần nhập",
+          "select": "Nhập {name}",
+          "state": {
+            "new": "Bài mới",
+            "will_change": "Sẽ thay đổi",
+            "unchanged": "Không đổi",
+            "error": "Lỗi"
+          },
+          "slug": "Slug URL: {slug}",
+          "language": "Ngôn ngữ: {language}",
+          "published": "Bài này đã đăng: nhập tệp sẽ thay đổi bài đang hiển thị, nên mặc định không được chọn.",
+          "changes": {
+            "title": "Tiêu đề",
+            "description": "Mô tả",
+            "category": "Chuyên mục",
+            "series": "Series",
+            "seriesPart": "Phần trong series",
+            "before": "Trước",
+            "after": "Sau",
+            "none": "(trống)",
+            "tags": "Thẻ: thêm {added}, bỏ {removed}, giữ {kept}",
+            "content": "{differs, select, yes {Nội dung thay đổi.} other {Nội dung giữ nguyên.}}",
+            "link": "Sẽ thêm liên kết bản dịch."
+          },
+          "newCategories": "Chuyên mục chưa có sẽ được tạo: {names}",
+          "newTags": "Các thẻ chưa có sẽ được tạo: {names}",
+          "notes": {
+            "language_defaulted": "Tệp không nêu ngôn ngữ nên bài viết dùng ngôn ngữ mặc định của trang.",
+            "category_missing": "Bài viết này chưa có chuyên mục. Bài vẫn được nhập thành bản nháp, nhưng cần chọn chuyên mục ở trình soạn thảo trước khi đăng.",
+            "slug_from_file_name": "Slug lấy từ tên tệp.",
+            "slug_from_title": "Slug được tạo từ tiêu đề.",
+            "featured_ignored": "Khóa “featured” bị bỏ qua: nhập bài không bao giờ đổi bài nổi bật.",
+            "status_ignored": "Khóa “status” bị bỏ qua: nhập bài không bao giờ đăng hoặc gỡ bài.",
+            "translation_of_ignored": "Khóa “translation_of” được đọc nhưng chưa được áp dụng: hãy liên kết bản dịch ở mục Bản dịch của trình soạn thảo.",
+            "asset_unused": "Bài viết không dùng ảnh {path} nên ảnh này không được lưu.",
+            "series_will_be_created": "Series chưa có và sẽ được tạo.",
+            "series_ignored_author": "Các khóa series được đọc và kiểm tra nhưng không được dùng: chỉ quản trị viên mới đưa được bài vào series.",
+            "series_title_differs": "Series được tìm thấy theo slug hoặc theo chữ hoa chữ thường; series giữ tiêu đề hiện có.",
+            "series_description_ignored": "Mô tả series không được dùng: series đã có mô tả hoặc một tệp trước đó đặt mô tả.",
+            "series_description_will_be_set": "Series chưa có mô tả nên tệp này sẽ đặt mô tả cho series.",
+            "cover_will_be_set": "Bài viết chưa có ảnh bìa nên ảnh bìa trong gói này sẽ trở thành ảnh bìa của bài.",
+            "cover_will_be_replaced": "Bài viết đã có một ảnh bìa khác nên ảnh bìa trong gói này sẽ thay thế ảnh bìa đó.",
+            "other": "Có điều cần kiểm tra trong tệp này."
+          },
+          "package": {
+            "facts": "Gói ZIP: {assets, plural, other {# ảnh}} ({kib} KiB), {used} ảnh được dùng, {unused} ảnh không dùng.",
+            "unsupported": "{count, plural, other {# mục trong gói không dùng được.}}"
+          },
+          "blocks": {
+            "summary": "Các khối được dùng: {names}.",
+            "none": "Không có khối nào: bài viết là Markdown thuần.",
+            "checking": "Đang kiểm tra các khối…",
+            "failed": "Không kiểm tra được các khối. Vẫn có thể nhập tệp này; khối có lỗi sẽ hiện như văn bản thường."
+          },
+          "article": {
+            "show": "Xem thử bài viết",
+            "hide": "Ẩn bản xem thử bài viết",
+            "region": "Bản xem thử bài viết: {name}",
+            "intro": "Bài viết như khi hiển thị trên trang bài viết. Liên kết tới trang khác không mở ở đây và chưa ghi gì cả.",
+            "failed": "Không chuẩn bị được bản xem thử bài viết. Hãy thử lại."
+          },
+          "problemsHeading": "Vấn đề",
+          "problem": "{where}: {message}",
+          "lineNumber": "dòng {line}",
+          "problemsMore": "{count, plural, other {Còn # vấn đề nữa không được liệt kê}}",
+          "ignoredHeading": "{count, plural, other {# khóa bị bỏ qua}}",
+          "ignoredNamed": "Khóa “{name}” (dòng {line})",
+          "ignoredUnnamed": "Khóa không nhận ra (dòng {line})",
+          "ignoredMore": "{count, plural, other {Còn # khóa nữa không được liệt kê}}",
+          "summary": "{count, plural, other {# tệp}} trong bản xem thử.",
+          "filesWithProblems": "{count, plural, other {# tệp có vấn đề và không thể nhập.}}",
+          "nothingSelected": "Hãy chọn ít nhất một tệp để nhập.",
+          "apply": "Nhập {count, plural, other {# bài viết}}"
+        },
+        "result": {
+          "heading": "Kết quả nhập",
+          "summary": "Đã tạo {created}, cập nhật {updated}, không đổi {unchanged}, bỏ qua {skipped}.",
+          "file": "{name}: {status, select, created {đã tạo bản nháp} updated {đã cập nhật} unchanged {không đổi} skipped {đã bỏ qua} other {xong}}",
+          "open": "Mở trong trình soạn thảo",
+          "openFor": "Mở trong trình soạn thảo: {name}",
+          "preview": "Xem thử bản nháp",
+          "previewFor": "Xem thử bản nháp: {name}",
+          "another": "Nhập thêm tệp"
+        }
+      },
+      "seriesLabel": "Series",
+      "inSeries": "Thuộc series <name>{title}</name> · vị trí {position}",
+      "manageSeries": "Quản lý series",
+      "preview": {
+        "heading": "Bản xem trước",
+        "savedVersion": "(bản đã lưu)",
+        "back": "Bài viết",
+        "viewOnBlog": "Xem trên blog",
+        "newTab": "(tab mới)",
+        "edit": "Sửa bài"
+      },
+      "exportRoute": {
+        "notFound": "Không tìm thấy bài viết; có thể bài đã bị xoá.",
+        "forbidden": "Tài khoản này không có quyền tải bài này.",
+        "tooLarge": "Bài này quá lớn để tải thành gói ZIP.",
+        "unavailable": "Không tải được bài từ máy chủ, thử lại sau."
+      },
+      "actions": {
+        "notPublished": "Bài này hiện không ở trạng thái đã đăng; có thể nó vừa được gỡ ở nơi khác. Tải lại trang để xem trạng thái mới.",
+        "bulkInvalid": "Chọn từ 1 tới 20 bài cho mỗi lần.",
+        "outdatedBackend": "Máy chủ chưa hỗ trợ việc này: backend cũ hơn giao diện. Cập nhật và khởi động lại backend rồi thử lại.",
+        "copySuffix": "(bản sao)",
+        "noFile": "Chưa chọn ảnh để tải lên.",
+        "fileTooLarge": "Ảnh lớn hơn 4 MB. Hãy chọn ảnh khác."
+      },
+      "delete": {
+        "heading": "Xoá bài",
+        "question": "Xoá bài “{title}”?",
+        "publishedWarning": "Bài đang đăng: đường dẫn công khai sẽ thành trang 404.",
+        "consequences": "Ảnh bìa và lượt xem của bài cũng bị xoá. Không hoàn tác được.",
+        "forever": "Xoá vĩnh viễn",
+        "cancel": "Huỷ",
+        "hintPublished": "Muốn bài thôi hiện trên blog mà vẫn giữ lại thì dùng \"Gỡ bài\". Xoá là mất hẳn.",
+        "hintDraft": "Xoá hẳn bản nháp này, cùng ảnh bìa của nó.",
+        "button": "Xoá bài",
+        "author": {
+          "consequences": "Bài biến mất khỏi site và khỏi danh sách của bạn. Quản trị viên vẫn giữ bài và có thể khôi phục hoặc xoá hẳn; bạn không tự khôi phục được.",
+          "confirm": "Xoá bài",
+          "hintPublished": "Muốn bài thôi hiện trên blog mà vẫn giữ trong danh sách của bạn thì dùng \"Gỡ bài\". Xoá là bỏ bài khỏi danh sách của bạn; quản trị viên vẫn giữ bài.",
+          "hintDraft": "Xoá bản nháp này. Nó biến mất khỏi danh sách của bạn; quản trị viên vẫn giữ và có thể khôi phục hoặc xoá hẳn."
+        }
+      },
+      "list": {
+        "selectAllAria": "Chọn cả {count} bài trên trang này",
+        "selectRowAria": "Chọn “{title}”",
+        "selected": "Đã chọn {count} bài",
+        "publishN": "Đăng {count} bài",
+        "unpublishN": "Gỡ {count} bài",
+        "deleteN": "Xoá {count} bài",
+        "clearSelection": "Bỏ chọn",
+        "confirmQuestion": "Xoá vĩnh viễn {count} bài đã chọn?",
+        "publishedWarning": "{count, plural, =1 {# bài đang đăng: đường dẫn công khai của nó sẽ thành trang 404.} other {# bài đang đăng: đường dẫn công khai của chúng sẽ thành trang 404.}}",
+        "consequences": "Ảnh bìa, lượt xem và bình luận của các bài cũng bị xoá. Không hoàn tác được.",
+        "deleting": "Đang xoá…",
+        "deleteForeverN": "Xoá vĩnh viễn {count} bài",
+        "author": {
+          "confirmQuestion": "Xoá {count} bài đã chọn?",
+          "consequences": "Các bài biến mất khỏi site và danh sách của bạn. Quản trị viên vẫn giữ và có thể khôi phục hoặc xoá hẳn.",
+          "confirmN": "Xoá {count} bài"
+        },
+        "cancel": "Huỷ",
+        "failedHeading": {
+          "publish": "Không đăng được {count} bài:",
+          "unpublish": "Không gỡ được {count} bài:",
+          "delete": "Không xoá được {count} bài:"
+        },
+        "doneAll": {
+          "publish": "Đã đăng {count} bài.",
+          "unpublish": "Đã gỡ {count} bài.",
+          "delete": "Đã xoá {count} bài."
+        },
+        "donePartial": {
+          "publish": "Đã đăng {done}/{total} bài.",
+          "unpublish": "Đã gỡ {done}/{total} bài.",
+          "delete": "Đã xoá {done}/{total} bài."
+        },
+        "skipped": {
+          "publish": "{count} bài vốn đã đăng nên được bỏ qua.",
+          "unpublish": "{count} bài vốn đã không còn đăng nên được bỏ qua.",
+          "delete": "{count} bài đã bị xoá ở nơi khác nên được bỏ qua."
+        },
+        "failedItem": "“{title}”: {error}"
+      },
+      "row": {
+        "preview": "Xem trước",
+        "download": "Tải gói ZIP",
+        "publish": "Đăng bài",
+        "unpublish": "Gỡ bài",
+        "featured": "Bài viết hay",
+        "featuredTitleOn": "Đang trong Bài viết hay — bấm để bỏ",
+        "featuredTitleOff": "Thêm vào Bài viết hay",
+        "delete": "Xoá",
+        "deleteSr": "bài {title}",
+        "confirmQuestion": "Xoá bài {title}?",
+        "publishedWarning": "Bài đang đăng: đường dẫn công khai sẽ thành trang 404.",
+        "consequences": "Ảnh bìa, lượt xem và bình luận của bài cũng bị xoá. Không hoàn tác được.",
+        "deleting": "Đang xoá…",
+        "deleteForever": "Xoá vĩnh viễn",
+        "author": {
+          "consequences": "Bài biến mất khỏi site và danh sách của bạn. Quản trị viên vẫn giữ bài và có thể khôi phục hoặc xoá hẳn.",
+          "confirm": "Xoá"
+        },
+        "cancel": "Huỷ",
+        "announcePublished": "Đã đăng {title}.",
+        "announceUnpublished": "Đã gỡ {title}.",
+        "skippedPublished": "{title} vốn đã đăng.",
+        "skippedUnpublished": "{title} vốn đã không còn đăng.",
+        "announceFeatured": "Đã thêm {title} vào Bài viết hay.",
+        "announceUnfeatured": "Đã bỏ {title} khỏi Bài viết hay.",
+        "announceDeleted": "Đã xoá bài {title}.",
+        "announceDeletedElsewhere": "Bài {title} đã bị xoá ở nơi khác."
+      },
+      "translations": {
+        "heading": "Bản dịch",
+        "hint": "Bài này viết bằng {language}. Mỗi bản dịch là một bài riêng, có nội dung, đường dẫn và trạng thái riêng.",
+        "loadFailed": "Không tải được danh sách bản dịch. Hãy tải lại trang để thử lại.",
+        "none": "Bài này chưa liên kết với ngôn ngữ nào khác.",
+        "listLabel": "Các bản dịch đã liên kết",
+        "edit": "sửa",
+        "createLanguage": "Tạo bản dịch bằng",
+        "createSlug": "Đường dẫn của bản dịch",
+        "optional": "(không bắt buộc)",
+        "createHint": "Để trống để dùng đường dẫn của bài này kèm mã ngôn ngữ. Bản nháp mới sao chép tiêu đề, mô tả, chuyên mục và thẻ, chưa có nội dung.",
+        "create": "Tạo bản dịch",
+        "linkLabel": "Liên kết một bài có sẵn",
+        "linkPlaceholder": "Chọn một bài…",
+        "linkOption": "{title} ({language})",
+        "link": "Liên kết",
+        "unlink": "Gỡ liên kết bài này",
+        "unlinkHint": "Các bài vẫn giữ nguyên; chỉ gỡ liên kết giữa các ngôn ngữ.",
+        "languageRequired": "Hãy chọn ngôn ngữ cho bản dịch.",
+        "pickPost": "Hãy chọn bài cần liên kết."
+      }
+    },
+    "lint": {
+      "heading": "Kiểm tra trước khi đăng",
+      "allClear": "Không thấy gì cần sửa.",
+      "summary": "{count} điều nên xem lại. Không bắt buộc: bài vẫn lưu và đăng được.",
+      "fenceLanguageMissing": "Dòng {line}: khối code chưa ghi ngôn ngữ (vd. ```java), nên không được tô màu.",
+      "fenceLanguageUnknown": "Dòng {line}: ngôn ngữ “{language}” chưa được nạp để tô màu; khối này sẽ hiện như chữ thường.",
+      "bodyH1": "Dòng {line}: có tiêu đề cấp 1 (“# …”). Trang bài đã dùng tiêu đề bài làm cấp 1; hãy dùng ## cho các mục.",
+      "fenceUnclosed": "Khối code mở ở dòng {line} chưa được đóng bằng ```: phần còn lại của bài sẽ thành code.",
+      "blockProblem": "Dòng {line}: {message}",
+      "excerptEmpty": "Chưa có mô tả ngắn. Nên có {min}–{max} ký tự: đoạn này hiện dưới tiêu đề bài, trong danh sách bài và khi chia sẻ.",
+      "excerptLength": "{count, plural, other {Mô tả ngắn có {formatted} ký tự; nên trong khoảng {min}–{max}.}}"
+    },
+    "revisions": {
+      "heading": "Lịch sử",
+      "loadFailed": "Không tải được lịch sử của bài. Tải lại trang để thử lại.",
+      "empty": "Chưa có bản cũ nào. Mỗi lần lưu đổi tiêu đề, mô tả hay nội dung, bản trước đó được giữ lại (20 bản gần nhất, cách nhau ít nhất 10 phút).",
+      "view": "Xem",
+      "viewAria": "Xem bản lúc {time}",
+      "loading": "Đang tải bản này…",
+      "textRegionAria": "Chữ của bản lúc {time}",
+      "restoreQuestion": "Khôi phục bản lúc {time}?",
+      "restoreDetails": "Tiêu đề, mô tả và nội dung trở về như bản này. Bản đang có được giữ trong lịch sử, nên vẫn quay lại được.",
+      "restoring": "Đang khôi phục…",
+      "restore": "Khôi phục",
+      "cancel": "Huỷ",
+      "restoreThis": "Khôi phục bản này",
+      "dirtyHint": "Còn thay đổi chưa lưu: lưu hoặc bỏ chúng trước khi khôi phục."
+    },
+    "postImages": {
+      "heading": "Ảnh trong bài",
+      "saveFirst": "Lưu bài một lần để tải ảnh vào thân bài.",
+      "loadFailed": "Không tải được danh sách ảnh của bài. Tải lại trang để thử lại; vẫn chèn được ảnh mới.",
+      "empty": "Chưa có ảnh nào. Dùng nút “Chèn ảnh” trên ô nội dung, hoặc dán, kéo thả ảnh vào ô đó.",
+      "noDescription": "không có mô tả",
+      "size": "{width}×{height}",
+      "sizeInUse": "{width}×{height} · đang dùng trong bài",
+      "deleteQuestion": "Xoá ảnh “{label}” khỏi máy chủ?",
+      "deleteDetailsInUse": "Bài đang dùng ảnh này: chỗ đó sẽ thành ảnh hỏng. Không hoàn tác được.",
+      "deleteDetails": "Không hoàn tác được.",
+      "deleteForever": "Xoá vĩnh viễn",
+      "cancel": "Huỷ",
+      "reinsertAria": "Chèn lại ảnh “{label}”",
+      "reinsert": "Chèn lại",
+      "deleteAria": "Xoá ảnh “{label}”",
+      "delete": "Xoá",
+      "publicHint": "Ảnh tải lên có đường dẫn công khai khó đoán, kể cả khi bài chưa đăng.",
+      "needSave": "Lưu bài một lần trước khi chèn ảnh: ảnh cần một bài để gắn vào.",
+      "oneAtATime": "Đang tải một ảnh khác lên; chờ xong rồi thử lại.",
+      "uploadingOne": "Đang tải ảnh lên…",
+      "uploadingProgress": "Đang tải ảnh {current}/{total}…",
+      "insertedOne": "Đã chèn ảnh vào nội dung.",
+      "insertedMany": "Đã chèn {count} ảnh vào nội dung.",
+      "deleted": "Đã xoá ảnh khỏi máy chủ.",
+      "unreadable": "Không đọc được ảnh này. Hãy chọn ảnh khác.",
+      "altDefault": "Ảnh",
+      "altScreenshot": "Ảnh chụp màn hình",
+      "uploadRejected": {
+        "unsupported": "Chỉ nhận JPEG, PNG hoặc WebP.",
+        "undecodable": "Trình duyệt không đọc được ảnh này để thu nhỏ. Hãy chọn ảnh JPEG hoặc PNG nhỏ hơn 4 MB.",
+        "stillTooLarge": "Ảnh vẫn quá lớn sau khi thu nhỏ. Hãy chọn ảnh khác."
+      }
+    },
+    "editor": {
+      "titleNew": "Bài mới",
+      "titleEdit": "Sửa bài",
+      "restoredNotice": "Đã khôi phục một bản cũ",
+      "backToPosts": "Bài viết",
+      "sessionExpired": "Phiên đăng nhập đã hết hạn. Hãy mở <login>trang đăng nhập</login> ở tab mới, đăng nhập lại rồi bấm Lưu lần nữa — nội dung đang soạn vẫn còn ở đây.",
+      "state": {
+        "saving": "Đang lưu…",
+        "publishing": "Đang đăng…",
+        "unpublishing": "Đang gỡ…",
+        "unsaved": "Có thay đổi chưa lưu",
+        "saved": "Đã lưu",
+        "savedAt": "Đã lưu lúc {time}",
+        "publishedAt": "Đã đăng lúc {time}",
+        "unpublishedAt": "Đã gỡ bài lúc {time}"
+      },
+      "previewLinkTitle": "Mở bản xem trước (bản đã lưu) ở tab mới",
+      "previewLinkSr": "Mở bản xem trước",
+      "previewLinkText": "Bản xem trước",
+      "viewOnBlogTitle": "Mở bài trên blog ở tab mới",
+      "viewOnBlog": "Xem trên blog",
+      "unpublish": "Gỡ bài",
+      "lintTitle": "Kiểm tra trước khi đăng",
+      "lintCountSr": "{count} điều cần xem trước khi đăng",
+      "saveTitle": "Lưu (Ctrl+S)",
+      "save": "Lưu",
+      "publish": "Đăng bài",
+      "titleLabel": "Tiêu đề",
+      "titlePlaceholder": "Tiêu đề bài viết",
+      "excerptLabel": "Mô tả ngắn",
+      "excerptPlaceholder": "Mô tả ngắn: một hai câu tóm tắt bài",
+      "excerptHint": "Hiện dưới tiêu đề bài, trong danh sách bài và khi chia sẻ.",
+      "excerptCount": "{count, plural, other {{formatted} ký tự.}}",
+      "contentLabel": "Nội dung (Markdown)",
+      "words": "{count, plural, other {{formatted} từ}}",
+      "wordsWithMinutes": "{count, plural, other {{formatted} từ}} · khoảng {minutes} phút đọc",
+      "insertImage": "Chèn ảnh",
+      "uploadingImage": "Đang tải ảnh…",
+      "previewToggle": "Xem trước",
+      "contentPlaceholder": "Viết bằng Markdown: ## mục, ```code```, > trích dẫn, [link](url)…",
+      "previewHeading": "Xem trước bản đã lưu",
+      "previewSavedNote": "Bản đã lưu lần cuối, dựng đúng như trang công khai.",
+      "previewUnsavedNote": "Thay đổi chưa lưu chưa có ở đây — bấm Lưu để cập nhật.",
+      "settingsHeading": "Cài đặt bài viết",
+      "slugLabel": "Đường dẫn",
+      "slugHintPublished": "Bài đã đăng: đổi đường dẫn thì link cũ tự chuyển sang link mới.",
+      "slugHintLocked": "Đường dẫn cố định của bài khi đăng.",
+      "slugHintAuto": "Tự tạo từ tiêu đề; sửa ô này thì giữ đúng chữ bạn gõ.",
+      "categoryLabel": "Chuyên mục",
+      "categoryNone": "— chưa chọn —",
+      "categoryHint": "Bắt buộc trước khi đăng bài.",
+      "addCategory": "Thêm chuyên mục",
+      "categoryName": "Tên chuyên mục",
+      "tagsLegend": "Thẻ",
+      "noTags": "Chưa có thẻ nào.",
+      "addTag": "Thêm thẻ",
+      "tagName": "Tên thẻ",
+      "commentsHeading": "Bình luận",
+      "commentsLink": "Bình luận của bài này",
+      "toolsHeading": "Tải về và nhân bản",
+      "download": "Tải gói ZIP",
+      "duplicate": "Nhân bản",
+      "duplicating": "Đang nhân bản…",
+      "toolsHint": "“Tải gói ZIP” lấy bản đã lưu thành một gói ZIP gồm bài viết, ảnh và ảnh bìa, theo định dạng mà phần nhập bài viết đọc được, nên có thể nhập lại gói này. “Nhân bản” tạo một bản nháp mới cùng nội dung, mô tả, chuyên mục và thẻ; không chép ảnh bìa, series hay mục Bài viết hay.",
+      "toolsDirty": "Còn thay đổi chưa lưu: gói ZIP và bản sao chỉ có bản đã lưu, nên hãy lưu trước.",
+      "draftOffer": "Có bản chưa lưu lúc {time} trên trình duyệt này.",
+      "draftRestore": "Khôi phục",
+      "draftDiscard": "Bỏ",
+      "facts": {
+        "heading": "Xuất bản",
+        "publishedOn": "Ngày đăng",
+        "notPublished": "Chưa đăng",
+        "readingTime": "Thời gian đọc",
+        "minutes": "{minutes} phút",
+        "views": "Lượt xem",
+        "featured": "Bài viết hay",
+        "yes": "Có",
+        "no": "Không",
+        "manage": "Quản lý"
+      },
+      "leaveQuestion": "Bài có thay đổi chưa lưu. Rời trang bây giờ thì mất các thay đổi đó.",
+      "stay": "Ở lại",
+      "leave": "Rời trang",
+      "cover": {
+        "heading": "Ảnh bìa",
+        "currentAlt": "Ảnh bìa hiện tại",
+        "none": "Chưa có ảnh bìa. Trang công khai vẽ hình tự động cho bài này.",
+        "draftNote": "Bài chưa đăng nên ảnh bìa ẩn khỏi trang; ai có đường dẫn vẫn xem được ảnh.",
+        "altLabel": "Mô tả ảnh (alt)",
+        "altHint": "Một câu tả nội dung ảnh, cho người dùng trình đọc màn hình. Tối đa 300 ký tự.",
+        "chooseLabel": "Chọn ảnh",
+        "fileHint": "JPEG, PNG hoặc WebP, rộng tối thiểu {min} pixel ({recommended} là lý tưởng để ảnh nét trên màn hình mật độ cao). Ảnh lớn được thu nhỏ trong trình duyệt trước khi gửi.",
+        "lowResolution": "Ảnh này chỉ rộng {width} pixel nên bị mờ khi hiển thị ở đầu bài. Hãy tải ảnh rộng tối thiểu {min} pixel ({recommended} là lý tưởng).",
+        "upload": "Tải ảnh lên",
+        "saveAlt": "Lưu mô tả",
+        "remove": "Gỡ ảnh bìa",
+        "uploaded": "Đã tải ảnh bìa lên.",
+        "altSaved": "Đã lưu mô tả ảnh.",
+        "removed": "Đã gỡ ảnh bìa."
+      },
+      "inlineCreate": {
+        "add": "Thêm",
+        "cancel": "Huỷ"
+      },
+      "emptyPreview": "Chưa có nội dung để xem trước.",
+      "blockProblemsTitle": "Vấn đề với các khối trong nội dung này",
+      "blockProblemLine": "Dòng {line}: {message}",
+      "languageLabel": "Ngôn ngữ",
+      "languageHint": "Ngôn ngữ của bài viết này. Các ngôn ngữ khác là những bài riêng, được liên kết ở mục Bản dịch."
+    },
+    "login": {
+      "tooManyAttempts": "Bạn thử đăng nhập quá nhiều lần. Đợi khoảng {minutes} phút rồi thử lại.",
+      "backendBusy": "Máy chủ đang bận với các lần đăng nhập khác. Đợi một lát rồi thử lại.",
+      "backendUnavailable": "Máy chủ tạm thời chưa phục vụ được. Đợi một lát rồi thử lại.",
+      "apiUnreachable": "Không kết nối được tới máy chủ",
+      "unusableSession": "Máy chủ trả về phiên đăng nhập không dùng được",
+      "title": "Đăng nhập",
+      "lead": "Vào trang quản trị của blog.",
+      "forbidden": "Tài khoản đang đăng nhập không có quyền vào trang quản trị: chỉ quản trị viên và tác giả vào được. Đăng nhập bằng tài khoản khác (tác giả vừa được cấp quyền thì đăng nhập lại bằng GitHub), hoặc <home>về trang chủ</home>.",
+      "sessionNotEnded": "Bạn đã đăng xuất trên thiết bị này, nhưng máy chủ chưa kết thúc được phiên nên phiên vẫn còn hiệu lực đến khi hết hạn. Hãy đăng nhập lại rồi dùng \"Đăng xuất mọi nơi\" ở trang Bảo mật để kết thúc ngay.",
+      "or": "hoặc",
+      "github": "Đăng nhập bằng GitHub",
+      "authorHint": "Tài khoản tác giả không có mật khẩu: đăng nhập bằng GitHub.",
+      "backToBlog": "Về blog",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Đăng nhập",
+      "submitting": "Đang đăng nhập…",
+      "failed": "Đăng nhập thất bại",
+      "network": "Không kết nối được tới máy chủ",
+      "mfa": {
+        "title": "Xác minh hai bước",
+        "lead": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn.",
+        "leadRecovery": "Nhập một mã khôi phục. Mỗi mã chỉ dùng được một lần.",
+        "code": "Mã",
+        "recoveryLabel": "Mã khôi phục",
+        "useRecovery": "Dùng mã khôi phục",
+        "useApp": "Dùng ứng dụng xác thực",
+        "submit": "Xác minh",
+        "submitting": "Đang xác minh…",
+        "invalid": "Mã không hợp lệ. Kiểm tra lại mã rồi thử lại.",
+        "expired": "Bước này đã hết hạn. Hãy đăng nhập lại.",
+        "tooMany": "Bạn thử quá nhiều lần. Đợi khoảng {minutes} phút rồi thử lại.",
+        "busy": "Hiện có quá nhiều lượt thử. Đợi một lát rồi thử lại.",
+        "frozen": "Xác minh hai bước đã bị khóa vì nhập sai quá nhiều lần. Chủ máy chủ cần đặt lại; xem tài liệu.",
+        "recoveryUsed": "Bạn đã đăng nhập bằng mã khôi phục.",
+        "recoveryLeft": "Bạn còn {count} mã khôi phục.",
+        "recoveryLow": "Sắp hết rồi: hãy tạo mã khôi phục mới trong mục Bảo mật.",
+        "replaceHint": "Mất thiết bị? Hãy thay ứng dụng xác thực trong mục Bảo mật.",
+        "openSecurity": "Mở mục Bảo mật",
+        "continue": "Tiếp tục",
+        "back": "Quay lại đăng nhập"
+      },
+      "enroll": {
+        "title": "Thiết lập xác minh hai bước",
+        "lead": "Tài khoản quản trị cần thêm một bước nữa. Mất khoảng hai phút.",
+        "enrollmentCode": "Mã đăng ký",
+        "enrollmentCodeHint": "Chủ máy chủ đọc được mã này từ tệp hoặc cài đặt nêu trong tài liệu.",
+        "start": "Hiện khóa thiết lập",
+        "starting": "Vui lòng đợi…",
+        "secretTitle": "Thêm khóa vào ứng dụng xác thực",
+        "step2": "Thêm khóa này vào một ứng dụng xác thực (theo thời gian, 6 chữ số, 30 giây).",
+        "secret": "Khóa thiết lập",
+        "copy": "Sao chép",
+        "copied": "Đã sao chép",
+        "copySelected": "Đã chọn khóa. Nhấn Ctrl+C để sao chép.",
+        "openApp": "Mở trong ứng dụng xác thực",
+        "firstCode": "Nhập mã 6 chữ số đầu tiên",
+        "confirm": "Xác nhận",
+        "confirming": "Đang xác nhận…",
+        "recoveryTitle": "Lưu các mã khôi phục",
+        "recoveryLead": "Mỗi mã dùng được một lần khi bạn mất thiết bị. Các mã chỉ hiện lúc này.",
+        "recoveryList": "Mã khôi phục",
+        "download": "Tải về dưới dạng tệp văn bản",
+        "copyCodes": "Sao chép các mã",
+        "saved": "Tôi đã cất các mã này ở nơi an toàn",
+        "continue": "Vào khu vực quản trị",
+        "codeRequired": "Nhập mã đăng ký.",
+        "codeInvalid": "Mã đăng ký không hợp lệ."
+      }
+    },
+    "shell": {
+      "navLabel": "Quản trị",
+      "sectionsLabel": "Mục quản lý",
+      "nav": {
+        "posts": "Bài viết",
+        "myPosts": "Bài viết của tôi",
+        "analytics": "Thống kê",
+        "topics": "Chủ đề",
+        "series": "Series",
+        "curated": "Bài viết hay",
+        "gallery": "Ảnh",
+        "comments": "Bình luận",
+        "users": "Người dùng",
+        "applications": "Đơn tác giả",
+        "newsletter": "Newsletter",
+        "contact": "Liên hệ",
+        "security": "Bảo mật",
+        "settings": "Cài đặt"
+      },
+      "newPost": "Viết bài",
+      "viewBlog": "Xem blog",
+      "role": "Vai trò <strong>{role}</strong>",
+      "logout": "Đăng xuất",
+      "logoutFailed": "Chưa đăng xuất được, bạn vẫn đang đăng nhập. Hãy thử lại.",
+      "subtitle": "Quản trị blog",
+      "menu": "Menu",
+      "postDeleted": "Đã xoá bài viết.",
+      "loading": "Đang tải…",
+      "skipToContent": "Bỏ qua, tới nội dung",
+      "error": {
+        "title": "Không tải được trang này",
+        "body": "Máy chủ không trả lời hoặc trả lỗi khi lấy dữ liệu, nên trang chưa hiện được. Nội dung của blog không bị ảnh hưởng. Thử lại sau một lát; nếu vẫn lỗi, hãy kiểm tra backend.",
+        "retry": "Thử lại",
+        "toPosts": "Về trang Bài viết",
+        "digest": "Mã lỗi để tra log: {digest}"
+      },
+      "notFound": {
+        "title": "Không tìm thấy trang",
+        "body": "Mục này không còn tồn tại, hoặc đường dẫn không đúng. Có thể nó vừa bị xoá.",
+        "toPosts": "Về trang Bài viết"
+      }
+    },
+    "security": {
+      "title": "Bảo mật",
+      "lead": "Xác minh hai bước và mật khẩu của bạn.",
+      "mfaTitle": "Xác minh hai bước",
+      "status": {
+        "on": "Xác minh hai bước đang bật",
+        "off": "Xác minh hai bước đang tắt"
+      },
+      "offHint": "Hỏi mã từ ứng dụng xác thực ở mỗi lần đăng nhập.",
+      "recoveryLeft": "Mã khôi phục còn lại: {count}",
+      "recoveryLowHint": "Sắp hết mã. Hãy tạo mã mới trước khi hết.",
+      "regenerate": "Tạo mã khôi phục mới",
+      "regenerateLead": "Các mã cũ sẽ ngừng dùng được.",
+      "replace": "Thay ứng dụng xác thực",
+      "replaceLead": "Dùng khi đổi điện thoại. Ứng dụng hiện tại vẫn dùng được cho tới khi ứng dụng mới được xác nhận.",
+      "currentCode": "Mã từ ứng dụng xác thực, hoặc một mã khôi phục",
+      "codeRequired": "Nhập một mã từ ứng dụng xác thực, hoặc một mã khôi phục.",
+      "turnOn": "Bật",
+      "turnOff": "Tắt",
+      "turnOffLead": "Các thiết bị khác của bạn sẽ bị đăng xuất và các mã khôi phục ngừng dùng được.",
+      "turnOffConfirm": "Tắt xác minh hai bước",
+      "adminRequired": "Tài khoản quản trị luôn dùng xác minh hai bước.",
+      "reauth": "Vì an toàn, hãy đăng nhập lại để tiếp tục.",
+      "reauthAction": "Đăng nhập lại",
+      "cancel": "Huỷ",
+      "confirm": "Xác nhận",
+      "working": "Đang xử lý…",
+      "done": "Xong",
+      "notice": {
+        "turnedOn": "Xác minh hai bước đã bật. Các thiết bị khác của bạn đã bị đăng xuất.",
+        "replaced": "Đã thay ứng dụng xác thực. Các thiết bị khác của bạn đã bị đăng xuất.",
+        "turnedOff": "Xác minh hai bước đã tắt. Các thiết bị khác của bạn đã bị đăng xuất.",
+        "regenerated": "Đã có mã khôi phục mới. Các mã cũ không còn dùng được."
+      },
+      "password": {
+        "title": "Đổi mật khẩu",
+        "current": "Mật khẩu hiện tại",
+        "new": "Mật khẩu mới",
+        "repeat": "Nhập lại mật khẩu mới",
+        "hint": "Từ {min} đến {max} ký tự.",
+        "submit": "Đổi mật khẩu",
+        "submitting": "Đang đổi…",
+        "tooShort": "Dùng ít nhất {min} ký tự.",
+        "tooLong": "Dùng tối đa {max} ký tự.",
+        "mismatch": "Hai mật khẩu mới không khớp nhau.",
+        "weak": "Hãy chọn mật khẩu khác. Mật khẩu này quá phổ biến hoặc quá dễ đoán.",
+        "same": "Mật khẩu mới phải khác mật khẩu hiện tại.",
+        "currentRequired": "Nhập mật khẩu hiện tại.",
+        "done": "Đã đổi mật khẩu. Các thiết bị khác đã bị đăng xuất.",
+        "managedByEnvironment": "Máy chủ đang đặt mật khẩu này. Hãy xóa cài đặt ADMIN_PASSWORD khỏi tệp .env của máy chủ để đổi ở đây."
+      },
+      "signOutEverywhere": "Đăng xuất mọi nơi",
+      "signOutLead": "Kết thúc mọi phiên đăng nhập của tài khoản, kể cả phiên này. Bạn sẽ đăng nhập lại.",
+      "signOutConfirm": "Đăng xuất khỏi mọi thiết bị?",
+      "errors": {
+        "codeInvalid": "Mã không hợp lệ. Kiểm tra lại mã rồi thử lại.",
+        "passwordInvalid": "Mật khẩu hiện tại không đúng.",
+        "tooMany": "Bạn thử quá nhiều lần. Đợi khoảng {minutes} phút rồi thử lại.",
+        "busy": "Hiện có quá nhiều lượt thử. Đợi một lát rồi thử lại.",
+        "frozen": "Xác minh hai bước đã bị khóa vì nhập sai quá nhiều lần. Chủ máy chủ cần đặt lại; xem tài liệu.",
+        "forbidden": "Tài khoản này không có quyền làm việc đó.",
+        "invalid": "Hãy kiểm tra lại các trường rồi thử lại.",
+        "sessionExpired": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại.",
+        "unreachable": "Không kết nối được tới máy chủ",
+        "failed": "Không thực hiện được. Hãy thử lại sau ít phút."
+      }
+    },
+    "common": {
+      "noAccess": {
+        "back": "Bài viết",
+        "post": {
+          "title": "Không mở được bài này",
+          "body": "Bài không còn, hoặc không thuộc tài khoản của bạn. Nếu vai trò của bạn vừa được đổi, hãy đăng xuất rồi đăng nhập lại."
+        },
+        "account": {
+          "title": "Tài khoản này không còn quyền vào trang quản trị",
+          "body": "Vai trò hay trạng thái của tài khoản vừa được đổi, nên máy chủ không trả dữ liệu cho trang này. Hãy đăng xuất rồi đăng nhập lại."
+        }
+      },
+      "adminOnly": {
+        "title": "Trang này chỉ dành cho quản trị viên",
+        "body": "Tài khoản của bạn không có quyền xem trang này. Nếu vai trò của bạn vừa được đổi, hãy đăng xuất rồi đăng nhập lại.",
+        "toMyPosts": "Về bài viết của bạn"
+      },
+      "staleList": {
+        "notice": "{count, plural, other {# {unit, select, comment {bình luận} user {tài khoản} other {đơn}}}} vừa rời bộ lọc này, {kept, select, review {vẫn để lại đây để bạn xem lại} other {vẫn để lại đây để hoàn tác được}}. Phân trang và số đếm chưa tính lại: tải lại trước khi sang trang khác để không bỏ sót {unit, select, comment {bình luận} user {tài khoản} other {đơn}} nào.",
+        "reloading": "Đang tải lại…",
+        "reload": "Tải lại danh sách"
+      },
+      "pager": {
+        "label": "Phân trang",
+        "summary": "{from, number}–{to, number} trong {unit, select, post {{total, plural, other {# bài}}} comment {{total, plural, other {# bình luận}}} user {{total, plural, other {# tài khoản}}} other {{total, plural, other {# đơn}}}} · trang {page}/{totalPages}",
+        "previous": "Trang trước",
+        "next": "Trang sau"
+      },
+      "quota": {
+        "title": "Dung lượng ảnh",
+        "underOnePercent": "dưới 1%",
+        "valueText": "Đã dùng {used} trên {max} ({percent})",
+        "usage": "{used} / {max} ({percent}) · {count, plural, other {# ảnh}}",
+        "scope": "Gồm ảnh bìa, ảnh gallery và ảnh trong bài: một hạn mức chung cho mọi lần tải lên.",
+        "danger": "Gần hết dung lượng: hết hạn mức thì mọi lần tải ảnh lên đều bị từ chối. Xoá bớt ảnh không còn dùng.",
+        "warn": "Sắp đầy: nên xoá bớt ảnh không còn dùng trước khi tải thêm."
+      }
+    },
+    "statuses": {
+      "post": {
+        "PUBLISHED": "Đã đăng",
+        "DRAFT": "Bản nháp",
+        "ARCHIVED": "Đã lưu trữ"
+      },
+      "comment": {
+        "VISIBLE": "Hiển thị",
+        "HIDDEN": "Đã ẩn",
+        "DELETED": "Đã xoá"
+      },
+      "user": {
+        "ACTIVE": "Đang hoạt động",
+        "SUSPENDED": "Đang tạm khoá"
+      },
+      "role": {
+        "USER": "Độc giả",
+        "AUTHOR": "Tác giả",
+        "ADMIN": "Quản trị"
+      },
+      "application": {
+        "PENDING": "Chờ duyệt",
+        "APPROVED": "Đã duyệt",
+        "REJECTED": "Bị từ chối"
+      },
+      "filter": {
+        "anyRole": "Mọi vai trò",
+        "anyStatus": "Mọi trạng thái"
+      }
+    },
+    "dashboard": {
+      "copy": {
+        "admin": {
+          "title": "Bài viết",
+          "lead": "Mọi bài của blog, mới tạo đứng trước. Bản nháp chỉ hiện ở đây cho tới khi được đăng.",
+          "empty": "Mọi bài của blog nằm ở đây, kể cả bản nháp chưa ai thấy."
+        },
+        "author": {
+          "title": "Bài viết của tôi",
+          "lead": "Bài bạn viết, mới tạo đứng trước. Bản nháp chỉ hiện ở đây cho tới khi được đăng.",
+          "empty": "Bài bạn viết nằm ở đây, kể cả bản nháp chưa đăng."
+        }
+      },
+      "filters": {
+        "all": "Tất cả",
+        "published": "Đã đăng",
+        "draft": "Bản nháp"
+      },
+      "emptyHint": {
+        "all": "Danh sách đang trống.",
+        "published": "Chưa bài nào được đăng. Mở một bản nháp và bấm “Đăng bài”.",
+        "draft": "Mọi bài đều đã đăng. Bài mới là bản nháp cho tới khi bạn bấm “Đăng bài”."
+      },
+      "views": "Lượt xem",
+      "notPublished": "Chưa đăng",
+      "newPost": "Viết bài",
+      "attention": {
+        "title": "Cần chú ý:"
+      },
+      "health": {
+        "draft-no-category": {
+          "label": "bản nháp chưa có chuyên mục",
+          "hint": "chưa đăng được",
+          "item": "{count, plural, other {# bản nháp chưa có chuyên mục}}"
+        },
+        "featured-unpublished": {
+          "label": "nằm trong Bài viết hay nhưng chưa đăng",
+          "hint": "không hiện ở đâu",
+          "item": "{count, plural, other {# nằm trong Bài viết hay nhưng chưa đăng}}"
+        },
+        "no-excerpt": {
+          "label": "chưa có mô tả ngắn",
+          "hint": "mô tả khi chia sẻ và trên Google",
+          "item": "{count, plural, other {# chưa có mô tả ngắn}}"
+        },
+        "no-tags": {
+          "label": "chưa gắn thẻ",
+          "hint": "không xuất hiện ở trang thẻ nào",
+          "item": "{count, plural, other {# chưa gắn thẻ}}"
+        }
+      },
+      "toolbar": {
+        "searchLabel": "Tìm bài viết",
+        "searchPlaceholder": "Tìm theo tiêu đề hoặc slug…",
+        "category": "Chuyên mục",
+        "anyCategory": "Mọi chuyên mục",
+        "tag": "Thẻ",
+        "anyTag": "Mọi thẻ",
+        "sort": "Sắp xếp",
+        "sortNewest": "Mới tạo trước",
+        "sortUpdated": "Sửa gần đây",
+        "sortViews": "Đọc nhiều nhất",
+        "filter": "Lọc",
+        "language": "Ngôn ngữ",
+        "anyLanguage": "Mọi ngôn ngữ"
+      },
+      "activeFilters": {
+        "label": "Đang lọc:",
+        "query": "“{query}”",
+        "category": "chuyên mục {name}",
+        "tag": "thẻ {name}",
+        "remove": "(bỏ bộ lọc này)",
+        "clearAll": "Bỏ mọi bộ lọc",
+        "language": "ngôn ngữ {name}"
+      },
+      "meta": {
+        "edited": "sửa <time>{date}</time>",
+        "seriesPart": "{title} · phần {position}",
+        "featured": "Bài viết hay",
+        "featuredRanked": "Bài viết hay #{rank}",
+        "readingMinutes": "{minutes} phút đọc",
+        "view": "Xem",
+        "viewSr": "“{title}” trên blog (tab mới)"
+      },
+      "table": {
+        "post": "Bài viết",
+        "status": "Trạng thái",
+        "publishedOn": "Ngày đăng",
+        "views": "Lượt xem",
+        "caption": "Bài viết ({filter}{searched, select, yes {, tìm “{query}”} other {}}{sort, select, updated {, sửa gần đây trước} views {, đọc nhiều nhất trước} other {}}), trang {page}/{totalPages}"
+      },
+      "noPosts": {
+        "title": "Chưa có bài nào.",
+        "action": "Viết bài đầu tiên",
+        "body": "Bài mới là bản nháp, chỉ bạn thấy, cho tới khi bấm “Đăng bài”. Cần chọn chuyên mục trước khi đăng."
+      },
+      "results": "Kết quả lọc",
+      "postCount": "{count, plural, other {# bài}}",
+      "empty": {
+        "noMatch": "Không có bài nào khớp.",
+        "noneIn": "Không có bài nào ở mục “{filter}”.",
+        "viewAll": "Xem tất cả bài",
+        "queryHint": "Không bài {status, select, all {} other {{filter} }}nào có “{query}” trong tiêu đề hay slug{withFilters, select, yes { với các bộ lọc đang bật} other {}}. Thử một từ ngắn hơn; gõ có dấu hay không dấu đều được.",
+        "filtersHint": "Không bài nào thoả mọi bộ lọc đang bật. Bỏ bớt một bộ lọc ở dòng “Đang lọc”."
+      }
+    },
+    "analytics": {
+      "copy": {
+        "admin": {
+          "title": "Thống kê",
+          "lead": "Lượt xem của mọi bài trên blog: theo ngày, bài được đọc nhiều và nguồn truy cập."
+        },
+        "author": {
+          "title": "Thống kê bài của tôi",
+          "lead": "Lượt xem các bài bạn viết: theo ngày, bài được đọc nhiều và nguồn truy cập."
+        }
+      },
+      "range": {
+        "label": "Khoảng ngày",
+        "from": "Từ ngày",
+        "to": "Đến ngày",
+        "submit": "Xem",
+        "last30": "30 ngày gần nhất",
+        "format": "Ngày phải có dạng năm-tháng-ngày và là một ngày có thật, ví dụ 2026-10-10.",
+        "order": "Ngày bắt đầu phải trước hoặc trùng ngày kết thúc.",
+        "tooLong": "Khoảng ngày dài tối đa {days} ngày, tính cả hai đầu."
+      },
+      "totals": {
+        "inRange": "Lượt xem trong khoảng này",
+        "allTime": "Tổng từ trước tới nay"
+      },
+      "daily": {
+        "tableLabel": "Bảng lượt xem theo ngày",
+        "caption": "Lượt xem theo ngày, từ {from} đến {to}",
+        "day": "Ngày",
+        "views": "Lượt xem",
+        "noData": "chưa có số liệu"
+      },
+      "top": {
+        "empty": "Không có bài nào có lượt xem trong khoảng này.",
+        "caption": "Bài được đọc nhiều nhất trong khoảng này",
+        "post": "Bài viết",
+        "status": "Trạng thái",
+        "views": "Lượt xem"
+      },
+      "sources": {
+        "caption": "Lượt xem theo nguồn truy cập",
+        "source": "Nguồn",
+        "views": "Lượt xem",
+        "share": "Tỉ lệ",
+        "group": {
+          "direct": "Trực tiếp",
+          "search": "Công cụ tìm kiếm",
+          "social": "Mạng xã hội",
+          "github": "GitHub",
+          "internal": "Trong site",
+          "other": "Khác"
+        }
+      },
+      "report": {
+        "range": "<from></from> – <to></to> · ngày tính theo múi giờ {timeZone}",
+        "note": "Đây là lượt xem được ghi nhận, sau khi lọc bot, giới hạn số lượt mỗi IP và gộp các lần mở lại cùng một bài trong 30 phút; không phải số người đọc.",
+        "noDaily": "Chưa có ngày nào có số liệu theo ngày.",
+        "dailySince": "Số liệu theo ngày có từ <day></day>; trước đó chỉ có tổng từ trước tới nay.",
+        "emptyTitle": "Chưa có lượt xem nào trong khoảng này.",
+        "emptyNoDaily": "Số liệu theo ngày bắt đầu từ lượt xem đầu tiên được ghi nhận.",
+        "emptySince": "Số liệu theo ngày có từ {date}. Chọn một khoảng ngày khác ở trên.",
+        "byDay": "Theo ngày",
+        "topPosts": "Bài được đọc nhiều",
+        "sources": "Nguồn truy cập"
+      },
+      "chart": {
+        "summary": "Biểu đồ cột lượt xem theo ngày, từ {from} đến {to}: tổng {total, plural, other {# lượt}}, nhiều nhất {peak, plural, other {# lượt}} vào {peakDay}.",
+        "bar": "{date}: {views, plural, other {# lượt xem}}",
+        "barNoData": "{date}: chưa có số liệu"
+      }
+    },
+    "comments": {
+      "title": "Bình luận",
+      "description": "Bình luận của độc giả trên mọi bài, mới nhất trước. Ẩn là gỡ khỏi trang bài mà vẫn hiện lại được; xoá là gỡ hẳn. Nội dung luôn còn ở đây để tra lại.",
+      "statusNav": "Lọc theo trạng thái",
+      "filters": {
+        "all": "Tất cả",
+        "visible": "Hiển thị",
+        "hidden": "Đã ẩn",
+        "deleted": "Đã xoá"
+      },
+      "searchLabel": "Tìm theo nội dung hoặc người viết",
+      "searchPlaceholder": "Tìm theo nội dung hoặc người viết…",
+      "search": "Tìm",
+      "results": "Kết quả tìm",
+      "count": "{count, plural, other {# bình luận}}",
+      "chip": {
+        "label": "Đang lọc:",
+        "selectedPost": "Bài đã chọn",
+        "post": "Bài: {title}",
+        "removePost": "(bỏ lọc theo bài này)",
+        "query": "“{query}”",
+        "removeQuery": "(bỏ tìm kiếm này)"
+      },
+      "postFilterIgnored": "Máy chủ chưa lọc được theo bài (cần bản backend mới): danh sách dưới đây gồm bình luận của mọi bài.",
+      "empty": {
+        "all": {
+          "title": "Chưa có bình luận nào.",
+          "hint": "Bình luận của độc giả trên mọi bài sẽ hiện ở đây, mới nhất trước, để ẩn hay xoá khi cần."
+        },
+        "visible": {
+          "title": "Không có bình luận nào đang hiển thị.",
+          "hint": "Bình luận mới của độc giả hiện ngay trên trang bài, và ở mục này."
+        },
+        "hidden": {
+          "title": "Không có bình luận nào đang bị ẩn.",
+          "hint": "Bình luận bị ẩn biến khỏi trang bài nhưng vẫn nằm ở đây, và hiện lại được bất cứ lúc nào."
+        },
+        "deleted": {
+          "title": "Không có bình luận nào đã xoá.",
+          "hint": "Bình luận đã xoá — do người viết hay do bạn — giữ lại nội dung ở đây để tra lại; người đọc không còn thấy nó."
+        },
+        "noMatch": "Không có bình luận nào khớp.",
+        "viewAll": "Xem mọi bình luận",
+        "queryHint": "Không bình luận {status, select, visible {đang hiển thị } hidden {đã ẩn } deleted {đã xoá } other {}}nào có “{query}” trong nội dung, tên hay login của người viết{onPost, select, yes { ở bài này} other {}}. Thử một từ ngắn hơn, gõ đúng dấu như trong bình luận.",
+        "postNone": "Bài này không có bình luận nào ở mục “{filter}”.",
+        "clearPost": "Bỏ lọc theo bài",
+        "postHint": "Đổi mục ở dải lọc phía trên để xem bình luận khác của bài, hay bỏ lọc để về mọi bài."
+      },
+      "caption": "Bình luận ({filter}{onPost, select, yes {, bài “{postTitle}”} other {}}{searched, select, yes {, tìm “{query}”} other {}}), trang {page}/{totalPages}",
+      "captionSelectedPost": "đã chọn",
+      "table": {
+        "comment": "Bình luận",
+        "author": "Người viết",
+        "post": "Bài viết",
+        "date": "Ngày",
+        "status": "Trạng thái",
+        "actions": "Hành động",
+        "notice": {
+          "hide": "Đã ẩn bình luận của <bdi>{name}</bdi>.",
+          "restore": "Đã hiện lại bình luận của <bdi>{name}</bdi>.",
+          "delete": "Đã xoá bình luận của <bdi>{name}</bdi>."
+        },
+        "target": "bình luận của {name}: “{excerpt}”",
+        "reply": "Trả lời",
+        "collapse": "Thu gọn",
+        "expand": "Xem đầy đủ",
+        "hide": "Ẩn",
+        "restore": "Hiện lại",
+        "delete": "Xoá",
+        "confirmDelete": "<strong>Xoá bình luận này?</strong> Người đọc sẽ không còn thấy nó.",
+        "deleting": "Đang xoá…",
+        "cancel": "Huỷ",
+        "onPost": "trên <post></post>",
+        "edited": "đã sửa",
+        "usersPageSr": "(xem trong trang Người dùng)",
+        "onlyThisPost": "Chỉ bình luận của bài này",
+        "onlyThisPostSr": "(“{title}”)",
+        "postNotPublished": "({status}, mở trong trình soạn)",
+        "newTabSr": "(tab mới)",
+        "viewCommentsSr": "(xem bình luận trên blog, tab mới)"
+      }
+    },
+    "users": {
+      "title": "Người dùng",
+      "description": "Mọi tài khoản của blog: độc giả đăng nhập bằng GitHub, tác giả và quản trị viên. Tạm khoá một độc giả là đăng xuất họ và chặn bình luận, thích bài; mở khoá thì họ đăng nhập lại được. Đổi vai trò phải gõ lại login GitHub (hoặc tên) của người đó để xác nhận, và họ sẽ phải đăng nhập lại.",
+      "searchLabel": "Tìm theo tên hoặc login GitHub",
+      "searchPlaceholder": "Tìm theo tên hoặc login GitHub…",
+      "roleLabel": "Vai trò",
+      "statusLabel": "Trạng thái",
+      "filter": "Lọc",
+      "results": "Kết quả lọc",
+      "all": "Tất cả",
+      "count": "{count, plural, other {# tài khoản}}",
+      "empty": {
+        "noMatch": "Không có tài khoản nào khớp.",
+        "viewAll": "Xem mọi tài khoản",
+        "queryHint": "Không tài khoản nào có “{query}” trong tên hay login GitHub{withFilters, select, yes { với các bộ lọc đang bật} other {}}. Thử một từ ngắn hơn.",
+        "filtersHint": "Không tài khoản nào thoả các bộ lọc đang bật.",
+        "none": "Chưa có tài khoản nào.",
+        "noneHint": "Độc giả có tài khoản khi đăng nhập bằng GitHub lần đầu."
+      },
+      "caption": "Người dùng ({role}, {status}{searched, select, yes {, tìm “{query}”} other {}}), trang {page}/{totalPages}",
+      "table": {
+        "user": "Người dùng",
+        "role": "Vai trò",
+        "status": "Trạng thái",
+        "joined": "Tham gia",
+        "lastLogin": "Lần đăng nhập gần nhất",
+        "actions": "Hành động",
+        "notice": {
+          "suspended": "Đã tạm khoá <bdi>{handle}</bdi>.",
+          "unsuspended": "Đã mở khoá <bdi>{handle}</bdi>.",
+          "roleChanged": "Đã đổi vai trò của <bdi>{handle}</bdi> thành {role}.",
+          "mfaReset": "Đã đặt lại xác minh hai bước của <bdi>{handle}</bdi>."
+        },
+        "you": "Bạn",
+        "suspend": "Tạm khoá",
+        "unsuspend": "Mở khoá",
+        "changeRole": "Đổi vai trò",
+        "confirmSuspend": "<strong>Tạm khoá <bdi>{handle}</bdi>?</strong> Họ sẽ bị đăng xuất và không thể bình luận hay thích bài.",
+        "suspending": "Đang khoá…",
+        "cancel": "Huỷ",
+        "joinedOn": "Tham gia <date></date>",
+        "lastLoginOn": "Đăng nhập gần nhất <date></date>",
+        "neverLoggedIn": "Chưa đăng nhập bằng GitHub",
+        "resetMfa": "Đặt lại xác minh hai bước",
+        "resetMfaConfirm": "<strong>Đặt lại xác minh hai bước của <bdi>{handle}</bdi>?</strong> Ứng dụng xác thực và các mã khôi phục của họ bị xóa, và họ bị đăng xuất. Nhập mã của chính bạn để xác nhận.",
+        "resetMfaCode": "Mã của bạn (từ ứng dụng hoặc mã khôi phục)",
+        "resetMfaSubmit": "Đặt lại",
+        "resetMfaWorking": "Đang đặt lại…"
+      },
+      "roleChange": {
+        "title": "<strong>Đổi vai trò của <bdi>{handle}</bdi>?</strong>",
+        "newRole": "Vai trò mới",
+        "current": "(hiện tại)",
+        "effect": {
+          "promote": "<bdi>{handle}</bdi> sẽ có {to, select, AUTHOR {quyền viết bài và quản lý bài của chính mình trong trang quản trị} ADMIN {toàn quyền quản trị site, kể cả đổi vai trò và tạm khoá người khác} other {quyền của độc giả: đọc, bình luận và thích bài}}.",
+          "promoteSessions": "Mọi phiên đăng nhập của họ bị thu hồi: quyền mới có hiệu lực khi họ đăng nhập lại.",
+          "demote": "<bdi>{handle}</bdi> mất {from, select, ADMIN {quyền quản trị} other {quyền vào trang quản trị}} ngay lập tức, chỉ còn {to, select, AUTHOR {quyền viết bài và quản lý bài của chính mình trong trang quản trị} ADMIN {toàn quyền quản trị site, kể cả đổi vai trò và tạm khoá người khác} other {quyền của độc giả: đọc, bình luận và thích bài}}.",
+          "demoteKeepsPosts": "Bài họ đã viết vẫn còn nguyên.",
+          "demoteSessions": "Mọi phiên đăng nhập của họ cũng bị thu hồi: họ phải đăng nhập lại.",
+          "promoteEnrollsAgain": "Quản trị viên luôn dùng xác minh hai bước: ứng dụng xác thực của họ (nếu có) bị xóa, và ở lần đăng nhập sau họ thiết lập lại bằng mã đăng ký.",
+          "suspendedNote": "Tài khoản này đang tạm khoá: mở khoá trước rồi mới đổi vai trò được."
+        },
+        "confirmLogin": "Gõ <b>{handle}</b> để xác nhận",
+        "confirmName": "Gõ tên “<b>{handle}</b>” để xác nhận",
+        "submitting": "Đang đổi…",
+        "changeTo": "Đổi thành {role}",
+        "change": "Đổi vai trò",
+        "cancel": "Huỷ"
+      }
+    },
+    "stepUp": {
+      "codeLabel": "Mã của bạn (từ ứng dụng hoặc mã khôi phục)",
+      "codeHint": "Thay đổi này cần mã của chính bạn và một lần đăng nhập trong 10 phút gần nhất."
+    },
+    "applications": {
+      "title": "Đơn tác giả",
+      "description": "Độc giả xin quyền viết bài. Duyệt là trao vai trò Tác giả: phải gõ lại login GitHub (hoặc tên) của người đó để xác nhận, và họ phải đăng nhập lại. Từ chối thì họ nộp lại được sau 30 ngày.",
+      "statusNav": "Lọc theo trạng thái",
+      "count": "{count, plural, other {# đơn}}",
+      "empty": {
+        "pending": {
+          "title": "Không có đơn nào chờ duyệt.",
+          "hint": "Độc giả đăng nhập bằng GitHub nộp đơn ở trang hồ sơ của họ; đơn mới hiện ở đây, cũ nhất trước."
+        },
+        "approved": {
+          "title": "Chưa duyệt đơn nào.",
+          "hint": "Đơn đã duyệt ở lại đây để tra lại: ai đã thành tác giả, và từ khi nào."
+        },
+        "rejected": {
+          "title": "Chưa từ chối đơn nào.",
+          "hint": "Người bị từ chối nộp lại được sau 30 ngày; đơn cũ ở lại đây để tra lại."
+        }
+      },
+      "listLabel": "Đơn tác giả ({status}), trang {page}/{totalPages}",
+      "list": {
+        "notice": {
+          "approved": "Đã duyệt đơn của <bdi>{handle}</bdi>.",
+          "rejected": "Đã từ chối đơn của <bdi>{handle}</bdi>."
+        },
+        "you": "Bạn",
+        "submittedOn": "Nộp <date></date>",
+        "approvedOn": "Duyệt <date></date>",
+        "rejectedOn": "Từ chối <date></date>",
+        "currentRole": "Đang là {role, select, ADMIN {quản trị viên} other {tác giả}}",
+        "noReason": "Không ghi lý do.",
+        "approve": "Duyệt",
+        "reject": "Từ chối",
+        "ofApplicant": "đơn của {handle}",
+        "confirmReject": "<strong>Từ chối đơn của <bdi>{handle}</bdi>?</strong> Họ thấy kết quả ở trang hồ sơ, và nộp lại được sau 30 ngày.",
+        "rejecting": "Đang từ chối…",
+        "cancel": "Huỷ",
+        "confirmApprove": "<strong>Duyệt đơn của <bdi>{handle}</bdi>?</strong>",
+        "effect": {
+          "alreadyRole": "<bdi>{handle}</bdi> đã là {role, select, ADMIN {quản trị viên} other {tác giả}}: duyệt chỉ đóng đơn, vai trò giữ nguyên.",
+          "promote": "<bdi>{handle}</bdi> sẽ thành Tác giả: viết bài và quản lý bài của chính mình trong trang quản trị.",
+          "sessions": "Mọi phiên đăng nhập của họ bị thu hồi: quyền mới có hiệu lực khi họ đăng nhập lại.",
+          "suspendedNote": "Tài khoản này đang tạm khoá: mở khoá trước rồi mới duyệt được."
+        },
+        "confirmLogin": "Gõ <b>{handle}</b> để xác nhận",
+        "confirmName": "Gõ tên “<b>{handle}</b>” để xác nhận",
+        "approving": "Đang duyệt…",
+        "approveApplication": "Duyệt đơn"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Người đọc đăng ký ở /newsletter và xác nhận qua email; mỗi bài, khi quản trị viên đăng lần đầu (hoặc được duyệt ở đây sau khi tác giả đăng), được gửi cho người đã xác nhận. Trang này chỉ có số đếm, không có địa chỉ nào.",
+      "transport": "Thư đi qua transport đã cấu hình (<code>NEWSLETTER_TRANSPORT</code>). Mặc định chỉ ghi log, không gửi email nào.",
+      "held": {
+        "title": "Chờ duyệt",
+        "description": "Bài của tác giả chưa được gửi cho người đăng ký cho đến khi bạn duyệt. Duyệt gửi để gửi bài cho những người đã xác nhận có cùng ngôn ngữ với bài, hoặc từ chối: lần gửi được giữ lại làm bản ghi và không bao giờ được gửi. Bài viết không bị thay đổi. Nội dung hiện ở đây là những gì người đăng ký sẽ đọc. Nếu tác giả sửa bài sau khi trang này tải, lần duyệt gửi sẽ bị từ chối và nội dung mới được hiện ra để bạn đọc lại. Sau khi duyệt, tiêu đề, đoạn trích và ngôn ngữ được lưu lại, nên sửa bài về sau không làm đổi thư hay người nhận.",
+        "listLabel": "Các thư đang chờ duyệt",
+        "more": "Danh sách này chỉ hiện {count} thư cũ nhất. Hãy duyệt hoặc từ chối bớt để xem các thư còn lại.",
+        "by": "Tác giả {name}",
+        "noAuthor": "Không rõ tác giả",
+        "language": "Ngôn ngữ {language}",
+        "recipients": "{count, plural, other {# người đăng ký sẽ nhận được thư}}",
+        "unpublished": "Chưa đăng",
+        "notPublished": "Bài đang không được đăng: thư sẽ được gửi khi bài được đăng lại.",
+        "noExcerpt": "Không có đoạn trích: chỉ gửi tiêu đề.",
+        "release": "Duyệt gửi",
+        "discard": "Từ chối",
+        "releasing": "Đang duyệt…",
+        "discarding": "Đang từ chối…",
+        "keep": "Để đó",
+        "confirmDiscard": "Từ chối thư này? Thư sẽ không bao giờ được gửi và không hoàn tác được. Bài viết vẫn giữ nguyên.",
+        "target": "“{title}”",
+        "notice": {
+          "released": "Đã duyệt: {title} sẽ được gửi cho người đăng ký.",
+          "discarded": "Đã từ chối: {title} sẽ không được gửi."
+        }
+      },
+      "subscribers": {
+        "title": "Người đăng ký",
+        "confirmed": {
+          "label": "Đã xác nhận",
+          "hint": "Nhận thư mỗi khi có bài mới."
+        },
+        "pending": {
+          "label": "Chờ xác nhận",
+          "hint": "Chưa bấm liên kết trong thư xác nhận."
+        },
+        "suppressed": {
+          "label": "Đã huỷ",
+          "hint": "Chỉ còn mã băm của địa chỉ, để không gửi lại."
+        }
+      },
+      "issues": {
+        "title": "Các lần gửi gần nhất",
+        "description": "Mỗi bài được gửi một lần, khi quản trị viên đăng lần đầu hoặc duyệt ở đây, tới người đã xác nhận lúc đó.",
+        "emptyTitle": "Chưa gửi bài nào.",
+        "emptyBody": "Lần gửi đầu tiên có khi một bài được đăng lần đầu. Sửa bài, gỡ rồi đăng lại không gửi lại.",
+        "caption": "Các lần gửi gần nhất",
+        "post": "Bài viết",
+        "created": "Ngày tạo",
+        "status": "Trạng thái",
+        "delivery": {
+          "sent": "Đã gửi",
+          "retrying": "Đang thử lại",
+          "dead": "Hỏng hẳn",
+          "pending": "Đang chờ"
+        },
+        "deliveryCount": {
+          "sent": "Đã gửi {count, number}",
+          "retrying": "Đang thử lại {count, number}",
+          "dead": "Hỏng hẳn {count, number}",
+          "pending": "Đang chờ {count, number}"
+        },
+        "issueStatus": {
+          "PENDING": "Chờ tách thư",
+          "EXPANDED": "Đã tách thư",
+          "HELD": "Chờ duyệt",
+          "DISCARDED": "Đã từ chối"
+        }
+      },
+      "failures": {
+        "title": "Lỗi gửi theo mã",
+        "description": "Mã do worker ghi khi một lần gửi hỏng; thông điệp của nhà cung cấp không được lưu.",
+        "none": "Không có lỗi gửi nào.",
+        "caption": "Lỗi gửi theo mã",
+        "error": "Lỗi",
+        "emails": "Số thư",
+        "reason": {
+          "CONNECTION_FAILED": "Không kết nối được máy chủ thư",
+          "TIMEOUT": "Máy chủ thư không trả lời kịp",
+          "AUTH_FAILED": "Máy chủ thư từ chối thông tin đăng nhập",
+          "REJECTED": "Máy chủ thư từ chối thư",
+          "INVALID_ADDRESS": "Địa chỉ nhận không hợp lệ",
+          "SUPPRESSED": "Địa chỉ đã huỷ đăng ký",
+          "UNKNOWN": "Lỗi không rõ"
+        }
+      }
+    },
+    "contact": {
+      "title": "Tin nhắn liên hệ",
+      "description": "Những gì khách gửi qua biểu mẫu liên hệ, mới nhất trước. Mọi tin nhắn đều được giữ ở đây. Khi đặt <code>CONTACT_RECIPIENT</code>, tin nhắn còn được gửi email tới địa chỉ đó.",
+      "listLabel": "Tin nhắn",
+      "count": "{count, plural, other {# tin nhắn}}",
+      "unreadCount": "{count, plural, =0 {không có tin chưa đọc} other {# chưa đọc}}",
+      "empty": {
+        "title": "Chưa có tin nhắn nào.",
+        "hint": "Khi khách gửi biểu mẫu liên hệ trên trang web, tin nhắn sẽ hiện ở đây, mới nhất trước."
+      },
+      "unreadBadge": "Chưa đọc",
+      "noSubject": "(không có tiêu đề)",
+      "pageLanguage": "Ngôn ngữ trang: {locale}",
+      "target": "tin nhắn của {name}",
+      "markRead": "Đánh dấu đã đọc",
+      "delete": "Xoá",
+      "deleting": "Đang xoá…",
+      "cancel": "Huỷ",
+      "confirmDelete": "<strong>Xoá tin nhắn này?</strong> Tin nhắn bị xoá hẳn và không khôi phục được.",
+      "notice": {
+        "read": "Đã đánh dấu đã đọc tin nhắn của <bdi>{name}</bdi>.",
+        "delete": "Đã xoá tin nhắn của <bdi>{name}</bdi>."
+      },
+      "pager": {
+        "label": "Phân trang tin nhắn",
+        "summary": "{from, number}–{to, number} / {total, plural, other {# tin nhắn}} · trang {page}/{totalPages}",
+        "previous": "Trang trước",
+        "next": "Trang sau"
+      }
+    },
+    "topics": {
+      "title": "Chủ đề",
+      "description": "Chuyên mục và thẻ của các bài — đúng những gì người đọc thấy ở trang Chủ đề. Đổi tên không đổi đường dẫn công khai.",
+      "nameRequired": "Hãy nhập tên.",
+      "pickOtherCategory": "Hãy chọn một chuyên mục khác để chuyển bài sang.",
+      "pickOtherTag": "Hãy chọn một thẻ khác để gộp vào.",
+      "mergeUnsupported": "Máy chủ chưa hỗ trợ gộp chuyên mục và thẻ. Cập nhật backend rồi thử lại.",
+      "manager": {
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "renamed": "Đã đổi tên thành “{name}”.",
+        "usageNone": "chưa có bài nào",
+        "usageAll": "{count} bài",
+        "usagePartly": "{count} bài · {published} đã đăng",
+        "edit": "Sửa",
+        "merge": "Gộp",
+        "delete": "Xoá",
+        "viewPostsTitle": "Chuyển các bài này sang chuyên mục khác thì mới xoá được chuyên mục",
+        "viewPosts": "Xem {count} bài",
+        "viewPostsSr": "trong chuyên mục “{name}”",
+        "moveAndDelete": "Chuyển bài rồi xoá",
+        "targetOption": "{name} ({count, plural, =0 {chưa có bài} other {# bài}})",
+        "moving": "Đang chuyển…",
+        "cancel": "Huỷ",
+        "pathHint": "Đường dẫn {path} giữ nguyên, để link cũ không hỏng.",
+        "descriptionLabel": "Mô tả",
+        "optional": "(tuỳ chọn)",
+        "saving": "Đang lưu…",
+        "save": "Lưu",
+        "irreversible": "Không hoàn tác được.",
+        "deleteConfirm": "Xoá vĩnh viễn",
+        "category": {
+          "title": "Chuyên mục",
+          "description": "Nhóm chính của bài: mỗi bài một chuyên mục, và bài phải có chuyên mục mới đăng được. Chuyên mục còn bài thì chưa xoá được.",
+          "empty": "Chưa có chuyên mục nào.",
+          "emptyHint": "Tạo chuyên mục đầu tiên ở ô bên dưới, hoặc ngay trong trình soạn bài lúc chọn chuyên mục.",
+          "listLabel": "Danh sách chuyên mục",
+          "added": "Đã thêm chuyên mục “{name}”.",
+          "saved": "Đã lưu chuyên mục “{name}”.",
+          "deleted": "Đã xoá chuyên mục “{name}”.",
+          "merged": "Đã chuyển {moved} bài sang “{target}” và xoá chuyên mục “{name}”.",
+          "subject": "chuyên mục “{name}”",
+          "mergeTitle": "Chuyển bài rồi xoá chuyên mục “{name}”",
+          "mergeLabel": "Chuyển {count} bài của “{name}” sang chuyên mục",
+          "mergePlaceholder": "Chọn chuyên mục…",
+          "consequence": "{count} bài{partial, select, yes { ({published} đã đăng)} other {}} của “{name}” sẽ sang “{target}”, rồi chuyên mục “{name}” bị xoá; đường dẫn {path} thành trang 404. Không hoàn tác được.",
+          "mergeSubmit": "Chuyển bài và xoá “{name}”",
+          "nameLabel": "Tên chuyên mục",
+          "deleteQuestion": "Xoá chuyên mục “{name}”?",
+          "newNameLabel": "Tên chuyên mục mới",
+          "addButton": "Thêm chuyên mục"
+        },
+        "tag": {
+          "title": "Thẻ",
+          "description": "Nhãn phụ, mỗi bài gắn được nhiều thẻ. Xoá một thẻ chỉ gỡ nó khỏi các bài; bài còn nguyên.",
+          "empty": "Chưa có thẻ nào.",
+          "emptyHint": "Tạo thẻ ở ô bên dưới, hoặc ngay trong trình soạn bài.",
+          "listLabel": "Danh sách thẻ",
+          "added": "Đã thêm thẻ “{name}”.",
+          "saved": "Đã lưu thẻ “{name}”.",
+          "deleted": "Đã xoá thẻ “{name}”.",
+          "merged": "Đã gộp thẻ “{name}” vào “{target}” ({moved} bài).",
+          "subject": "thẻ “{name}”",
+          "mergeTitle": "Gộp thẻ “{name}”",
+          "mergeLabel": "Gộp “{name}” vào thẻ",
+          "mergePlaceholder": "Chọn thẻ…",
+          "consequence": "{count} bài đang mang “{name}” sẽ mang “{target}”, rồi thẻ “{name}” bị xoá; đường dẫn {path} thành trang 404. Không hoàn tác được.",
+          "mergeSr": "thẻ “{name}” vào thẻ khác",
+          "mergeSubmit": "Gộp vào…",
+          "mergeSubmitInto": "Gộp vào “{target}”",
+          "nameLabel": "Tên thẻ",
+          "deleteQuestion": "Xoá thẻ “{name}”?",
+          "deleteLeavesPosts": "Thẻ sẽ rời {count} bài đang gắn nó; các bài còn nguyên.",
+          "newNameLabel": "Tên thẻ mới",
+          "addButton": "Thêm thẻ"
+        },
+        "translationLegend": "Bản {language}",
+        "translatedNameLabel": "Tên bằng {language}",
+        "translatedNamePlaceholder": "Tên (để trống: dùng tên gốc)",
+        "translatedDescriptionLabel": "Mô tả bằng {language}"
+      }
+    },
+    "series": {
+      "title": "Series",
+      "description": "Series gom các bài theo thứ tự đọc. Trang <link>Series</link> chỉ hiện series có ít nhất một bài đã đăng, và chỉ các bài đã đăng của nó.",
+      "countNone": "Chưa có bài",
+      "countAll": "{total} bài",
+      "countPartlyPublished": "{total} bài · {published} đã đăng",
+      "editAria": "Sửa series “{title}”",
+      "hiddenOnSite": "Chưa hiện trên trang",
+      "create": "Tạo series",
+      "emptyTitle": "Chưa có series nào.",
+      "emptyBody": "Một series xếp các bài liên quan thành một mạch đọc có thứ tự. Đặt tên ở form bên dưới, rồi thêm bài ở trang tiếp theo.",
+      "listLabel": "Danh sách series",
+      "createHeading": "Tạo series mới",
+      "createHint": "Tạo xong sẽ tới trang sửa của series, nơi thêm bài và xếp thứ tự.",
+      "titleRequired": "Hãy nhập tên series.",
+      "edit": {
+        "title": "Sửa series",
+        "allSeries": "Tất cả series",
+        "description": "Xếp các phần và sửa thông tin của series “{title}”.",
+        "viewOnBlogTitle": "Mở series trên blog ở tab mới",
+        "viewOnBlog": "Xem trên blog",
+        "partsHeading": "Các phần",
+        "partsHint": "Thứ tự ở đây là thứ tự đọc. Thêm, bỏ hay đổi chỗ đều chỉ có hiệu lực khi bấm “Lưu thứ tự”. Trang công khai chỉ hiện các phần đã đăng và tự đánh số lại; một bài đang ở series khác sẽ được chuyển sang đây.",
+        "infoHeading": "Thông tin"
+      },
+      "delete": {
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "heading": "Xoá series",
+        "confirmQuestion": "Xoá series “{title}”?",
+        "postsKept": "{count} bài trong series vẫn còn nguyên, chỉ rời khỏi series.",
+        "irreversible": "Không hoàn tác được.",
+        "confirmButton": "Xoá vĩnh viễn",
+        "cancel": "Huỷ",
+        "restKept": "Các bài không bị xoá theo, chỉ rời khỏi series.",
+        "restEmpty": "Series chưa có bài nào.",
+        "trigger": "Xoá series"
+      },
+      "form": {
+        "saved": "Đã lưu.",
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "titleLabel": "Tên series",
+        "slugLabel": "Đường dẫn",
+        "slugHintCreate": "Bỏ trống thì tạo từ tên.",
+        "slugHintEdit": "Đổi đường dẫn thì link cũ ngừng hoạt động. Bỏ trống thì giữ nguyên.",
+        "descriptionLabel": "Mô tả",
+        "descriptionHint": "Hiện dưới tên series trên trang công khai. Tối đa 2000 ký tự.",
+        "create": "Tạo series",
+        "saveInfo": "Lưu thông tin"
+      },
+      "parts": {
+        "movedTo": "“{title}” giờ ở vị trí {position}.",
+        "removed": "Đã bỏ “{title}” khỏi danh sách.",
+        "added": "Đã thêm “{title}” vào cuối danh sách.",
+        "orderSaved": "Đã lưu thứ tự.",
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "emptyTitle": "Series chưa có phần nào.",
+        "emptyBodyAdd": "Thêm bài từ ô bên dưới, xếp theo thứ tự đọc, rồi bấm “Lưu thứ tự”.",
+        "emptyBodyWriteFirst": "Chưa có bài nào để thêm: viết một bài trước, rồi quay lại đây.",
+        "orderLabel": "Thứ tự các phần",
+        "notShown": "{status} · chưa hiện trên trang",
+        "otherSeriesNote": "(đang ở series {name}) · lưu thì bài chuyển sang series này",
+        "moveUp": "Chuyển lên",
+        "moveDown": "Chuyển xuống",
+        "remove": "Bỏ khỏi series",
+        "moveUpLabel": "Chuyển “{title}” lên",
+        "moveDownLabel": "Chuyển “{title}” xuống",
+        "removeLabel": "Bỏ “{title}” khỏi series",
+        "noCandidates": "Không còn bài nào để thêm.",
+        "addLabel": "Thêm bài",
+        "pickPlaceholder": "— chọn một bài —",
+        "optionOtherSeries": "(đang ở series {name})",
+        "add": "Thêm",
+        "fullHint": "Một series có tối đa {max} phần.",
+        "addHint": "Bản nháp cũng thêm được. Bài vừa thêm đứng cuối danh sách.",
+        "save": "Lưu thứ tự",
+        "unsaved": "Thay đổi chưa lưu.",
+        "saveReminder": "Thêm, bỏ hay đổi chỗ đều chỉ có hiệu lực khi lưu."
+      }
+    },
+    "gallery": {
+      "title": "Ảnh",
+      "description": "Thứ tự ở đây là thứ tự trên trang <link>Ảnh</link>, và vài ảnh đầu hiện ở trang chủ và trang Giới thiệu. Ảnh đang ẩn không được liệt kê ở đâu trên trang.",
+      "errors": {
+        "altRequired": "Hãy nhập mô tả ảnh (alt).",
+        "badDate": "Ngày chụp phải có dạng năm-tháng-ngày.",
+        "missingVisibility": "Thiếu lựa chọn hiển thị của ảnh.",
+        "noFile": "Chưa chọn ảnh để tải lên.",
+        "fileTooLarge": "Ảnh lớn hơn 4 MB. Hãy chọn ảnh khác."
+      },
+      "manager": {
+        "noDescriptionName": "ảnh chưa có mô tả",
+        "noDescriptionAlt": "Ảnh chưa có mô tả",
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "movedTo": "“{name}” giờ ở vị trí {position}.",
+        "orderSaved": "Đã lưu thứ tự.",
+        "photoSaved": "Đã lưu ảnh “{name}”.",
+        "photoDeleted": "Đã xoá ảnh “{name}”.",
+        "tally": "{count} ảnh",
+        "tallyWithHidden": "{count} ảnh · {hidden} đang ẩn",
+        "heading": "Ảnh hiện có",
+        "hint": "Ảnh mới tải lên đứng đầu. Sửa và xoá có hiệu lực ngay; thứ tự đổi bằng ↑ ↓ chỉ được lưu khi bấm <nowrap>“Lưu thứ tự”</nowrap>.",
+        "saveOrder": "Lưu thứ tự",
+        "unsaved": "Thứ tự chưa lưu.",
+        "emptyTitle": "Chưa có ảnh nào.",
+        "emptyBody": "Trang chủ và trang Giới thiệu chỉ có mục Ảnh khi có ít nhất một ảnh đang hiển thị. Kéo thả hoặc chọn ảnh ở khung <nowrap>“Tải ảnh lên”</nowrap> phía trên để bắt đầu.",
+        "orderLabel": "Thứ tự ảnh",
+        "hiddenBadge": "Đang ẩn khỏi trang",
+        "moveUp": "Chuyển lên",
+        "moveDown": "Chuyển xuống",
+        "moveUpLabel": "Chuyển ảnh “{name}” lên",
+        "moveDownLabel": "Chuyển ảnh “{name}” xuống",
+        "save": "Lưu",
+        "photoSubject": "ảnh “{name}”",
+        "deleteQuestion": "Xoá ảnh này? Không hoàn tác được.",
+        "deleteConfirm": "Xoá vĩnh viễn",
+        "cancel": "Huỷ",
+        "delete": "Xoá"
+      },
+      "fields": {
+        "altLabel": "Mô tả ảnh (alt)",
+        "altHint": "Bắt buộc. Một câu tả nội dung ảnh, cho người dùng trình đọc màn hình.",
+        "captionLabel": "Chú thích",
+        "dateLabel": "Ngày chụp",
+        "publishedLabel": "Hiển thị trên trang",
+        "publishedHint": "Bỏ chọn thì ảnh ẩn khỏi trang; ai có đường dẫn vẫn xem được ảnh."
+      },
+      "uploader": {
+        "unreadable": "Không đọc được ảnh này. Hãy chọn ảnh khác.",
+        "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+        "progress": "Đang tải ảnh {current}/{total}…",
+        "done": "Đã tải {uploaded}/{total} ảnh.",
+        "doneWithFailures": "Đã tải {uploaded}/{total} ảnh. {failed} ảnh lỗi, xem lý do ngay dưới ảnh đó.",
+        "heading": "Tải ảnh lên",
+        "intro": "Chọn hoặc kéo thả nhiều ảnh một lúc, điền mô tả cho từng ảnh, rồi tải lên một lượt.",
+        "dropPrompt": "Kéo thả ảnh vào đây, hoặc",
+        "choose": "Chọn ảnh",
+        "chooseHint": "JPEG, PNG hoặc WebP, chọn được nhiều ảnh. Ảnh lớn được thu nhỏ trong trình duyệt trước khi gửi.",
+        "queueLabel": "Ảnh chờ tải lên",
+        "previewAlt": "Xem trước {name}",
+        "removeFromQueue": "Bỏ khỏi hàng đợi",
+        "removeFromQueueLabel": "Bỏ “{name}” khỏi hàng đợi",
+        "dateHint": "Bỏ trống thì lấy ngày chụp ghi trong ảnh, nếu có.",
+        "upload": "Tải lên",
+        "altNeeded": "Mỗi ảnh cần mô tả (alt) trước khi tải lên."
+      }
+    },
+    "curated": {
+      "title": "Bài viết hay",
+      "description": "Thứ tự ở đây là thứ tự trên trang <link>Bài viết hay</link>; ba bài đã đăng đầu tiên hiện trên trang chủ. Thêm hay bỏ một bài có hiệu lực ngay, còn đổi thứ tự cần bấm “Lưu thứ tự”.",
+      "missingPost": "Một bài trong danh sách không còn tồn tại, hãy tải lại trang.",
+      "unreachable": "Không kết nối được máy chủ, thử lại sau.",
+      "movedTo": "“{title}” giờ ở vị trí {position}.",
+      "orderSaved": "Đã lưu thứ tự.",
+      "added": "Đã thêm “{title}”.",
+      "removed": "Đã bỏ “{title}” khỏi Bài viết hay.",
+      "emptyTitle": "Chưa có bài nào được chọn.",
+      "emptyBodyAdd": "Trang /start-here và trang chủ lấy bài từ danh sách này. Thêm một bài đã đăng từ ô bên dưới.",
+      "emptyBodyPublishFirst": "Trang /start-here và trang chủ lấy bài từ danh sách này. Đăng một bài trước, rồi quay lại đây để chọn nó.",
+      "orderLabel": "Thứ tự Bài viết hay",
+      "onHome": "Hiện trên trang chủ",
+      "notShown": "{status} · chưa hiện trên trang",
+      "moveUp": "Chuyển lên",
+      "moveDown": "Chuyển xuống",
+      "remove": "Bỏ khỏi Bài viết hay",
+      "moveUpLabel": "Chuyển “{title}” lên",
+      "moveDownLabel": "Chuyển “{title}” xuống",
+      "removeLabel": "Bỏ “{title}” khỏi Bài viết hay",
+      "noCandidates": "Không còn bài đã đăng nào để thêm.",
+      "addLabel": "Thêm bài",
+      "pickPlaceholder": "— chọn một bài đã đăng —",
+      "add": "Thêm",
+      "addHint": "Chỉ bài đã đăng. Bài vừa thêm đứng cuối danh sách.",
+      "save": "Lưu thứ tự",
+      "unsaved": "Thứ tự chưa lưu.",
+      "nothingToSort": "Chưa có bài nào để sắp xếp.",
+      "saveReminder": "Thêm và bỏ có hiệu lực ngay; chỉ đổi chỗ mới cần lưu."
+    },
+    "language": {
+      "label": "Ngôn ngữ"
+    },
+    "settings": {
+      "title": "Nội dung site",
+      "description": "Sửa nội dung các trang công khai theo từng ngôn ngữ: thương hiệu, hồ sơ, giới thiệu, kỹ năng, liên hệ và các mục khác.",
+      "listLabel": "Các mục nội dung",
+      "deployment": "Ngôn ngữ mặc định: {defaultLocale}. Ngôn ngữ đang bật: {enabled}. Đây là cấu hình triển khai: đổi trong cấu hình máy chủ, không đổi ở đây.",
+      "editAria": "Sửa {section} bằng {language}",
+      "allSettings": "Nội dung site",
+      "languageSwitch": "Ngôn ngữ của nội dung",
+      "notSaved": "Ngôn ngữ này chưa lưu gì. Biểu mẫu bắt đầu từ nội dung mặc định đi kèm; lưu sẽ tạo nội dung.",
+      "otherLanguage": "Tham khảo: bản {language}",
+      "otherMissing": "Chưa có bản đã lưu ở ngôn ngữ đó.",
+      "save": "Lưu",
+      "saved": "Đã lưu.",
+      "remove": "Xoá",
+      "removeAria": "Xoá {title}",
+      "listFull": "Danh sách đã đầy (tối đa {max}).",
+      "locales": {
+        "vi": "Tiếng Việt",
+        "en": "Tiếng Anh"
+      },
+      "status": {
+        "saved": "Đã lưu",
+        "missing": "Thiếu bản dịch"
+      },
+      "sections": {
+        "site": {
+          "title": "Chung",
+          "description": "Tên site, khẩu hiệu và câu định vị."
+        },
+        "profile": {
+          "title": "Hồ sơ và phần chào",
+          "description": "Người viết, lời chào ở trang chủ và ảnh đại diện."
+        },
+        "about": {
+          "title": "Giới thiệu",
+          "description": "Phần mở đầu, phần thân Markdown và các mục của trang Giới thiệu."
+        },
+        "skills": {
+          "title": "Kỹ năng",
+          "description": "Các nhóm kỹ năng, mỗi mục có một mức."
+        },
+        "now": {
+          "title": "Hiện tại",
+          "description": "Điều đang làm lúc này."
+        },
+        "timeline": {
+          "title": "Dòng thời gian",
+          "description": "Học vấn và kinh nghiệm: công ty hoặc trường, thời gian, điểm nổi bật, công nghệ và logo."
+        },
+        "contact": {
+          "title": "Liên hệ",
+          "description": "Email, GitHub và các liên kết khác."
+        },
+        "blogroll": {
+          "title": "Blog nên đọc",
+          "description": "Những site đáng đọc."
+        },
+        "case_studies": {
+          "title": "Case study",
+          "description": "Bài phân tích gồm vấn đề, giải pháp và kết quả đo được."
+        }
+      },
+      "errors": {
+        "badArguments": "Yêu cầu không hợp lệ. Hãy tải lại trang rồi thử lại.",
+        "invalid": "Máy chủ từ chối nội dung này. Sửa các mục bên dưới rồi lưu lại.",
+        "noFile": "Hãy chọn một tệp trước.",
+        "fileTooLarge": "Tệp này quá lớn.",
+        "notJson": "Tệp này không phải tài liệu JSON.",
+        "unreachable": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại."
+      },
+      "exportRoute": {
+        "badLocale": "Ngôn ngữ không hợp lệ.",
+        "forbidden": "Chỉ quản trị mới xuất được nội dung site.",
+        "unavailable": "Hiện chưa xuất được."
+      },
+      "export": {
+        "heading": "Xuất",
+        "hint": "Tải nội dung đã lưu của một ngôn ngữ về dạng tệp JSON. Mục chưa từng lưu sẽ không có trong tệp.",
+        "download": "Tải bản {language} (JSON)"
+      },
+      "import": {
+        "heading": "Nhập",
+        "intro": "Tải lên tệp do chức năng xuất tạo ra. Mọi mục được kiểm tra trước: chỉ cần một chỗ sai thì không nhập gì cả.",
+        "file": "Tệp xuất",
+        "hint": "Tệp JSON tối đa 512 KiB. Ngôn ngữ được đọc từ trong tệp.",
+        "submit": "Nhập",
+        "importing": "Đang nhập…",
+        "done": "Đã nhập xong.",
+        "sectionResult": "{name}: {status, select, created {đã tạo} updated {đã cập nhật} other {không đổi}}",
+        "unreachable": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại."
+      },
+      "revisions": {
+        "heading": "Các phiên bản trước",
+        "hint": "Mỗi lần lưu giữ lại phiên bản trước đó (10 bản gần nhất). Khôi phục một bản thì bản hiện tại vẫn được giữ trong danh sách này.",
+        "empty": "Chưa có phiên bản trước.",
+        "restore": "Khôi phục",
+        "restoreAria": "Khôi phục phiên bản lúc {time}",
+        "restored": "Đã khôi phục. Biểu mẫu đang hiện phiên bản đã khôi phục.",
+        "unreachable": "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại."
+      },
+      "json": {
+        "label": "Nội dung (JSON)",
+        "hint": "Một đối tượng JSON. Văn bản được định dạng lại khi lưu; máy chủ kiểm tra từng trường.",
+        "syntax": "JSON không hợp lệ ở dòng {line}, cột {column}.",
+        "syntaxNoPosition": "JSON không hợp lệ.",
+        "notObject": "Nội dung phải là một đối tượng JSON.",
+        "line": "Dòng {line}:",
+        "format": "Định dạng",
+        "formatHint": "Kiểm tra cú pháp và thụt lề văn bản."
+      },
+      "site": {
+        "name": "Tên site",
+        "nameHint": "Hiện ở đầu trang, chân trang, tiêu đề trang và nguồn cấp.",
+        "tagline": "Khẩu hiệu",
+        "taglineHint": "Một dòng ngắn sau tên trong tiêu đề trang chủ. Có thể để trống.",
+        "positioning": "Câu định vị",
+        "positioningHint": "Dùng làm mô tả trang mặc định và ở chân trang. Có thể để trống."
+      },
+      "profile": {
+        "personHeading": "Người viết",
+        "name": "Tên",
+        "role": "Vai trò",
+        "location": "Nơi ở",
+        "seeking": "Đang tìm",
+        "seekingHint": "Để trống để ẩn.",
+        "galleryLead": "Câu dẫn của mục ảnh",
+        "galleryLeadHint": "Câu dưới tiêu đề mục ảnh. Để trống để ẩn.",
+        "heroHeading": "Phần chào ở trang chủ",
+        "greeting": "Lời chào",
+        "headline": "Dòng chính",
+        "subline": "Dòng phụ",
+        "avatarHeading": "Ảnh đại diện",
+        "avatarNone": "Chưa có ảnh đại diện.",
+        "avatarRemove": "Gỡ ảnh đại diện",
+        "avatarFile": "Tệp ảnh",
+        "avatarHint": "JPEG hoặc PNG. Tải lên chưa đổi hồ sơ cho đến khi bạn lưu.",
+        "avatarUpload": "Tải ảnh đại diện lên",
+        "avatarUploading": "Đang tải lên…",
+        "avatarUploaded": "Đã tải lên. Lưu hồ sơ để dùng ảnh này."
+      },
+      "about": {
+        "intro": "Phần mở đầu",
+        "body": "Phần thân trang (Markdown)",
+        "bodyHint": "Không bắt buộc. Dùng cùng Markdown và các khối như bài viết (hộp chú ý, số liệu, mốc thời gian, thẻ, các bước và nhiều hơn). Hiển thị sau phần mở đầu. Để trống nếu không cần.",
+        "bodyPrompt": "Tải lời nhắc soạn bài",
+        "bodyCount": "{count} / {max} ký tự",
+        "sections": "Các mục",
+        "addSection": "Thêm một mục",
+        "sectionTitle": "Mục {n}",
+        "sectionId": "Mã định danh",
+        "sectionIdHint": "Chữ thường không dấu, chữ số và dấu gạch ngang. Dùng trong liên kết của trang.",
+        "sectionHeading": "Tiêu đề",
+        "sectionBody": "Các đoạn",
+        "sectionBodyHint": "Mỗi dòng là một đoạn.",
+        "photoHeading": "Ảnh",
+        "photoNone": "Chưa có ảnh riêng: trang hiển thị ảnh đại diện của hồ sơ, nếu có.",
+        "photoRemove": "Gỡ ảnh",
+        "photoHint": "Ảnh đến từ việc nhập gói ZIP (Cài đặt, Nhập); không tải lên được ở đây. Ảnh được giữ nguyên khi bạn lưu trang này."
+      },
+      "contact": {
+        "email": "Email",
+        "emailHint": "Một địa chỉ thông thường. Để trống để ẩn.",
+        "github": "Liên kết GitHub",
+        "githubHint": "Địa chỉ bắt đầu bằng https://. Để trống để ẩn.",
+        "blurb": "Ghi chú ngắn",
+        "social": "Liên kết khác",
+        "addSocial": "Thêm một liên kết",
+        "socialTitle": "Liên kết {n}",
+        "socialLabel": "Nhãn",
+        "socialUrl": "Địa chỉ",
+        "socialUrlHint": "Bắt đầu bằng https:// hoặc mailto:."
+      },
+      "timeline": {
+        "summary": "Tóm tắt kinh nghiệm",
+        "summaryHint": "Một hai câu hiển thị phía trên chặng đường ở trang chủ.",
+        "entries": "Các mục",
+        "addEntry": "Thêm một mục",
+        "entryTitle": "Mục {n}",
+        "untitled": "một mục chưa có tiêu đề",
+        "kind": "Loại",
+        "kinds": {
+          "experience": "Kinh nghiệm",
+          "education": "Học vấn"
+        },
+        "title": "Vị trí hoặc bằng cấp",
+        "org": "Công ty hoặc trường",
+        "period": "Thời gian",
+        "periodHint": "Văn bản tự do, ví dụ 09/2023 - Hiện tại.",
+        "entrySummary": "Mô tả ngắn",
+        "url": "Liên kết",
+        "urlHint": "Địa chỉ bắt đầu bằng https:// của công ty hoặc trường. Tên sẽ dẫn tới đó. Để trống để ẩn.",
+        "location": "Địa điểm",
+        "department": "Bộ phận",
+        "highlights": "Điểm nổi bật",
+        "highlightsHint": "Mỗi dòng là một gạch đầu dòng. Tối đa {max} dòng, mỗi dòng {length} ký tự.",
+        "tech": "Công nghệ",
+        "techHint": "Mỗi dòng là một công nghệ, hiển thị dạng nhãn. Tối đa {max} dòng, mỗi dòng {length} ký tự.",
+        "tooMany": "Quá nhiều dòng: tối đa {max}.",
+        "tooLong": "Có dòng dài hơn {length} ký tự.",
+        "moveUp": "Lên",
+        "moveDown": "Xuống",
+        "moveUpAria": "Chuyển {title} lên",
+        "moveDownAria": "Chuyển {title} xuống",
+        "logoHeading": "Logo",
+        "logoNone": "Chưa có logo.",
+        "logoRemove": "Gỡ logo",
+        "logoHint": "Logo đến từ việc nhập gói ZIP (Cài đặt, Nhập); không tải lên được ở đây. Logo được giữ nguyên khi bạn lưu."
+      },
+      "skills": {
+        "groups": "Các nhóm",
+        "addGroup": "Thêm một nhóm",
+        "groupTitle": "Nhóm {n}",
+        "groupId": "Mã định danh",
+        "groupIdHint": "Chữ thường không dấu, chữ số và dấu gạch ngang.",
+        "groupHeading": "Tên nhóm",
+        "defaultLevel": "Mức mặc định",
+        "items": "Các mục của nhóm {n}",
+        "addItem": "Thêm một mục",
+        "itemTitle": "Mục {n}",
+        "itemName": "Kỹ năng",
+        "itemLevel": "Mức",
+        "levelDefault": "Theo nhóm",
+        "itemNote": "Ghi chú",
+        "levels": {
+          "used-in-project": "Đã dùng trong dự án",
+          "worked-with": "Đã làm việc cùng",
+          "learning": "Đang học"
+        }
+      },
+      "profileImport": {
+        "card": {
+          "heading": "Nhập từ tệp Markdown",
+          "intro": "Điền trang Giới thiệu, kỹ năng, dòng thời gian, thông tin liên hệ và hơn nữa từ một tệp: tải mẫu, điền tay hoặc nhờ trợ lý AI, rồi xem bản xem thử trước khi ghi bất cứ thứ gì.",
+          "open": "Mở trang nhập Markdown"
+        },
+        "page": {
+          "title": "Nhập Markdown",
+          "description": "Tải lên tệp hồ sơ hoặc gói ZIP có ảnh và hình của trang Giới thiệu cùng logo ở chặng đường, xem những gì sẽ thay đổi rồi xác nhận. Không có gì được ghi trước khi bạn xác nhận."
+        },
+        "route": {
+          "badLocale": "Ngôn ngữ không hợp lệ.",
+          "forbidden": "Chỉ quản trị viên mới tải được tệp này.",
+          "unavailable": "Hiện chưa tải xuống được."
+        },
+        "errors": {
+          "noFile": "Hãy chọn một tệp trước.",
+          "fileTooLarge": "Tệp quá lớn (tối đa 256 KiB).",
+          "packageTooLarge": "Gói ZIP quá lớn (tối đa 4 MiB).",
+          "notMarkdown": "Tên tệp phải kết thúc bằng .md hoặc .zip.",
+          "badArguments": "Yêu cầu không hợp lệ. Tải lại trang và thử lại.",
+          "unreachable": "Không kết nối được máy chủ. Kiểm tra mạng và thử lại.",
+          "codes": {
+            "SITE_IMPORT_HASH_MISMATCH": "Tệp không phải tệp đã xem thử. Hãy chọn lại tệp và xem lại bản xem thử.",
+            "SITE_IMPORT_NOTHING_TO_UNDO": "Không có lần nhập nào để hoàn tác.",
+            "SITE_IMPORT_UNDO_CONFLICT": "Một mục đã được sửa sau lần nhập, nên không thể hoàn tác an toàn. Không có gì bị thay đổi."
+          }
+        },
+        "status": {
+          "previewing": "Đang đọc tệp và chuẩn bị bản xem thử…",
+          "previewReady": "Bản xem thử đã sẵn sàng. Chưa ghi gì cả.",
+          "applying": "Đang áp dụng lần nhập…",
+          "applied": "Đã nhập xong.",
+          "undoing": "Đang hoàn tác lần nhập…",
+          "undone": "Đã hoàn tác lần nhập."
+        },
+        "template": {
+          "heading": "1. Ngôn ngữ và tệp mẫu",
+          "intro": "Tệp mẫu liệt kê mọi mục và trường cùng giới hạn và hướng dẫn cho trợ lý AI. Ngôn ngữ sẽ ghi vào do tệp bạn tải lên quyết định.",
+          "language": "Ngôn ngữ",
+          "download": "Tải tệp mẫu",
+          "export": "Xuất nội dung hiện tại",
+          "exportZip": "Xuất gói ZIP kèm ảnh",
+          "exportHint": "Gói ZIP gồm tệp hồ sơ và mọi ảnh mà nội dung dùng (ảnh trang giới thiệu, ảnh trong phần nội dung và logo ở chặng đường). Nhập lại gói này sẽ khôi phục cả hai."
+        },
+        "file": {
+          "heading": "2. Tệp",
+          "intro": "Chọn một tệp Markdown (.md) tối đa 256 KiB, hoặc một gói ZIP (.zip) tối đa 4 MiB chứa tệp đó cùng ảnh và hình của trang Giới thiệu và logo ở chặng đường trong thư mục assets/, hoặc thả vào đây.",
+          "inputLabel": "Tệp hồ sơ (.md hoặc .zip)",
+          "dropTitle": "Chọn tệp hoặc thả vào đây",
+          "dropHint": "Markdown (.md) tối đa 256 KiB, hoặc gói ZIP (.zip) tối đa 4 MiB",
+          "hint": "Máy chủ kiểm tra lại tệp khi bạn áp dụng.",
+          "size": "({kib} KiB)",
+          "replace": "Đổi tệp",
+          "remove": "Gỡ bỏ"
+        },
+        "preview": {
+          "heading": "3. Xem thử",
+          "willWriteTo": "Sẽ ghi vào: {language}",
+          "noLanguage": "Tệp chưa nêu ngôn ngữ hợp lệ.",
+          "nothingWritten": "Chưa ghi gì cả. Giá trị thiếu hoặc để trống không bao giờ xóa gì.",
+          "packageNote": "Đây là gói ZIP. Ảnh trong gói chỉ được lưu khi bạn áp dụng; bản xem thử chỉ nêu đường dẫn của ảnh, không bao giờ hiện nội dung.",
+          "package": {
+            "facts": "Gói ZIP: {assets, plural, other {# ảnh}} ({kib} KiB), {used} ảnh được dùng, {unused} ảnh không dùng.",
+            "unsupported": "{count, plural, other {# mục của gói không dùng được.}}"
+          },
+          "notes": {
+            "asset_unused": "Ảnh {path} không được trang dùng nên không được lưu.",
+            "other": "Có điều cần kiểm tra trong gói này."
+          },
+          "fileErrors": "Tệp có lỗi cần sửa trước khi áp dụng.",
+          "listLabel": "Các mục của tệp",
+          "line": "Dòng {line}",
+          "lineNumber": "dòng {line}",
+          "problem": "{where}: {message}",
+          "changes": "Thay đổi",
+          "before": "Trước",
+          "after": "Sau",
+          "none": "(trống)",
+          "listCounts": "danh sách: thêm {added}, bỏ {removed}, giữ {kept}",
+          "missingOptional": "Giá trị tùy chọn không có trong tệp: {fields}",
+          "status": {
+            "new": "Mới",
+            "will_change": "Sẽ thay đổi",
+            "unchanged": "Không đổi",
+            "error": "Lỗi",
+            "missing": "Thiếu (tùy chọn)"
+          },
+          "ignoredHeading": "{count} phần bị bỏ qua",
+          "ignoredHint": "Những phần này của tệp không thuộc định dạng và không được áp dụng.",
+          "ignoredItem": "{kind, select, section {Mục} field {Trường} subsection {Mục con} image {Ảnh không dùng} other {Phần}} “{name}”{line, plural, =0 {} other { (dòng #)}}",
+          "ignoredMore": "Còn {count} phần nữa không được liệt kê",
+          "applyBlocked": "Hãy sửa các lỗi của tệp ở trên để áp dụng."
+        },
+        "mode": {
+          "legend": "4. Ghi như thế nào",
+          "create-only": {
+            "label": "Chỉ tạo mới",
+            "hint": "Các mục đã có nội dung trong ngôn ngữ này sẽ bị bỏ qua, không bao giờ bị ghi đè."
+          },
+          "update": {
+            "label": "Cập nhật",
+            "hint": "Các mục đã chọn được ghi. Trường đơn chỉ đổi khi tệp có giá trị; danh sách trong tệp thay thế toàn bộ danh sách đã lưu."
+          }
+        },
+        "apply": "Áp dụng {count} mục",
+        "result": {
+          "heading": "Kết quả nhập",
+          "summary": "{created} tạo mới, {updated} cập nhật, {unchanged} không đổi, {skipped} bỏ qua.",
+          "section": "{name}: {status, select, created {đã tạo} updated {đã cập nhật} unchanged {không đổi} skipped {bỏ qua} other {xong}}",
+          "viewSite": "Xem trang {language}"
+        },
+        "undo": {
+          "heading": "Hoàn tác",
+          "last": "Lần nhập gần nhất ({when}, {language}) có thể hoàn tác.",
+          "hint": "Có thể hoàn tác lần nhập này nếu không mục nào của nó bị sửa sau đó.",
+          "none": "Không còn lần nhập nào để hoàn tác.",
+          "button": "Hoàn tác lần nhập này",
+          "confirmText": "Khôi phục phiên bản trước của mọi mục lần nhập này đã ghi và xóa các mục nó đã tạo? Việc này không đụng đến gì đã đổi sau lần nhập.",
+          "confirm": "Đồng ý, hoàn tác",
+          "cancel": "Giữ lần nhập",
+          "section": "{key}: {status, select, restored {đã khôi phục} removed {đã xóa} other {xong}}"
+        }
+      },
+      "sampleContent": {
+        "heading": "Nội dung mẫu",
+        "intro": "Thêm bốn bài viết mẫu (hai bài, mỗi bài có bản tiếng Anh và tiếng Việt, liên kết làm bản dịch của nhau), series \"Bắt đầu\", chuyên mục \"Hướng dẫn\" và hai thẻ để trang mới không bị trống. Bấm lại nút sẽ không bao giờ tạo trùng.",
+        "submit": "Nạp nội dung mẫu",
+        "loading": "Đang nạp nội dung mẫu…",
+        "done": "Đã nạp nội dung mẫu.",
+        "created": "Đã tạo: {posts, plural, other {# bài viết}}, {series, plural, other {# series}}, {categories, plural, other {# chuyên mục}}, {tags, plural, other {# thẻ}}.",
+        "nothingNew": "Không tạo thêm gì: nội dung mẫu đã có sẵn.",
+        "skipped": "Đã có sẵn, giữ nguyên: {skipped, plural, other {# mục}}.",
+        "unreachable": "Không kết nối được máy chủ. Kiểm tra kết nối và thử lại."
+      }
+    }
+  },
+  "Language": {
+    "navLabel": "Ngôn ngữ"
+  },
+  "Meta": {
+    "feed": {
+      "unavailable": "Nguồn cấp tạm thời không khả dụng.",
+      "notFound": "Không có nguồn cấp này."
+    },
+    "profile": {
+      "joinedMonth": "tháng {month}/{year}"
+    }
+  },
+  "Setup": {
+    "title": "Thiết lập blog của bạn",
+    "lead": "Tạo tài khoản chủ blog. Trang này đóng vĩnh viễn ngay khi việc thiết lập hoàn tất.",
+    "code": {
+      "label": "Mã thiết lập",
+      "hint": "Dùng giá trị của biến môi trường <code>SETUP_TOKEN</code> của backend. Nếu chưa đặt, backend ghi một tệp tên <code>setup-code</code> trong thư mục dữ liệu và in đường dẫn của tệp đó (không bao giờ in mã) trong log. Mở tệp đó trên máy chủ rồi chép mã."
+    },
+    "displayName": {
+      "label": "Tên hiển thị"
+    },
+    "email": {
+      "label": "Email"
+    },
+    "password": {
+      "label": "Mật khẩu",
+      "hint": "Tối thiểu {min} ký tự."
+    },
+    "confirm": {
+      "label": "Nhập lại mật khẩu"
+    },
+    "submit": "Tạo tài khoản",
+    "submitting": "Đang tạo...",
+    "fieldErrors": {
+      "codeRequired": "Nhập mã thiết lập.",
+      "nameRequired": "Nhập tên hiển thị.",
+      "nameTooLong": "Tên hiển thị quá dài (tối đa 60 ký tự).",
+      "emailInvalid": "Nhập một địa chỉ email hợp lệ.",
+      "passwordShort": "Mật khẩu quá ngắn (tối thiểu 12 ký tự).",
+      "passwordLong": "Mật khẩu quá dài (tối đa 128 ký tự).",
+      "confirmMismatch": "Hai mật khẩu không khớp."
+    },
+    "errors": {
+      "SETUP_CODE_INVALID": "Mã thiết lập không đúng.",
+      "SETUP_CLOSED": "Việc thiết lập đã hoàn tất. Hãy đăng nhập.",
+      "VALIDATION_ERROR": "Một số giá trị bị từ chối. Kiểm tra lại rồi thử lại.",
+      "RATE_LIMITED": "Quá nhiều lần thử. Chờ vài phút rồi thử lại.",
+      "UNAVAILABLE": "Máy chủ không phản hồi. Thử lại sau giây lát.",
+      "NETWORK": "Không gửi được biểu mẫu. Kiểm tra kết nối rồi thử lại.",
+      "GENERIC": "Thiết lập chưa hoàn tất. Hãy thử lại."
+    }
+  }
+}

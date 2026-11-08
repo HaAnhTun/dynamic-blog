@@ -1,0 +1,124 @@
+-- Database roles of a Compose install: three roles instead of one superuser (docs/SECURITY.md, "Containers and networks";
+-- docs/UPGRADING.md for an existing install).
+--
+--   the administration role  the POSTGRES_USER of the container, a superuser. For backups and repairs (`docker compose exec postgres
+--                            psql ...`). The backend never connects as it.
+--   the owner role           OWNER_DB_USER. NOSUPERUSER. Owns the database and everything in it; Flyway runs the migrations as it.
+--   the runtime role         APP_DB_USER (DB_USERNAME in .env). NOSUPERUSER, no DDL: SELECT, INSERT, UPDATE and DELETE on the tables,
+--                            USAGE on the sequences, and nothing else. The backend connects as it.
+--
+-- So a bug that reaches SQL in the backend cannot create objects, install extensions, read files of the database host or run
+-- programs there. Run in the database to configure, as the administration role. Two ways in:
+--   * a new data directory: 10-roles.sh runs it by itself, once, from /docker-entrypoint-initdb.d;
+--   * an existing install: by hand, once, after the new variables are in .env and the postgres container was recreated:
+--       docker compose exec -T postgres sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -X -q -v ON_ERROR_STOP=1 \
+--         -f /docker-entrypoint-initdb.d/roles.psql'
+--     It moves the ownership of what the old role created to the owner role and grants the runtime role its rights on it.
+--
+-- Idempotent: running it again changes nothing but the passwords, which it sets to the current ones (that is how they are rotated).
+-- It reads APP_DB_USER, APP_DB_PASSWORD, OWNER_DB_USER and OWNER_DB_PASSWORD from the environment, so no password is ever an argument
+-- of a process, and it keeps the server from logging a password that sits in a statement that failed.
+
+\set ON_ERROR_STOP on
+\set QUIET on
+
+SET log_statement = 'none';
+SET log_min_error_statement = 'panic';
+
+\set app_user ''
+\set app_password ''
+\set owner_user ''
+\set owner_password ''
+\set admin_password ''
+\getenv app_user APP_DB_USER
+\getenv app_password APP_DB_PASSWORD
+\getenv owner_user OWNER_DB_USER
+\getenv owner_password OWNER_DB_PASSWORD
+-- The password of the administration role, as the container knows it (POSTGRES_PASSWORD). The compose file refuses a three-role .env
+-- without DB_ADMIN_PASSWORD, but a hand-made environment (or a compose file from before that check) can give the superuser the runtime
+-- role's password, and a superuser that shares a password with the role the backend uses is not a separate role in any way that matters.
+\getenv admin_password POSTGRES_PASSWORD
+
+SELECT current_database() AS dbname, current_user AS admin_user \gset
+
+SELECT (:'app_user' = '' OR :'app_password' = '' OR :'owner_user' = '' OR :'owner_password' = ''
+        OR :'app_user' = :'owner_user' OR :'app_user' = :'admin_user' OR :'owner_user' = :'admin_user'
+        OR :'app_password' = :'owner_password'
+        OR (:'admin_password' <> '' AND (:'admin_password' = :'app_password' OR :'admin_password' = :'owner_password'))) AS refuse \gset
+\if :refuse
+DO $$ BEGIN
+    RAISE EXCEPTION 'roles.psql: set APP_DB_USER, APP_DB_PASSWORD, OWNER_DB_USER and OWNER_DB_PASSWORD, and use three different roles (the administration role, the owner role and the runtime role) with three different passwords';
+END $$;
+\endif
+
+-- The two roles. Created when missing; always (re)set to the restricted attributes and the current password.
+SELECT format('CREATE ROLE %I', :'owner_user') WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = :'owner_user') \gexec
+SELECT format('ALTER ROLE %I LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L',
+              :'owner_user', :'owner_password') \gexec
+SELECT format('CREATE ROLE %I', :'app_user') WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = :'app_user') \gexec
+SELECT format('ALTER ROLE %I LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS PASSWORD %L',
+              :'app_user', :'app_password') \gexec
+
+-- The database belongs to the owner, and only the two roles (and superusers) can connect to it.
+SELECT format('ALTER DATABASE %I OWNER TO %I', :'dbname', :'owner_user') \gexec
+SELECT format('REVOKE ALL ON DATABASE %I FROM PUBLIC', :'dbname') \gexec
+SELECT format('GRANT CONNECT, TEMPORARY ON DATABASE %I TO %I', :'dbname', :'app_user') \gexec
+
+-- The schema belongs to the owner; the runtime role may use what is in it, not add to it.
+SELECT format('ALTER SCHEMA public OWNER TO %I', :'owner_user') \gexec
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+SELECT format('GRANT USAGE ON SCHEMA public TO %I', :'app_user') \gexec
+
+-- An existing install: what the old role created now belongs to the owner. Nothing to do on a new database.
+-- (A sequence that belongs to a column follows its table, and an extension's own objects stay with the extension.)
+SELECT format('ALTER %s %I.%I OWNER TO %I',
+              CASE c.relkind WHEN 'v' THEN 'VIEW' WHEN 'm' THEN 'MATERIALIZED VIEW' WHEN 'f' THEN 'FOREIGN TABLE' ELSE 'TABLE' END,
+              n.nspname, c.relname, :'owner_user')
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public'
+  AND c.relkind IN ('r', 'p', 'v', 'm', 'f')
+  AND NOT c.relispartition
+  AND c.relowner <> (SELECT oid FROM pg_roles WHERE rolname = :'owner_user')
+  AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.classid = 'pg_class'::regclass AND d.objid = c.oid AND d.deptype = 'e')
+ORDER BY c.relname \gexec
+
+SELECT format('ALTER SEQUENCE %I.%I OWNER TO %I', n.nspname, c.relname, :'owner_user')
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public'
+  AND c.relkind = 'S'
+  AND c.relowner <> (SELECT oid FROM pg_roles WHERE rolname = :'owner_user')
+  AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.classid = 'pg_class'::regclass AND d.objid = c.oid
+                  AND d.refclassid = 'pg_class'::regclass AND d.deptype IN ('a', 'i'))
+  AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.classid = 'pg_class'::regclass AND d.objid = c.oid AND d.deptype = 'e')
+ORDER BY c.relname \gexec
+
+SELECT format('ALTER %s %s OWNER TO %I',
+              CASE p.prokind WHEN 'p' THEN 'PROCEDURE' WHEN 'a' THEN 'AGGREGATE' ELSE 'FUNCTION' END,
+              p.oid::regprocedure, :'owner_user')
+FROM pg_proc p
+JOIN pg_namespace n ON n.oid = p.pronamespace
+WHERE n.nspname = 'public'
+  AND p.proowner <> (SELECT oid FROM pg_roles WHERE rolname = :'owner_user')
+  AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.classid = 'pg_proc'::regclass AND d.objid = p.oid AND d.deptype = 'e')
+ORDER BY p.oid \gexec
+
+SELECT format('ALTER %s %s OWNER TO %I', CASE t.typtype WHEN 'd' THEN 'DOMAIN' ELSE 'TYPE' END, t.oid::regtype, :'owner_user')
+FROM pg_type t
+JOIN pg_namespace n ON n.oid = t.typnamespace
+WHERE n.nspname = 'public'
+  AND (t.typtype IN ('e', 'd') OR (t.typtype = 'c' AND EXISTS (SELECT 1 FROM pg_class c WHERE c.oid = t.typrelid AND c.relkind = 'c')))
+  AND t.typowner <> (SELECT oid FROM pg_roles WHERE rolname = :'owner_user')
+  AND NOT EXISTS (SELECT 1 FROM pg_depend d WHERE d.classid = 'pg_type'::regclass AND d.objid = t.oid AND d.deptype = 'e')
+ORDER BY t.oid \gexec
+
+-- The runtime role: rows, and nothing else. What exists now, and what the owner creates later (the next migration).
+SELECT format('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO %I', :'app_user') \gexec
+SELECT format('GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO %I', :'app_user') \gexec
+SELECT format('ALTER DEFAULT PRIVILEGES FOR ROLE %I IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO %I',
+              :'owner_user', :'app_user') \gexec
+SELECT format('ALTER DEFAULT PRIVILEGES FOR ROLE %I IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO %I',
+              :'owner_user', :'app_user') \gexec
+
+\echo 'roles.psql: the owner role and the runtime role are set up in database' :dbname

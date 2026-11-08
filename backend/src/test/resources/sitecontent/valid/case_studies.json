@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "slug": "first-study",
+      "title": "A first study",
+      "summary": "What was done.",
+      "problem": ["The problem."],
+      "constraints": ["The constraints."],
+      "solution": ["The solution."],
+      "results": [ { "label": "Latency", "value": "10 ms", "source": "benchmark.sh run 3" } ],
+      "ifRedone": ["I would measure first."],
+      "readMore": [ { "slug": "other-study" } ],
+      "lastVerified": "2026-01-31"
+    }
+  ]
+}

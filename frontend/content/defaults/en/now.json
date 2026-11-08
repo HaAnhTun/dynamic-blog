@@ -1,0 +1,12 @@
+{
+  "lastUpdated": "2026-10-11",
+  "intro": "What I am spending time on right now. Replace this list in Admin > Settings.",
+  "items": [
+    { "text": "Setting up this site and writing a first post." },
+    {
+      "text": "Reading the posts I have written so far.",
+      "evidence": { "href": "/writing", "label": "All posts" }
+    },
+    { "text": "Learning one new tool, a little every week." }
+  ]
+}

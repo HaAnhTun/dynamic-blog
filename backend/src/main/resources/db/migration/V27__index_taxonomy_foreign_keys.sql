@@ -1,0 +1,21 @@
+-- V6 (P3-3): indexes for the foreign key side of the two taxonomy relations. Exactly two, chosen after reading the EXPLAIN of the
+-- real statements (the one Hibernate generates, the native ones, and the one Postgres runs by itself for foreign keys), no other index is added.
+--
+-- post_tags only has the primary key (post_id, tag_id) (migration V6): lookups by POST have an index, lookups by TAG have none, as no
+-- index starts with tag_id. The lookups by tag: the post list of a tag (/posts?tag=, joining post_tags on
+-- tag_id), the public tag list (EXISTS on tag_id, V6 P0-6), tag merge (count, then copy post_tags by tag_id, V6 P2-5),
+-- and ON DELETE CASCADE when a tag is deleted or merged (Postgres itself runs DELETE FROM post_tags WHERE tag_id = $1). PostgreSQL 18 can
+-- use the primary key for tag_id = ? through skip scan, but post_id (the leading column) has almost as many distinct values as there are posts, so that skip
+-- scan turns into reading the whole primary key. (tag_id, post_id), not just (tag_id): the "which posts carry this tag" query reads only the index.
+--
+-- posts.category_id has no index: counting a category's posts before deleting it (CategoryService.delete), Postgres's NO ACTION foreign key
+-- check when a category is deleted (SELECT 1 FROM posts WHERE category_id = $1 FOR KEY SHARE), and the statement
+-- that moves posts when categories are merged all have to scan the whole posts table.
+--
+-- At the current data size (12 posts, 42 post_tags rows) the benefit is NOT measurable: each statement above reads one or two pages, the planner picks
+-- a seq scan and is right to. The benefit is structural: the foreign key side of a many-to-many relation, and the cascading delete paths, foreign key checks and merges, follow
+-- log(n) instead of the number of posts as the blog grows. Measured on synthetic data of 2000 posts:
+-- finding posts by tag reads 3 index pages instead of 43 primary key pages, and a tag's post list 498 buffers instead of 1732.
+-- No index is added for posts.author_id: there is one admin and a few authors, so filtering by author selects nearly the whole table.
+CREATE INDEX idx_post_tags_tag_id ON post_tags (tag_id, post_id);
+CREATE INDEX idx_posts_category_id ON posts (category_id);

@@ -1,0 +1,6 @@
+{
+  "email": "owner@example.com",
+  "github": "https://github.com/example",
+  "blurb": "Write to me.",
+  "social": [ { "label": "Mail", "url": "mailto:owner@example.com" }, { "label": "Site", "url": "https://example.com" } ]
+}

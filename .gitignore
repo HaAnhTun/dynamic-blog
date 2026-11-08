@@ -1,0 +1,42 @@
+.worktrees/
+node_modules
+.vscode
+
+# Private working notes (plans, logs, drafts) live under private/ and are never committed.
+# Product docs stay in README.md and docs/.
+/private/
+# Local-markdown issue tracker for the agent skills (docs/agents/issue-tracker.md): working tickets, never committed.
+/.scratch/
+# Environment files. `.env*` rather than `.env`, because Docker Compose and Next both
+# read several variants (.env.local, .env.production, .env.production.local) and an
+# ignore list covering only the bare name would leak the rest.
+.env
+.env.*
+# The example carries no real values and is the documentation for the rest.
+!.env.example
+
+# Tooling state, not project source.
+.claude/
+
+# Python bytecode.
+__pycache__/
+*.pyc
+
+# Playwright output (frontend/e2e): traces, failure screenshots, HTML report; the trace.zip of
+# one heavy image upload weighs several MB. The last two directories are the state of playwright-cli
+# and the Playwright MCP during manual QA. Not anchored: the output lands in whichever directory the
+# command runs from.
+test-results/
+playwright-report/
+.playwright-cli/
+.playwright-mcp/
+
+# What the E2E suite knows about the administrator of its throw-away stack (frontend/scripts/e2e-bootstrap.mjs, e2e/global-setup.ts): the key
+# of the authenticator, its recovery codes and the saved sessions. Throw-away values, but credentials all the same.
+# frontend/.dockerignore keeps them out of the image; frontend/test/e2e-auth-ignore.test.ts keeps both entries.
+frontend/e2e/.auth/
+
+# The first-run setup code file of a local backend (SETUP_DATA_DIR defaults to ./data).
+/backend/data/
+docs/agents
+CLAUDE.md

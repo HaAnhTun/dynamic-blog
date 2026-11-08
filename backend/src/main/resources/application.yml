@@ -1,0 +1,304 @@
+spring:
+  application:
+    name: blog-backend
+  datasource:
+    # sslmode is explicit (the pgjdbc default, prefer, spelled out): verify-full proves who answered and is what a database on another
+    # machine needs (DatabaseTransportCheck refuses a production run that reaches a remote host with anything weaker). verify-full also
+    # needs a certificate authority, and pgjdbc does not fall back to the JVM trust store by itself: put either
+    # &sslfactory=org.postgresql.ssl.DefaultJavaSSLFactory (a public CA, checked against the JVM) or &sslrootcert=/certs/ca.pem (any
+    # other CA) into DB_JDBC_PARAMS (starting with &). The last value of a repeated parameter counts.
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:blog}?sslmode=${DB_SSLMODE:prefer}${DB_JDBC_PARAMS:}
+    username: ${DB_USERNAME:blog}
+    password: ${DB_PASSWORD:blog}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      # Batches lazy association fetches instead of one query per row. Sized to the
+      # default page of GET /api/v1/posts, whose mapper touches every row's tags
+      # and category.
+      hibernate.default_batch_fetch_size: 20
+  flyway:
+    enabled: true
+    # The language existing rows get in V34 (posts, newsletter subscribers). One variable for the whole deployment: it is also
+    # app.i18n.default-locale below. Applying it later changes nothing already migrated (Flyway checksums the file, not the value).
+    placeholders:
+      defaultLocale: ${DEFAULT_LOCALE:vi}
+  # Two threads for @Scheduled instead of one (SchedulingConfig): the newsletter worker may wait on SMTP (10 seconds per mail) and the
+  # search worker waits on Meilisearch tasks (up to 30 seconds); with one shared thread, one would hold up the other for minutes.
+  task:
+    scheduling:
+      pool:
+        size: 2
+  mvc:
+    formcontent:
+      filter:
+        # Spring Boot's FormContentFilter reads the whole body of a PUT, PATCH or DELETE sent as a form. No endpoint takes a form
+        # (everything is JSON or multipart), so the filter has nothing to do here except read what an anonymous caller sends
+        # (issue 118): off. RequestSizeLimitFilter answers 413 for an oversized chunked body even if it is turned back on.
+        enabled: false
+  servlet:
+    multipart:
+      # Larger than the Next Server Action limit (5 MiB, the image is already downscaled in the browser): this layer is for
+      # clients that call the API directly and is a second line of defense. app.media.max-upload-size checks the same number
+      # in code, because MockMvc skips the servlet limit so only a check in code can be tested.
+      max-file-size: 10MB
+      # The file plus the accompanying text fields (altText, caption...).
+      max-request-size: 11MB
+      # file-size-threshold stays 0: a part spills into the Tomcat temp directory under /tmp, the only place the container's
+      # non-root user can write.
+  # How much JSON the backend reads into memory (issues 118 and 036). Nothing bounded a body before it was parsed: a handful of large
+  # anonymous requests could end the JVM on a backend with its own public URL. Three layers, each one a floor under the next:
+  # RequestSizeLimitFilter refuses a request over app.request-limit.* (64KB, 6MB under /api/v1/admin/) with a 413 before it is read; these
+  # reader constraints stop a single string or a whole document that got past it (a chunked body is counted by the same filter; the
+  # constraints also cover JSON read from other places); @Size on the request records gives a clean 400 for a field that is too long.
+  jackson:
+    factory:
+      constraints:
+        read:
+          # Longest single JSON string, in characters. The Jackson 3 default is 100 million. The longest honest string is a post
+          # body: 500,000 characters (PostCreateRequest, PostUpdateRequest).
+          max-string-length: 1000000
+          # Longest document, in bytes or characters. Equal to the largest value app.request-limit.admin-body may take (8 MiB).
+          max-document-length: 8388608
+  # Newsletter: JavaMailSender is built only when NEWSLETTER_TRANSPORT=smtp (NewsletterConfig). The Boot auto-configuration
+  # builds it as soon as spring.mail.host is present, even when empty as below, so it is excluded.
+  autoconfigure:
+    exclude: org.springframework.boot.mail.autoconfigure.MailSenderAutoConfiguration
+  # SMTP of the newsletter: read only when NEWSLETTER_TRANSPORT=smtp. Port 587 with mandatory STARTTLS (SMTP_PROTOCOL=smtp), or implicit
+  # TLS on port 465 (SMTP_PROTOCOL=smtps). The backend refuses SMTP_STARTTLS=false for a host that is not on this machine
+  # (NewsletterConfig.refuseUnsafeSmtp). The server certificate must match the host name on both (checkserveridentity, said here
+  # instead of left to a library default). The timeouts keep a hung mail server from holding the worker forever.
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    protocol: ${SMTP_PROTOCOL:smtp}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      "[mail.smtp.starttls.enable]": ${SMTP_STARTTLS:true}
+      "[mail.smtp.starttls.required]": ${SMTP_STARTTLS:true}
+      "[mail.smtp.ssl.checkserveridentity]": true
+      "[mail.smtp.connectiontimeout]": 10000
+      "[mail.smtp.timeout]": 10000
+      "[mail.smtp.writetimeout]": 10000
+      "[mail.smtps.ssl.checkserveridentity]": true
+      "[mail.smtps.connectiontimeout]": 10000
+      "[mail.smtps.timeout]": 10000
+      "[mail.smtps.writetimeout]": 10000
+
+server:
+  port: ${SERVER_PORT:8080}
+  tomcat:
+    # Higher than max-request-size so Tomcat reads and discards the rest of an oversized upload and the client gets a
+    # JSON 413 instead of a connection cut off midway. In compose only the Next server can reach this port, so
+    # discarding more does not open any extra attack surface.
+    max-swallow-size: 32MB
+    # Tomcat reads an application/x-www-form-urlencoded POST body whole when a parameter is asked for; its default is 2MB. No endpoint
+    # takes a form body (everything is JSON or multipart), so this closes that door. It is not limited to forms: Tomcat also counts
+    # the text parts of a multipart request (everything except uploaded files) toward it, so the "manifest" part of the post import
+    # has to fit in 64KB too. That is roughly 600 files' worth: the import takes 20, a manifest under 10 KiB.
+    max-http-form-post-size: 64KB
+
+# Swagger UI (/swagger-ui.html) and /v3/api-docs describe the whole API, admin part included, and SecurityConfig lets them be
+# viewed without login. So they are OFF by default: the jar, the Docker image, Koyeb, Render and the E2E stack do not have them.
+# `mvn spring-boot:run` runs with the dev profile (spring-boot-maven-plugin in pom.xml), and application-dev.yml turns them back on.
+# An explicit SPRINGDOC_ENABLED=true|false wins over both. One variable for both keys: springdoc treats a key as off only when it
+# has the value false, a missing key means on (SpringDocExposureTest). When off, those two paths are 404 like any path that does not exist.
+springdoc:
+  api-docs:
+    enabled: ${SPRINGDOC_ENABLED:false}
+  swagger-ui:
+    enabled: ${SPRINGDOC_ENABLED:false}
+
+app:
+  # Fail-closed switch (ProductionMode). false (default) = production: no dev JWT secret, no dev admin password, VIEWS_TOKEN and CLIENT_IP_TOKEN required.
+  # true accepts them for a throw-away E2E or CI stack; ignored for a public SITE_URL. The Spring profile dev (mvn spring-boot:run) opts in too.
+  allow-dev-defaults: ${APP_ALLOW_DEV_DEFAULTS:false}
+  database:
+    # true accepts a remote PostgreSQL over a link that is not verified (sslmode below verify-full) on a network the operator trusts, with
+    # one warning. false (default) refuses it in a production run (DatabaseTransportCheck).
+    allow-insecure-transport: ${DB_ALLOW_INSECURE_TRANSPORT:false}
+  # Languages of the content (posts, taxonomy names, newsletter). The set is also pinned by CHECK constraints (V35): enabling another
+  # locale needs a migration. The default one is the fallback of a missing translation and the language of posts created without one.
+  i18n:
+    locales: vi,en
+    default-locale: ${DEFAULT_LOCALE:vi}
+  admin:
+    # The account the seed migration creates. Its email is configuration rather than a
+    # constant so a deployment can seed a different one without a migration: a value other
+    # than admin@blog.local renames the seeded admin row at startup (AdminSeedEmail, same id),
+    # unless another account already has that address.
+    email: ${ADMIN_EMAIL:admin@blog.local}
+    # Deliberately has no default. When set, AdminPasswordFromEnvironment hashes it at
+    # startup and writes it; when absent, the database keeps whatever it has — which in
+    # development is the password documented in backend/README.md, and the application
+    # warns at startup while that is still true. On a public site (SITE_URL not loopback)
+    # it refuses to start instead, and login always refuses that password.
+    #
+    # A migration cannot do this job: it would have to contain the hash, putting a
+    # production secret in version control.
+    password: ${ADMIN_PASSWORD:}
+    # The NUMERIC id of the site owner's GitHub account (https://api.github.com/users/<login>, field "id"). When set,
+    # AdminGithubLink links the admin account to it at startup, so GitHub login also yields ADMIN; if that id is already
+    # a reader, that reader is merged into the admin (README). Empty = no link. A value that is not a positive number makes the
+    # backend refuse to start. Emptying it again later does NOT remove the link.
+    github-id: ${ADMIN_GITHUB_ID:}
+  # First-run /setup (SetupProperties). While app_settings says setup is required, the first owner claims the instance with a
+  # setup code: SETUP_TOKEN when set (at least 24 characters, else the backend refuses to start), otherwise a random code the
+  # backend writes to <SETUP_DATA_DIR>/setup-code (the log shows the path, never the code) and deletes when setup completes.
+  setup:
+    token: ${SETUP_TOKEN:}
+    data-dir: ${SETUP_DATA_DIR:./data}
+    # While setup is required, the seeded admin's development password is disabled at startup, so a fresh install cannot be
+    # claimed with the password printed in the README. ADMIN_PASSWORD or ADMIN_GITHUB_ID also close setup at startup.
+    lock-dev-seed: ${SETUP_LOCK_DEV_SEED:true}
+  # GitHub login for readers (GithubOAuthProperties).
+  oauth:
+    github:
+      # Empty = GitHub login is off; the site still runs.
+      client-id: ${GITHUB_CLIENT_ID:}
+      client-secret: ${GITHUB_CLIENT_SECRET:}
+      # The absolute callback GitHub calls back. When empty it is derived from SITE_URL + /api/auth/github/callback.
+      # With OAuth on and both missing, the backend refuses to start (there is no localhost default).
+      redirect-uri: ${GITHUB_REDIRECT_URI:}
+      # The public address of the site. A value whose host is not localhost, 127.0.0.0/8 or ::1 is production (ProductionMode) even with
+      # APP_ALLOW_DEV_DEFAULTS=true. Production is also the default when nothing opts in to development defaults.
+      site-url: ${SITE_URL:}
+  security:
+    # Required, no default (fail-closed): the backend refuses to start without JWT_SECRET, and with the committed dev secret
+    # unless the operator opted in to development defaults (ProductionMode: Spring profile dev, which sets it in
+    # application-dev.yml, or APP_ALLOW_DEV_DEFAULTS=true). SecurityConfig.refuseDevelopmentSecretInProduction.
+    jwt-secret: ${JWT_SECRET:}
+    access-token-ttl: 15m
+    refresh-token-ttl: 30d
+    # Sessions of ADMIN and AUTHOR accounts (readers keep refresh-token-ttl, sliding). A session ends after this long without use
+    # (every refresh renews it) and, however active it was, this long after the person signed in; the shorter limit wins. A new
+    # session means a new second-step code for an account that has one. Spring durations: 7d, 36h, PT12H. Must be longer than zero.
+    privileged-session-idle-ttl: ${PRIVILEGED_SESSION_IDLE_TTL:7d}
+    privileged-session-absolute-ttl: ${PRIVILEGED_SESSION_ABSOLUTE_TTL:30d}
+  # Two-step verification (MfaProperties). MFA_ENCRYPTION_KEY is required in every mode, no default: the backend refuses to start
+  # without it, with a key that is not the base64 of exactly 32 bytes, and (in production, see ProductionMode) with the committed dev
+  # key or the same value as JWT_SECRET. The dev key lives only in application-dev.yml and the test configuration. Generate one with
+  # `openssl rand -base64 32` and keep a copy outside the server: a database dump does not contain it.
+  mfa:
+    encryption-key: ${MFA_ENCRYPTION_KEY:}
+    # Shown next to the account in the authenticator app.
+    issuer: Blog
+    # Life of the challenge between the password (or GitHub) step and the code step; at most 15m.
+    challenge-ttl: 5m
+    # How recently a person must have signed in to change two-step verification or the password; at most 60m.
+    reauth-window: 10m
+    # The operator's proof for the forced enrollment of an install that already exists (at least 24 characters). Empty = the backend
+    # writes a code file next to the setup code (MfaEnrollmentCodeStore); remove the variable after the enrollment.
+    enrollment-token: ${MFA_ENROLLMENT_TOKEN:}
+    # Operator reset of one admin's second step at startup: acts once per distinct MFA_RESET_TOKEN (at least 24 characters).
+    reset-email: ${MFA_RESET_EMAIL:}
+    reset-token: ${MFA_RESET_TOKEN:}
+  # Pipeline for uploaded images (MediaProperties).
+  media:
+    # Maximum bytes of the uploaded file, checked in code -> 413 MEDIA_TOO_LARGE.
+    max-upload-size: 10MB
+    # Ceiling per image AFTER re-encoding; equals the CHECK byte_size <= 4194304 of the media table. The Next /media route
+    # runs as a function on Vercel, and a function response is capped at around 4.5 MB.
+    max-stored-size: 4MB
+    # Maximum width x height, read from the header before the decode step: a "bomb" image is rejected before it costs any memory.
+    max-pixels: 50000000
+    # Maximum long edge of the stored image: enough for the widest screen the site renders on, at 2x pixel density.
+    max-edge: 2400
+    # The stored picture is the master that /_next/image re-encodes once more to AVIF/WebP, so it is kept at a high quality: two lossy passes
+    # at 0.85 and 75 showed visible blocking in skies and skin. A noisy 2400px photo that still exceeds max-stored-size is shrunk by the loop.
+    jpeg-quality: 0.92
+    # Total size of images (quota) -> 422 MEDIA_QUOTA_EXCEEDED. On the Neon free tier (~0.5 GB for the whole DB)
+    # set it lower, for example 400MB.
+    max-total-size: ${MEDIA_MAX_TOTAL_SIZE:1GB}
+    # One large image can take up to a hundred MB of heap while being processed (decoded image, downscaled copy, encoded copy);
+    # two at once in a 512 MB container is enough for an OOM.
+    processing-permits: 1
+    # Waiting too long for a permit -> 503 MEDIA_BUSY instead of hanging the request.
+    processing-wait: 20s
+  # What an AUTHOR may write (AuthorQuotaProperties). An ADMIN is exempt from all of it. Every value has an environment variable;
+  # docs/CONFIGURATION.md ("Author limits") explains them. The burst limits (writes, tag and category creation, uploads in a time
+  # window) are app.rate-limit.post-write, taxonomy-create and media-upload.
+  author-quota:
+    # Tags on one post -> 400 VALIDATION_ERROR.
+    max-tags-per-post: ${AUTHOR_MAX_TAGS_PER_POST:10}
+    # Posts created in the last 24 hours (a ZIP or Markdown import counts each post) -> 429 AUTHOR_QUOTA_EXCEEDED.
+    max-posts-per-day: ${AUTHOR_MAX_POSTS_PER_DAY:30}
+    # Images in the body of one post -> 422 AUTHOR_QUOTA_EXCEEDED.
+    max-body-images-per-post: ${AUTHOR_MAX_BODY_IMAGES_PER_POST:30}
+    # Tags and categories in the whole catalog; above them an AUTHOR cannot create another one (an ADMIN can) -> 422 AUTHOR_QUOTA_EXCEEDED.
+    max-tags: ${AUTHOR_MAX_TAGS:1000}
+    max-categories: ${AUTHOR_MAX_CATEGORIES:100}
+    # Stored image bytes (covers and body images) of one AUTHOR, and the share of media.max-total-size that all AUTHORS together may
+    # use -> 422 MEDIA_QUOTA_EXCEEDED. The rest of the quota stays for the ADMIN's images (gallery, About photo, covers).
+    media-per-author: ${AUTHOR_MEDIA_MAX_SIZE:100MB}
+    media-all-authors-percent: ${AUTHOR_MEDIA_SHARE_PERCENT:50}
+    # Old addresses (slugs) that the post of an AUTHOR keeps working after renames; the oldest are dropped. An ADMIN's posts keep all.
+    max-slug-history-per-post: ${AUTHOR_MAX_SLUG_HISTORY:5}
+  # View counter (ViewsProperties).
+  views:
+    # Shared token between the Next server and the backend for POST /api/v1/posts/{slug}/views. Required in production (ProductionMode):
+    # an empty value makes the backend refuse to start (ViewsTokenWarning), unless the dev profile or APP_ALLOW_DEV_DEFAULTS=true opts in
+    # (then anyone can count). Set the same VIEWS_TOKEN value for the frontend: if one side is missing, every view silently becomes a 403.
+    token: ${VIEWS_TOKEN:}
+  # The reader's address as Next forwards it (ClientIpProperties, ClientAddressResolver). Next sends the address it worked out in
+  # X-Client-Ip together with this shared secret in X-Client-Ip-Token; the backend believes the address only when the secret matches
+  # (constant-time compare), otherwise it counts the socket address. The per-address limits (contact, newsletter, login, refresh,
+  # setup, search) key on it. Required in production (ProductionMode): an empty value makes the backend refuse to start
+  # (ClientIpTokenCheck), unless the dev profile or APP_ALLOW_DEV_DEFAULTS=true opts in. Set the same CLIENT_IP_TOKEN for the frontend:
+  # if one side is missing, the readers behind Next all count as one caller.
+  client-ip:
+    token: ${CLIENT_IP_TOKEN:}
+  # View statistics (AnalyticsProperties).
+  analytics:
+    # Time zone that decides the day boundary of views, on write and on read; the JVM still runs UTC. Empty is the default. An invalid id
+    # makes the backend refuse to start. Changing the value does not move data already written to another day.
+    time-zone: ${ANALYTICS_TIME_ZONE:Asia/Ho_Chi_Minh}
+  # Newsletter (NewsletterProperties).
+  newsletter:
+    # log (default): sends no mail, only logs the mail kind and id. smtp: sends through spring.mail.* above, and the backend refuses to
+    # start when SITE_URL is not a public https, NEWSLETTER_FROM is wrong, SMTP_HOST is empty or NEWSLETTER_SECRET is short.
+    transport: ${NEWSLETTER_TRANSPORT:log}
+    # The sender, for example "Blog <newsletter@example.com>"; the domain must be authenticated with the SMTP provider (SPF, DKIM).
+    from: ${NEWSLETTER_FROM:}
+    # HMAC key of the unsubscribe link and the suppression hash: changing the value voids every old unsubscribe link and every suppression row. Empty with
+    # the log transport uses a fixed dev key (NewsletterProperties.DEV_SECRET), with a WARN when SITE_URL is a public address.
+    secret: ${NEWSLETTER_SECRET:}
+    # The mail-sending worker (NewsletterSchedule). Every IT turns it off and calls NewsletterWorker directly.
+    worker-enabled: true
+    worker-delay: 30s
+  # Contact form (ContactProperties).
+  contact:
+    # The address that receives a mail copy of every contact message, through the newsletter transport (NEWSLETTER_TRANSPORT: log sends
+    # nothing, smtp sends). Empty (default) = store only; the admin reads the messages at /admin/contact. The message is stored first.
+    recipient: ${CONTACT_RECIPIENT:}
+    # How long a message is kept (ContactRetentionProperties): a nightly job deletes the messages older than this many days, read or
+    # not. 0 turns it off and keeps every message until an administrator deletes it. The cron is the run time; - turns the job off.
+    retention:
+      days: ${CONTACT_RETENTION_DAYS:365}
+      cron: ${CONTACT_RETENTION_CRON:0 43 3 * * *}
+  # Search GET /api/v1/search (SearchProperties).
+  search:
+    # postgres (default) or meilisearch. Postgres is always the source of truth; to roll back just set postgres again.
+    engine: ${SEARCH_ENGINE:postgres}
+    # Meilisearch. The master key is only on the backend: used to create the search key and the indexing key (fixed uid, value derived
+    # by HMAC), never for queries. When the engine is broken, slow or not configured, search returns the Postgres result with
+    # degraded=true.
+    meili:
+      url: ${MEILI_URL:}
+      master-key: ${MEILI_MASTER_KEY:}
+      index-name: ${MEILI_INDEX_NAME:content_v1}
+      connect-timeout: 500ms
+      search-timeout: 800ms
+      admin-timeout: 10s
+    # The worker that syncs the index from the search_outbox outbox (SearchSchedule). Works only when MEILI_URL has a value (even when
+    # SEARCH_ENGINE=postgres, so that rolling back does not leave the old index stale); without it no run touches the DB. Every IT turns it off and calls
+    # SearchOutboxWorker directly.
+    worker-enabled: true
+    worker-delay: 10s
+    # Reconciles the index with PostgreSQL by contentHash (SearchReconcileSchedule): fixes missing, stale and extra documents and clears
+    # FAILED rows. A Spring cron (second minute hour day month weekday), default minute 23 of every hour; "-" turns it off. Does nothing when Meilisearch is not
+    # configured or there is no index yet.
+    reconcile-cron: "0 23 * * * *"

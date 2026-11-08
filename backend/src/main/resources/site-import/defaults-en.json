@@ -1,0 +1,205 @@
+{
+  "format": "site-content",
+  "formatVersion": 1,
+  "locale": "en",
+  "sections": {
+    "site": {
+      "schemaVersion": 1,
+      "payload": {
+        "name": "Your Site Name",
+        "tagline": "A personal blog",
+        "positioning": "Notes, projects and write-ups. Replace this sentence in Admin > Settings."
+      }
+    },
+    "profile": {
+      "schemaVersion": 1,
+      "payload": {
+        "name": "Your Name",
+        "location": "Your city, Your country",
+        "role": "Your role",
+        "seeking": "Say here what you are looking for, or clear this field in Admin > Settings.",
+        "avatar": null,
+        "galleryLead": "A few photos from my days. Replace this line in Admin > Settings.",
+        "hero": {
+          "greeting": "Hi, I am Your Name.",
+          "headline": "Write one line about what you do. Replace this in Admin > Settings.",
+          "subline": "Write one line about what you write about."
+        }
+      }
+    },
+    "about": {
+      "schemaVersion": 1,
+      "payload": {
+        "intro": "This page is a template. Replace every paragraph in Admin > Settings.",
+        "sections": [
+          {
+            "id": "who",
+            "title": "Who I am",
+            "body": [
+              "Introduce yourself in a few sentences: your name, what you do and why you keep this site.",
+              "Replace this text in Admin > Settings."
+            ]
+          },
+          {
+            "id": "stack",
+            "title": "What I work with",
+            "body": [
+              "List the tools and technologies you use most, and what you use them for."
+            ]
+          },
+          {
+            "id": "building",
+            "title": "What I am building",
+            "body": [
+              "Describe the project you spend most of your time on."
+            ]
+          },
+          {
+            "id": "learning",
+            "title": "What I am learning",
+            "body": [
+              "Say what you are studying now and why it matters to you."
+            ]
+          },
+          {
+            "id": "writing",
+            "title": "Why I write",
+            "body": [
+              "Explain what you write about and who you write it for."
+            ]
+          }
+        ]
+      }
+    },
+    "skills": {
+      "schemaVersion": 1,
+      "payload": {
+        "groups": [
+          {
+            "id": "backend",
+            "title": "Backend",
+            "defaultLevel": "used-in-project",
+            "items": [
+              {
+                "name": "Java"
+              },
+              {
+                "name": "PostgreSQL"
+              },
+              {
+                "name": "Docker",
+                "level": "worked-with"
+              }
+            ]
+          },
+          {
+            "id": "frontend",
+            "title": "Frontend",
+            "defaultLevel": "used-in-project",
+            "items": [
+              {
+                "name": "TypeScript"
+              },
+              {
+                "name": "React"
+              },
+              {
+                "name": "Tailwind CSS",
+                "level": "worked-with"
+              },
+              {
+                "name": "Playwright",
+                "level": "worked-with",
+                "note": "Replace these skills in Admin > Settings."
+              }
+            ]
+          },
+          {
+            "id": "practice",
+            "title": "Practice",
+            "defaultLevel": "worked-with",
+            "items": [
+              {
+                "name": "Git"
+              },
+              {
+                "name": "Testing"
+              },
+              {
+                "name": "Observability",
+                "level": "learning"
+              },
+              {
+                "name": "Kubernetes",
+                "level": "learning"
+              },
+              {
+                "name": "Rust",
+                "level": "learning"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "now": {
+      "schemaVersion": 1,
+      "payload": {
+        "lastUpdated": "2026-10-11",
+        "intro": "What I am spending time on right now. Replace this list in Admin > Settings.",
+        "items": [
+          {
+            "text": "Setting up this site and writing a first post."
+          },
+          {
+            "text": "Reading the posts I have written so far.",
+            "evidence": {
+              "href": "/writing",
+              "label": "All posts"
+            }
+          },
+          {
+            "text": "Learning one new tool, a little every week."
+          }
+        ]
+      }
+    },
+    "timeline": {
+      "schemaVersion": 1,
+      "payload": {
+        "experienceSummary": "Summarise your experience in a sentence or two. Replace this in Admin > Settings.",
+        "entries": [
+          {
+            "kind": "education",
+            "title": "Your degree or course",
+            "org": null,
+            "period": null,
+            "summary": "Say what you studied."
+          },
+          {
+            "kind": "experience",
+            "title": "Your role",
+            "org": null,
+            "period": null,
+            "summary": "Say what you did and what you learned."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "schemaVersion": 1,
+      "payload": {
+        "email": null,
+        "github": null,
+        "blurb": "Add your email and GitHub address in Admin > Settings so readers can reach you.",
+        "social": []
+      }
+    },
+    "blogroll": {
+      "schemaVersion": 1,
+      "payload": {
+        "entries": []
+      }
+    }
+  }
+}

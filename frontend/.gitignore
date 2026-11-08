@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+
+# Every env file Next loads, not just the two that got noticed. Its loader reads
+# .env.<mode>.local, .env.local, .env.<mode> and .env for mode in test/development/
+# production — so .env.production and .env.development were committable, and every task
+# in this plan ends with `git add frontend/`. Allow-list the example instead.
+.env*
+!.env.example
+
+*.tsbuildinfo
+next-env.d.ts
+
+# Written by `next dev`, never by `next build` — which is why they are easy to miss and
+# easy to sweep into a commit with `git add frontend/`.
+AGENTS.md
+CLAUDE.md

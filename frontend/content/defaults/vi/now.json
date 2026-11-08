@@ -1,0 +1,12 @@
+{
+  "lastUpdated": "2026-10-11",
+  "intro": "Điều tôi đang dành thời gian cho lúc này. Hãy thay danh sách này trong Quản trị > Cài đặt.",
+  "items": [
+    { "text": "Thiết lập site này và viết bài đầu tiên." },
+    {
+      "text": "Đọc lại các bài viết tôi đã viết.",
+      "evidence": { "href": "/writing", "label": "Tất cả bài viết" }
+    },
+    { "text": "Học một công cụ mới, mỗi tuần một chút." }
+  ]
+}
