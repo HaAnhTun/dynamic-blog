@@ -20,6 +20,9 @@ FROM node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# A fresh checkout may have no `public` folder: git keeps no empty folder, and the published repository ships no illustration of
+# its own. The runtime stage copies /app/public (Docker has no conditional copy), so it is made here, before the build.
+RUN mkdir -p public
 
 # The API base URL is read at RUN time by server-side code, not inlined at build time, so
 # it is deliberately NOT a build arg. NEXT_PUBLIC_SITE_URL is different: anything
@@ -91,7 +94,7 @@ RUN addgroup -S nodejs && adduser -S -G nodejs nextjs \
 # loudly as a site with no CSS and no images, which is at least easy to diagnose.
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
-# `public` must exist for this COPY (Docker has no conditional copy); the tracked public/images files keep it in git. No dotfile
+# `public` must exist for this COPY (Docker has no conditional copy): the build stage makes it when a checkout has none. No dotfile
 # placeholder in there: Next serves public/ from the web root and answers GET /.gitkeep with a 500 (frontend/test/docker-context.test.ts).
 # No robots.txt or sitemap.xml either: app/robots.ts and app/sitemap.ts generate both, and a static file would shadow the route.
 COPY --from=build /app/public ./public

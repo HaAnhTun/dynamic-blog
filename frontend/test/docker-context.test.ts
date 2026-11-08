@@ -53,4 +53,15 @@ describe('frontend Docker build context', () => {
     const dotfiles = allEntries(join(root, 'public')).filter((path) => path.split(/[\\/]/).some((part) => part.startsWith('.')))
     expect(dotfiles).toEqual([])
   })
+
+  it('the build stage creates public/, so a checkout that has none still builds (git keeps no empty folder)', () => {
+    // The published repository ships no illustration of its own, so `frontend/public` is not in a fresh checkout, and the runtime
+    // stage COPY of /app/public failed on CI ("/app/public": not found). The folder is made in the build stage, before the build.
+    const dockerfile = readFileSync(join(root, 'Dockerfile'), 'utf8')
+    const buildStage = dockerfile.slice(dockerfile.indexOf('AS build'), dockerfile.indexOf('AS runtime'))
+    expect(buildStage).toMatch(/^RUN mkdir -p public$/m)
+    expect(buildStage.indexOf('COPY . .')).toBeGreaterThan(-1)
+    expect(buildStage.indexOf('RUN mkdir -p public')).toBeGreaterThan(buildStage.indexOf('COPY . .'))
+    expect(buildStage.indexOf('RUN mkdir -p public')).toBeLessThan(buildStage.indexOf('RUN npm run build'))
+  })
 })
