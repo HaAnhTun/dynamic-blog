@@ -307,7 +307,8 @@ Both scripts use Node's built-in modules only. Change an article or an image in 
 - **english**: the guard tool tests, the migration check on pull requests, and the strict English guard.
 - **guards**: the strict English guard, the generic leak scan, two secret scans with gitleaks (the files of the checkout, and the
   commits: a pull request from its merge base, a push the whole history, so a secret that was added and removed again is still
-  found), and the third-party license check. `.gitleaks.toml` allows only a list of exact invented test values, never a file. A push
+  found), and the third-party license check (which has no network of its own and reads the POMs of the local Maven repository, so the job
+  installs Java and runs `mvn dependency:resolve` first; without it every backend dependency is reported as `unknown`). `.gitleaks.toml` allows only a list of exact invented test values, never a file. A push
   scans every branch that the checkout holds (`--all`, not only the pushed one), so a secret-shaped fixture on any branch turns the
   push build of every branch red until its exact value is allowlisted or the commit is gone; build such values at run time, as
   `scripts/test_gitleaks_config.py` does. To run both locally, from the repository root (`<image>` is the one in `ci.yml`):

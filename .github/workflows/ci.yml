@@ -169,6 +169,17 @@ jobs:
       # The TypeScript compiler from the frontend dependencies is used by the English guard.
       - run: npm ci --ignore-scripts
         working-directory: frontend
+      # The license check has no network of its own: it reads the POMs of the local Maven repository, and a runner starts with none,
+      # which reported every backend dependency as "unknown". Resolving the dependency tree fills the repository first.
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '25' # <java.version> of backend/pom.xml
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      - name: Resolve the Maven dependencies (the license check reads their POMs)
+        run: mvn -B -ntp -q dependency:resolve
+        working-directory: backend
       # Zero Vietnamese outside the allowlist. The parity of messages/en.json and vi.json is covered by `npm test`
       # (frontend job), so there is no second catalog check here.
       - name: English guard (strict)
