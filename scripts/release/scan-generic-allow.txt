@@ -22,6 +22,10 @@ github-url | frontend/app/*/(site)/u/*/page.test.tsx | github.com/alice-gh | inv
 github-url | frontend/components/site/ProfileCard.test.tsx | github.com/doc-gia | invented login in a test fixture
 github-url | frontend/components/site/ProfileCard.test.tsx | github.com/a | invented login in a test fixture
 
+# Invented accounts in the tests of the scanner itself
+github-url | scripts/test_scan_generic.py | * | invented logins in the fixtures of the scanner's own tests
+email | scripts/test_scan_generic.py | git@github.com | an invented git remote address in a test of the owner lookup
+
 # Fake or public addresses in tests and comments
 email | backend/src/main/java/com/blog/common/security/AdminSeedEmail.java | me@x.com | invented address in an explanatory comment
 email | backend/src/test/java/com/blog/analytics/service/ViewSourceClassifierTest.java | user@google.com | invented address in a test fixture
