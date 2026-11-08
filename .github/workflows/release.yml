@@ -87,14 +87,14 @@ jobs:
           fi
       # The BuildKit image would float (the buildx-stable-1 tag), so it is pinned by tag and digest. Dependabot cannot update a `with:`
       # input: refresh it by hand with `docker buildx imagetools inspect <name>:<tag>` (docs/DEVELOPMENT.md, "Release").
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
         with:
           driver-opts: image=moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
       # The scan builds the image once for linux/amd64 into an archive on the runner. Nothing is pushed and no tag exists. The Alpine
       # packages are the same on arm64. The push job reads the same cache, so it rebuilds from it; the scanned image and the pushed one
       # are two builds of the same pinned inputs (the digest that is pushed is not the digest that was scanned).
       - name: Build the image for the scan
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: ${{ matrix.context }}
           platforms: linux/amd64
@@ -162,20 +162,20 @@ jobs:
       # The two helper images of the actions below would float (a moving binfmt tag, the buildx-stable-1 BuildKit tag) and they run in the job that holds
       # `packages: write`; both are pinned by tag and digest. Dependabot cannot update a `with:` input: refresh them by hand with
       # `docker buildx imagetools inspect <name>:<tag>` (docs/DEVELOPMENT.md, "Release").
-      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
         with:
           image: tonistiigi/binfmt:qemu-v10.2.3-68@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
         with:
           driver-opts: image=moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
-      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+      - uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       # v1.2.3 gives 1.2.3, 1.2 and latest; a pre-release such as v1.0.0-rc.1 gives only 1.0.0-rc.1 (no latest).
       - id: meta
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           images: ${{ steps.image.outputs.name }}
           tags: |
@@ -189,7 +189,7 @@ jobs:
       # to verify. Look at it again when Dependabot proposes a new installer.
       - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - id: push
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: ${{ matrix.context }}
           platforms: linux/amd64,linux/arm64

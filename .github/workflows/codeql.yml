@@ -41,7 +41,7 @@ jobs:
           java-version: '25'
           cache: maven
           cache-dependency-path: backend/pom.xml
-      - uses: github/codeql-action/init@ce5e7eeac396d720fe2d802714996c8ce561e311 # v3.39.0
+      - uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -49,6 +49,6 @@ jobs:
         if: matrix.language == 'java-kotlin'
         run: mvn -B -ntp -DskipTests package
         working-directory: backend
-      - uses: github/codeql-action/analyze@ce5e7eeac396d720fe2d802714996c8ce561e311 # v3.39.0
+      - uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
         with:
           category: /language:${{ matrix.language }}
