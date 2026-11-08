@@ -1,0 +1,33 @@
+{
+  "intro": "This page is a template. Replace every paragraph in Admin > Settings.",
+  "sections": [
+    {
+      "id": "who",
+      "title": "Who I am",
+      "body": [
+        "Introduce yourself in a few sentences: your name, what you do and why you keep this site.",
+        "Replace this text in Admin > Settings."
+      ]
+    },
+    {
+      "id": "stack",
+      "title": "What I work with",
+      "body": ["List the tools and technologies you use most, and what you use them for."]
+    },
+    {
+      "id": "building",
+      "title": "What I am building",
+      "body": ["Describe the project you spend most of your time on."]
+    },
+    {
+      "id": "learning",
+      "title": "What I am learning",
+      "body": ["Say what you are studying now and why it matters to you."]
+    },
+    {
+      "id": "writing",
+      "title": "Why I write",
+      "body": ["Explain what you write about and who you write it for."]
+    }
+  ]
+}

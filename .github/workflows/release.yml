@@ -1,0 +1,262 @@
+# Release: push a tag such as v1.0.0 or v1.0.0-rc.1.
+#   1. job `scan`, only when the tagged commit is on master and ci.yml has a successful push run for it: builds the backend image once
+#      for linux/amd64 into an archive on the runner and scans it with Trivy (HIGH and CRITICAL findings with a fix fail the job). The
+#      job has a read-only token (contents, and actions to read the CI runs) and no registry login, no OIDC token and no environment,
+#      and nothing in it pushes
+#   2. job `images`, only when `scan` passed and after the approval of the `release` environment: checks again that the tagged commit
+#      is on master; builds the backend image for linux/amd64 and linux/arm64 and pushes it, with provenance and SBOM attestations,
+#      to ghcr.io/<owner>/blog-engine-backend (tags: the version, and latest for a final release); then signs the pushed digest with
+#      cosign (keyless: the OIDC token of this job) and verifies the signature against the identity of this workflow
+#   3. job `release` creates the GitHub release with the notes of that version taken from CHANGELOG.md
+#
+# A finding in the image therefore stops the release before any image, tag or release is public: `images` needs `scan`, so nothing
+# pushes until the scan passed, and the reviewers of the `release` environment are asked only for a release that is clean.
+# What this file cannot enforce is in the repository settings (reviewers of the `release` environment, a tag ruleset for `v*`, and a
+# branch ruleset for master: a change to this file on master can delete the checks above): the checklist is in docs/DEVELOPMENT.md,
+# "Release". How to verify a signature is in docs/INSTALL.md.
+#
+# There is no frontend image on purpose. NEXT_PUBLIC_SITE_URL, NEXT_PUBLIC_DEFAULT_LOCALE and HSTS_MAX_AGE are compiled into the Next
+# bundle when the image is built, so a prebuilt one could only carry http://localhost:3000: wrong canonical URLs, Open Graph tags and
+# sitemap and no Strict-Transport-Security on a public site, with nothing failing to say so (docs/INSTALL.md, "Prebuilt backend image
+# or build from source"). Every site builds its own frontend with `docker compose up -d --build`; scripts/test_release_workflow.py
+# fails if a frontend entry comes back.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Nothing here can publish: the token is read-only, there is no `docker/login-action`, no `id-token`, and the build writes an archive.
+  # The matrix is the one of `images` (scripts/test_release_workflow.py compares them), so the image that is pushed is scanned.
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # actions: read lets the CI gate step below list the runs of ci.yml. It is a read: neither permission can publish or sign.
+    permissions:
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: backend
+            context: ./backend
+            build-args: ''
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Every branch, not the one commit of the default checkout: the next step needs origin/master. No later step runs a
+          # git command that needs the token.
+          fetch-depth: 0
+          persist-credentials: false
+      # A v* tag can be pushed on any commit of any branch. A commit that is not on master is neither built nor scanned, and it writes
+      # nothing to the build cache that the push job reads.
+      - name: The tagged commit is on master
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::The tagged commit $GITHUB_SHA is not on master. Nothing was published."
+            exit 1
+          fi
+      # A tag on a master commit whose CI is red, still running or cancelled is refused here, before anything is built, scanned or
+      # approved: ci.yml must have a successful push run on master for exactly this commit (backend verify, the secret history scan,
+      # Trivy on the files, npm audit and the rest of ci.yml). It reads the runs with the token of the job (`actions: read`). The count
+      # must be a number: an answer that is not one fails the step instead of passing it. Tag again once the commit is green.
+      - name: CI passed for the tagged commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          runs=$(gh api "repos/${REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${GITHUB_SHA}&event=push&branch=master&status=success&per_page=1" --jq .total_count)
+          case "$runs" in
+            ''|*[!0-9]*)
+              echo "::error::Could not read the CI runs of $GITHUB_SHA. Nothing was published."
+              exit 1
+              ;;
+          esac
+          if [ "$runs" -eq 0 ]; then
+            echo "::error::ci.yml has no successful push run on master for $GITHUB_SHA. Wait for CI to pass, or fix it, then tag again. Nothing was published."
+            exit 1
+          fi
+      # The BuildKit image would float (the buildx-stable-1 tag), so it is pinned by tag and digest. Dependabot cannot update a `with:`
+      # input: refresh it by hand with `docker buildx imagetools inspect <name>:<tag>` (docs/DEVELOPMENT.md, "Release").
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        with:
+          driver-opts: image=moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
+      # The scan builds the image once for linux/amd64 into an archive on the runner. Nothing is pushed and no tag exists. The Alpine
+      # packages are the same on arm64. The push job reads the same cache, so it rebuilds from it; the scanned image and the pushed one
+      # are two builds of the same pinned inputs (the digest that is pushed is not the digest that was scanned).
+      - name: Build the image for the scan
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: ${{ matrix.context }}
+          platforms: linux/amd64
+          build-args: ${{ matrix.build-args }}
+          push: false
+          provenance: false
+          sbom: false
+          tags: blog-engine-${{ matrix.name }}:scan
+          outputs: type=docker,dest=${{ runner.temp }}/scan.tar
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+      # Trivy by digest, the same image as the CI scan job (scripts/test_image_pinning.py: one digest). HIGH and CRITICAL findings with a
+      # fix fail the job; .trivyignore holds the reviewed exceptions. The archive is mounted read-only and the container gets no token.
+      # No '#' may sit inside the run block below (see ci.yml).
+      - name: Scan the image (Trivy)
+        run: >
+          docker run --rm
+          -v "$RUNNER_TEMP:/scan:ro" -v "$GITHUB_WORKSPACE/.trivyignore:/config/.trivyignore:ro"
+          aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+          image --input /scan/scan.tar --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1
+          --ignorefile /config/.trivyignore --no-progress --timeout 20m
+
+  images:
+    # Nothing is pushed unless every leg of `scan` passed. No `if:` may let this job run after a failed scan.
+    needs: scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    # The approval gate. Once the repository settings give the `release` environment required reviewers and a deployment rule for
+    # `v*` tags, nothing below runs, and no write token exists, until a reviewer approves (docs/DEVELOPMENT.md, "Release").
+    # Until then the environment has no rules and this line changes nothing. It holds only while this file keeps the line: a tag on
+    # a commit with an edited release.yml skips it, which is why the settings also need a tag ruleset and a master ruleset.
+    environment: release
+    # packages: write pushes the image. id-token: write lets this job ask GitHub for the OIDC token that the keyless signature is made
+    # with; no other job has it, and neither has the workflow as a whole.
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: backend
+            context: ./backend
+            build-args: ''
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Every branch, not the one commit of the default checkout: the next step needs origin/master. No later step runs a
+          # git command that needs the token.
+          fetch-depth: 0
+          persist-credentials: false
+      # A v* tag can be pushed on any commit of any branch. Images are published only for a commit that is on master, so a tag on
+      # a branch nobody reviewed, or a tag pushed by mistake, publishes nothing.
+      - name: The tagged commit is on master
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::The tagged commit $GITHUB_SHA is not on master. Nothing was published."
+            exit 1
+          fi
+      # ghcr.io wants a lowercase image name; the owner of the repository may have capitals.
+      - name: Image name
+        id: image
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/blog-engine-${{ matrix.name }}" >> "$GITHUB_OUTPUT"
+      # The two helper images of the actions below would float (a moving binfmt tag, the buildx-stable-1 BuildKit tag) and they run in the job that holds
+      # `packages: write`; both are pinned by tag and digest. Dependabot cannot update a `with:` input: refresh them by hand with
+      # `docker buildx imagetools inspect <name>:<tag>` (docs/DEVELOPMENT.md, "Release").
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
+        with:
+          image: tonistiigi/binfmt:qemu-v10.2.3-68@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        with:
+          driver-opts: image=moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # v1.2.3 gives 1.2.3, 1.2 and latest; a pre-release such as v1.0.0-rc.1 gives only 1.0.0-rc.1 (no latest).
+      - id: meta
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        with:
+          images: ${{ steps.image.outputs.name }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+      # cosign is installed before the push, so that a failed download or checksum stops the job while nothing is public. The installer
+      # verifies the cosign binary it downloads against a checksum inside the pinned action. The version it installs is the default
+      # of that pinned action (cosign 3 at v4.1.2, which signs in the Sigstore bundle format): docs/INSTALL.md says what a user needs
+      # to verify. Look at it again when Dependabot proposes a new installer.
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - id: push
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: ${{ matrix.context }}
+          platforms: linux/amd64,linux/arm64
+          build-args: ${{ matrix.build-args }}
+          push: true
+          # Build attestations stored with the image in the registry: how and from which commit it was built (SLSA provenance, with
+          # the Dockerfile and the build arguments, which hold nothing secret) and its software bill of materials. They are not a
+          # signature; the signature is made below. The SBOM scanner image is pinned like the other helper images.
+          provenance: mode=max
+          sbom: generator=docker/buildkit-syft-scanner:1.12.0@sha256:ae4f3b554449e7e25548e7d8ccc029d17357348e30c6e3df01b92bc93654d6a9
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+      # Keyless signature (Sigstore): the certificate is issued for the identity of this workflow run and recorded in the public
+      # transparency log; there is no key to steal or rotate. The digest is signed, not a tag, so the signature belongs to these bytes.
+      - name: Sign the pushed image
+        env:
+          IMAGE: ${{ steps.image.outputs.name }}
+          DIGEST: ${{ steps.push.outputs.digest }}
+        run: cosign sign --yes "${IMAGE}@${DIGEST}"
+      # Prove the signature now, with the check a user runs (docs/INSTALL.md): the certificate must name this repository's release
+      # workflow on a v* tag and GitHub Actions as the issuer. A signature made by anything else does not pass.
+      - name: Verify the signature
+        env:
+          IMAGE: ${{ steps.image.outputs.name }}
+          DIGEST: ${{ steps.push.outputs.digest }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          # A dot in the repository name must match a dot only, not any character.
+          repository_pattern="${REPOSITORY//./[.]}"
+          cosign verify "${IMAGE}@${DIGEST}" \
+            --certificate-identity-regexp "^https://github\.com/${repository_pattern}/\.github/workflows/release\.yml@refs/tags/v" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com
+
+  release:
+    needs: images
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # No later step runs git; `gh release create` authenticates through GH_TOKEN.
+          persist-credentials: false
+      # The notes are the section "## [<version>]" of CHANGELOG.md, up to the next "## " heading. A missing or empty
+      # section fails the release rather than publishing empty notes.
+      - name: Extract the release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          awk -v v="$version" '
+            /^## / { if (found) exit; if (index($0, "## [" v "]") == 1) { found = 1; next } }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if ! grep -q '[^[:space:]]' release-notes.md; then
+            echo "CHANGELOG.md has no section for version $version" >&2
+            exit 1
+          fi
+          cat release-notes.md
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          flags=""
+          case "$TAG" in *-*) flags="--prerelease" ;; esac
+          gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --verify-tag $flags

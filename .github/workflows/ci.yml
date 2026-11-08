@@ -1,0 +1,378 @@
+# CI: independent check suites, run in parallel on every push to master, main or feat/** and on every pull request.
+# Same commands as docs/DEVELOPMENT.md; there is no CI-specific gate beyond the guards and the E2E stack below.
+#
+# frontend, backend, python, english  the unit and static suites
+# guards                               English strict, personal-data and secret scans, license check
+# scan                                 Trivy and npm audit: HIGH and CRITICAL dependency findings with a fix fail the build
+# images                               builds both images, starts the compose stack and checks the hardening of the containers
+# e2e                                  the Playwright suite against a stack started on the runner (docs/DEVELOPMENT.md, "E2E")
+name: CI
+
+on:
+  push:
+    branches: [master, main, 'feat/**']
+  pull_request:
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+# A new push on the same branch, or to the same pull request, cancels the older run still in progress.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22' # same as frontend/Dockerfile
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      # --ignore-scripts: the install runs no package script (frontend/lib/supply-chain/lockfile-install-scripts.test.ts). The registry
+      # signatures and the provenance of every installed package are then verified.
+      - run: npm ci --ignore-scripts
+      - run: npm audit signatures
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      # `vitest run`. vitest.config.mts excludes e2e/** and sets TZ=Asia/Ho_Chi_Minh itself, so a UTC runner is fine.
+      - run: npm test
+      # `next build && verify-css`, no backend needed: generateStaticParams and the sitemap catch errors when the API
+      # is unreachable, as in the Docker image build. With NEXT_PUBLIC_SITE_URL left empty, lib/site.ts uses
+      # http://localhost:3000, so this build has no HSTS; that is fine, it is never deployed.
+      - run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '25' # <java.version> of backend/pom.xml
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      # `clean test`, not just `test` (README, "Testing"). Testcontainers starts postgres:18 on the runner's Docker;
+      # surefire sets -Duser.timezone=UTC itself (pom.xml). Maven is the one preinstalled on the runner: the repo has no wrapper.
+      # `verify` also runs Spotless (format check), Checkstyle and nothing else extra: the ArchUnit tests are ordinary tests.
+      - run: mvn -B -ntp clean verify
+
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          # scripts/test_seo_probe.py needs Python 3.12 or newer: it has a backslash inside an f-string expression (PEP 701).
+          python-version: '3.x'
+      # Standard library only, no pip install; the network is faked in both. Exits non-zero when a case fails.
+      # The seed tool and the SEO probe belong to a deployment that has its own content; the conditions keep CI green
+      # where they do not exist.
+      - run: python seed/test_push.py
+        if: hashFiles('seed/test_push.py') != ''
+      - run: python scripts/test_seo_probe.py
+        if: hashFiles('scripts/test_seo_probe.py') != ''
+      - run: python scripts/test_check_personal_data.py
+        if: hashFiles('scripts/test_check_personal_data.py') != ''
+      - run: python scripts/test_release_export.py
+        if: hashFiles('scripts/test_release_export.py') != ''
+      # Fails on any workflow action or container image that is not pinned to a commit SHA or a digest.
+      - run: python scripts/test_workflow_pinning.py
+      # The Maven policy: enforcer rules, Maven Central only, strict checksums; a scratch project must fail on a foreign repository.
+      # The runner has Maven and the network: REQUIRE_MAVEN makes a missing mvn a failure instead of a skip.
+      - run: python scripts/test_maven_policy.py
+        env:
+          REQUIRE_MAVEN: '1'
+      # The gitleaks allowlist is a list of exact invented values, and a token added then removed again is found in the history.
+      # Needs Docker (the runner has it): REQUIRE_DOCKER makes a missing Docker a failure instead of a skip.
+      - run: python scripts/test_gitleaks_config.py
+        env:
+          REQUIRE_DOCKER: '1'
+      # Every folder with a Dockerfile, compose file, pom.xml or package.json has a Dependabot entry with a cooldown; one Meilisearch version.
+      - run: python scripts/test_dependabot_coverage.py
+      # Fails on a base image, compose image, action helper image or scanner container that is not pinned by tag and digest.
+      - run: python scripts/test_image_pinning.py
+      # Fails on a `${{ github.* }}` (or inputs, steps, needs...) expression inside a `run:` command: such a value goes through env:.
+      - run: python scripts/test_workflow_expressions.py
+      # The cron script printed in docs/BACKUP-AND-RESTORE.md, run under umask 022: folder 0700, dumps 0600, private copies.
+      - run: python scripts/test_backup_script.py
+      # The release workflow keeps its gate: a read-only scan job that the push job needs, approval environment, tag on master, provenance, SBOM, signature.
+      - run: python scripts/test_release_workflow.py
+      # Every recommendation of TRUSTED_PROXY_HOPS=2 names the origin restriction, and the nginx example shows the safe Cloudflare form.
+      - run: python scripts/test_proxy_guidance.py
+      # The proxy examples keep their availability rules: TRACE answered 405, request limits, the picture cache.
+      - run: python scripts/test_proxy_availability.py
+      # The reverse proxy examples of deploy/: access logs without query strings and the nginx TLS floor (static; the Docker run is opt-in).
+      - run: python scripts/test_deploy_examples.py
+      # init-env keeps its generated secrets off command lines and writes .env owner-only.
+      - run: python scripts/test_init_env.py
+      # The trust checks of the content-sync package (HMAC signature, ZIP entries, pg_restore -l allow-list) in PowerShell 7.
+      - run: python scripts/test_content_sync.py
+      # The compose file and Dockerfiles keep their hardening (static: needs the docker CLI, which the runner has).
+      - run: python scripts/test_container_hardening.py
+      # The dev and E2E recipes of the docs and the CI stack listen on 127.0.0.1 only (docs-as-tests.py --check-loopback).
+      - run: python scripts/test_docs_as_tests.py
+
+  english:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      # The TypeScript compiler from the frontend dependencies powers the comment-only proof.
+      - run: npm ci --ignore-scripts
+        working-directory: frontend
+      - run: python scripts/test_validate_english.py
+      # Fails when an applied Flyway migration was edited (always against the merge base with the base branch of the pull request).
+      # The branch name goes through the environment, never into the command text (scripts/test_workflow_expressions.py).
+      - run: python scripts/validate-english.py migrations --base "origin/$BASE_REF"
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+      # Strict mode: zero Vietnamese anywhere outside the allowlist (message catalog vi, content, docs/vi, fixtures/vi, seed articles).
+      - run: python scripts/validate-english.py check --strict
+
+  guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.x'
+      # The TypeScript compiler from the frontend dependencies is used by the English guard.
+      - run: npm ci --ignore-scripts
+        working-directory: frontend
+      # Zero Vietnamese outside the allowlist. The parity of messages/en.json and vi.json is covered by `npm test`
+      # (frontend job), so there is no second catalog check here.
+      - name: English guard (strict)
+        run: python scripts/validate-english.py check --strict
+      - name: Personal data and secrets (generic scan)
+        run: python scripts/release/scan-generic.py
+        if: hashFiles('scripts/release/scan-generic.py') != ''
+      # The official image gitleaks 8.30.1 by digest (Dependabot does not bump it: update ci.yml, the export script and DEVELOPMENT.md
+      # together; scripts/test_image_pinning.py checks they agree). The checkout is mounted read-only. `dir` scans the files of the
+      # checkout, --redact keeps values out of the log. The allowlist of .gitleaks.toml is a list of exact invented values
+      # (scripts/test_gitleaks_config.py).
+      - name: Secrets in the files (gitleaks dir)
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/repo:ro" ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f dir /repo --no-banner --redact
+      # `git` scans the commits. A secret that was added and then removed (in this pull request or before) is in no file any more, but it
+      # is still in the history that gets published. A pull request is scanned from its merge base, a push scans every commit. The
+      # branch name goes through env:, never into the command (scripts/test_workflow_expressions.py).
+      - name: Secrets in the history (gitleaks git)
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          range="--all"
+          if [ "$EVENT" = "pull_request" ]; then range="origin/$BASE_REF..HEAD"; fi
+          docker run --rm -v "$GITHUB_WORKSPACE:/repo:ro" ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f git /repo --no-banner --redact --log-opts="$range"
+      - name: Third-party licenses
+        run: python scripts/release/collect-licenses.py --check
+        if: hashFiles('scripts/release/collect-licenses.py') != ''
+
+  # Known-vulnerable dependencies and risky container/compose settings fail the build (docs/DEVELOPMENT.md, "CI").
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '25' # <java.version> of backend/pom.xml
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      # Trivy reads the dependency tree of pom.xml from the local Maven repository (the remote one rate-limits CI runners),
+      # so fill it first.
+      - run: mvn -B -ntp dependency:resolve
+        working-directory: backend
+      # Production dependencies of the frontend; the audit reads package-lock.json, no install is needed.
+      - run: npm audit --omit=dev --audit-level=high
+        working-directory: frontend
+      # Trivy by digest (the image, not the trivy-action, so no third-party action code runs). HIGH and CRITICAL findings with a
+      # fix fail the step; .trivyignore holds reviewed exceptions, each with a reason and a review date.
+      # Image: aquasec/trivy 0.76.0. No '#' may sit inside the run block below: a folded scalar keeps it in the command and
+      # bash then drops the rest of the line, so Trivy would start without a subcommand and exit 0.
+      - name: Trivy (dependencies and Dockerfile/compose misconfigurations)
+        run: >
+          docker run --rm
+          -v "$GITHUB_WORKSPACE:/src:ro" -v "$HOME/.m2:/root/.m2:ro"
+          aquasec/trivy:0.76.0@sha256:2416d1f74045b57274df1a340eee6b510cacd73c66a6ccb8da092b117eb7d222
+          fs --scanners vuln,misconfig --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --offline-scan
+          --ignorefile /src/.trivyignore --skip-dirs node_modules --no-progress /src
+
+  # The images and the compose file as an operator runs them: both images build, the whole stack (with Meilisearch) starts and every
+  # healthcheck passes with a read-only root, no capabilities and the database on an internal network, and the code in the images is
+  # root-owned (docs/SECURITY.md, "Containers and networks").
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.x'
+      - name: Build and start the stack, inspect the containers
+        run: CONTAINER_STACK_DOCKER=1 python scripts/test_container_hardening.py
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      # The stack of docs/DEVELOPMENT.md ("E2E"): backend :8081, frontend :3100, the fake GitHub on 127.0.0.1:8089, all on loopback.
+      E2E_API_URL: http://localhost:8081
+      E2E_BASE_URL: http://localhost:3100
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+          cache-dependency-path: backend/pom.xml
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.x'
+      # PostgreSQL for the stack, published on the runner's loopback only (the same rule as the recipe in docs/DEVELOPMENT.md). It is
+      # started here and not as a `services:` entry because a service port is published on every interface.
+      # The digest is PostgreSQL 18, the one of the compose files (scripts/test_image_pinning.py); no '#' may sit inside the run block.
+      - name: Start PostgreSQL
+        run: |
+          docker run -d --name blog-pg-e2e -e POSTGRES_DB=blog -e POSTGRES_USER=blog -e POSTGRES_PASSWORD=blog -p 127.0.0.1:15433:5432 postgres@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
+          for i in $(seq 1 30); do
+            if docker exec blog-pg-e2e pg_isready -U blog -d blog > /dev/null 2>&1; then echo "postgres up after $((i * 2)) s"; exit 0; fi
+            sleep 2
+          done
+          echo "postgres did not become ready" >&2
+          docker logs blog-pg-e2e >&2
+          exit 1
+      - name: Build the backend jar
+        run: mvn -B -ntp -DskipTests package
+        working-directory: backend
+      # A fresh database is "setup required", and the setup lock then disables the development password of the seeded admin,
+      # which the E2E admin signs in with: the lock is switched off for this throw-away stack only (SETUP_LOCK_DEV_SEED=false).
+      # ADMIN_GITHUB_ID is the owner user of the fake GitHub. Four rate limits are relaxed because the suite builds data
+      # faster than a reader does (docs/DEVELOPMENT.md). The three provider addresses point at the fake GitHub.
+      # The backend is fail-closed (ProductionMode): this throw-away stack opts in to development defaults (the seeded admin
+      # password, an empty VIEWS_TOKEN) with APP_ALLOW_DEV_DEFAULTS=true and gets its own random JWT_SECRET and
+      # MFA_ENCRYPTION_KEY (the backend refuses to start without a key, in every mode). The frontend and the backend
+      # share one throw-away CLIENT_IP_TOKEN, so the suite exercises the forwarded client address; five per-client-address limits are
+      # relaxed because the suite signs in, refreshes, searches and claims the instance from one machine (docs/DEVELOPMENT.md).
+      - name: Start the backend
+        run: |
+          jar=""
+          for f in backend/target/blog-backend-*.jar; do
+            case "$f" in *.original) ;; *) jar="$f" ;; esac
+          done
+          test -n "$jar" || { echo "no backend jar found" >&2; exit 1; }
+          DB_PORT=15433 SERVER_PORT=8081 SERVER_ADDRESS=127.0.0.1 SITE_URL=http://localhost:3100 SETUP_LOCK_DEV_SEED=false \
+            APP_ALLOW_DEV_DEFAULTS=true JWT_SECRET="$(openssl rand -base64 48)" \
+            MFA_ENCRYPTION_KEY="$(openssl rand -base64 32)" \
+            GITHUB_CLIENT_ID=e2emockclient GITHUB_CLIENT_SECRET=e2emocksecret ADMIN_GITHUB_ID=7999999 \
+            CLIENT_IP_TOKEN=ci-throw-away-client-ip-token \
+            nohup java -Duser.timezone=UTC -jar "$jar" \
+            --app.oauth.github.provider.authorization-uri=http://127.0.0.1:8089/login/oauth/authorize \
+            --app.oauth.github.provider.token-uri=http://127.0.0.1:8089/login/oauth/access_token \
+            --app.oauth.github.provider.user-info-uri=http://127.0.0.1:8089/user \
+            --app.rate-limit.comment.per-minute=20 \
+            --app.rate-limit.comment.per-hour=1000 \
+            --app.rate-limit.comment-edit.per-ten-minutes=200 \
+            --app.rate-limit.like.per-minute=200 \
+            --app.rate-limit.login-client.per-ten-minutes=1000 \
+            --app.rate-limit.mfa-client.per-ten-minutes=1000 \
+            --app.rate-limit.refresh-client.per-ten-minutes=1000 \
+            --app.rate-limit.search-client.per-minute=1000 \
+            --app.rate-limit.setup-client.per-minute=100 \
+            > backend.log 2>&1 &
+          for i in $(seq 1 90); do
+            if curl -fsS http://localhost:8081/api/v1/health > /dev/null 2>&1; then echo "backend up after $((i * 2)) s"; exit 0; fi
+            sleep 2
+          done
+          echo "backend did not become healthy" >&2
+          tail -n 60 backend.log >&2
+          exit 1
+      # The administrator cannot sign in with a password alone: two-step verification is mandatory. The first sign-in of a new stack is
+      # an enrollment, which this script does through the API (the stack opts in to development defaults, so no enrollment code is
+      # asked). It records the authenticator of this throw-away stack in frontend/e2e/.auth/admin-mfa.json (git ignores it), which the
+      # Playwright global setup and the seed tool below use. It needs no `npm ci`: plain Node, no dependency.
+      #
+      # Only where the checkout has its own seed tool (the published product does not): the seed signs in with a code of that
+      # authenticator (BLOG_TOTP), made by the same script.
+      - name: Enroll the administrator's authenticator
+        if: hashFiles('seed/push.py') != ''
+        run: node frontend/scripts/e2e-bootstrap.mjs
+      - name: Seed sample data
+        if: hashFiles('seed/push.py') != ''
+        run: BLOG_TOTP="$(node frontend/scripts/e2e-bootstrap.mjs --code)" python seed/push.py --base-url http://localhost:8081
+      # The published product has no seed tool: the suite starts from the packaged sample content (a category, tags, a series and
+      # four posts), loaded through the documented admin endpoint with the token of the administrator after the same enrollment.
+      - name: Enroll the administrator's authenticator and load the sample content
+        if: hashFiles('seed/push.py') == ''
+        run: node frontend/scripts/e2e-bootstrap.mjs --sample-content
+      - run: npm ci --ignore-scripts
+        working-directory: frontend
+      - name: Build and start the frontend
+        working-directory: frontend
+        run: |
+          export API_BASE_URL=http://localhost:8081 NEXT_PUBLIC_SITE_URL=http://localhost:3100
+          export CLIENT_IP_TOKEN=ci-throw-away-client-ip-token
+          npx next build
+          nohup npx next start -p 3100 -H localhost > ../frontend.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:3100/ > /dev/null 2>&1; then echo "frontend up after $((i * 2)) s"; exit 0; fi
+            sleep 2
+          done
+          echo "frontend did not answer" >&2
+          tail -n 60 ../frontend.log >&2
+          exit 1
+      # `channel: 'chrome'` in playwright.config.ts: the Google Chrome preinstalled on the runner, no browser download.
+      - name: Run Playwright
+        working-directory: frontend
+        run: npm run e2e
+      - name: Upload the report and the logs
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-report
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+            backend.log
+            frontend.log
+          retention-days: 7

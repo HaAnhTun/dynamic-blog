@@ -1,0 +1,109 @@
+# Weekly update pull requests. Grouped so that one run opens at most a handful of them.
+#
+# cooldown: a release is proposed only after it has been public for 7 days (a malicious release is usually pulled within days).
+# Security updates are not delayed by it and are never grouped; turn them on in Settings, Advanced Security, Dependabot security
+# updates (docs/DEVELOPMENT.md, "Release", owner checklist).
+#
+# Pieces that read or render untrusted input (the Markdown pipeline, diagrams, image parsers, the crypto library, the framework
+# parents) stay out of the catch-all group so that each one gets a pull request of its own that a person can read.
+#
+# What Dependabot cannot update, and who does: the images of `docker run` lines and of `with:` inputs in the workflows
+# (docs/DEVELOPMENT.md, "CI" and "Release"). scripts/test_dependabot_coverage.py fails when a folder with a Dockerfile, a compose
+# file, a pom.xml or a package.json has no entry here, or an entry has no cooldown.
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /backend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      maven-minor-and-patch:
+        update-types: [minor, patch]
+        exclude-patterns:
+          - 'org.springframework.boot:*'
+          - 'org.bouncycastle:*'
+          - 'com.drewnoakes:*'
+          - 'com.twelvemonkeys.*'
+          - 'org.springdoc:*'
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+        exclude-patterns:
+          - 'next'
+          - 'next-intl'
+          - 'eslint-config-next'
+          - 'mermaid'
+          - 'rehype-*'
+          - 'remark-*'
+          - 'hast-util-*'
+          - 'unified'
+          - 'unist-util-*'
+          - 'shiki'
+          - '@shikijs/*'
+      # The Markdown, HTML and diagram pipeline for author content: bumped together, away from the tooling.
+      npm-content-pipeline:
+        update-types: [minor, patch]
+        patterns:
+          - 'mermaid'
+          - 'rehype-*'
+          - 'remark-*'
+          - 'hast-util-*'
+          - 'unified'
+          - 'unist-util-*'
+          - 'shiki'
+          - '@shikijs/*'
+  - package-ecosystem: docker
+    directory: /backend
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+  - package-ecosystem: docker
+    directory: /frontend
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+  # docker-compose.yml (PostgreSQL, Meilisearch) and the development compose file of the backend. A new Meilisearch tag needs a reindex
+  # and the copies of the version in the scripts and docs (scripts/test_dependabot_coverage.py names them). A new PostgreSQL major
+  # version needs a data migration (docs/UPGRADING.md), so it is not proposed at all: `ignore` skips the major versions of postgres
+  # (scripts/test_dependabot_coverage.py fails when it is missing); minor and patch releases still arrive. A major upgrade is a
+  # deliberate change, made by hand together with the migration. The CI e2e service and the export script name the same image
+  # (scripts/test_image_pinning.py keeps the digest the same everywhere).
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: postgres
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: docker-compose
+    directory: /backend
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: postgres
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ['*']

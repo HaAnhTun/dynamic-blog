@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "slug": "example-case-study",
+      "title": "Ví dụ nghiên cứu tình huống: giữ dự án dễ kiểm tra",
+      "summary": "Một ví dụ cho thấy cấu trúc của nghiên cứu tình huống. Hãy thay bằng nghiên cứu thật trong Quản trị > Cài đặt.",
+      "problem": ["Ví dụ: dự án lớn dần và không ai biết nó lớn đến đâu hay đã thay đổi thế nào."],
+      "constraints": ["Ví dụ: không thêm công cụ mới, và ai có mã nguồn cũng kiểm tra lại được các con số."],
+      "solution": [
+        "Ví dụ: giữ lịch sử bằng các commit nhỏ và mỗi thay đổi cơ sở dữ liệu nằm trong một migration có số thứ tự, rồi đo bằng các lệnh đơn giản."
+      ],
+      "results": [
+        {
+          "label": "Số tệp migration cơ sở dữ liệu trong kho mã nguồn",
+          "value": "39",
+          "source": "ls backend/src/main/resources/db/migration | wc -l"
+        },
+        {
+          "label": "Số dòng của tệp build backend",
+          "value": "266",
+          "source": "wc -l backend/pom.xml"
+        }
+      ],
+      "ifRedone": ["Ví dụ: tôi sẽ ghi mỗi số đo cùng lệnh tạo ra nó ngay từ đầu, để các con số không bao giờ lỗi thời."],
+      "readMore": [],
+      "lastVerified": "2026-10-11"
+    }
+  ]
+}

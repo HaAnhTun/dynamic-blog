@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "owner": {
+    "name": "Tên của bạn",
+    "href": "/about"
+  },
+  "pages": [
+    {
+      "slug": "writing",
+      "href": "/writing",
+      "title": "Viết",
+      "description": "Ghi chép về lập trình, kiến trúc hệ thống và cách mình làm việc."
+    },
+    {
+      "slug": "start-here",
+      "href": "/start-here",
+      "title": "Bài viết hay",
+      "description": "Những bài nên đọc trước trên blog của Tên site của bạn, xếp theo thứ tự nên đọc."
+    },
+    {
+      "slug": "case-studies",
+      "href": "/case-studies",
+      "title": "Case study",
+      "description": "Case study cho các dự án cá nhân: bài toán, ràng buộc, giải pháp, kết quả đo được, và thứ sẽ làm khác nếu làm lại."
+    },
+    {
+      "slug": "about",
+      "href": "/about",
+      "title": "Giới thiệu",
+      "description": "Mình là ai, làm với cái gì, thích xây cái gì, đang học gì và viết gì ở đây."
+    },
+    {
+      "slug": "topics",
+      "href": "/topics",
+      "title": "Chủ đề",
+      "description": "Mọi chuyên mục và thẻ trên blog, kèm số bài."
+    },
+    {
+      "slug": "archive",
+      "href": "/archive",
+      "title": "Lưu trữ",
+      "description": "Mọi bài đã đăng, theo tháng, mới nhất trước."
+    },
+    {
+      "slug": "series",
+      "href": "/series",
+      "title": "Series",
+      "description": "Những loạt bài nên đọc theo thứ tự, từ phần 1."
+    },
+    {
+      "slug": "gallery",
+      "href": "/gallery",
+      "title": "Ảnh",
+      "description": "Vài tấm ảnh trong những ngày của tôi. Hãy thay dòng này trong Quản trị > Cài đặt."
+    },
+    {
+      "slug": "newsletter",
+      "href": "/newsletter",
+      "title": "Nhận bài qua email",
+      "description": "Nhận một email ngắn mỗi khi blog có bài viết mới. Xác nhận hai bước, huỷ bằng một cú bấm."
+    }
+  ],
+  "caseStudies": [
+    {
+      "slug": "example-case-study",
+      "href": "/case-studies/example-case-study",
+      "title": "Ví dụ nghiên cứu tình huống: giữ dự án dễ kiểm tra",
+      "summary": "Một ví dụ cho thấy cấu trúc của nghiên cứu tình huống. Hãy thay bằng nghiên cứu thật trong Quản trị > Cài đặt.",
+      "body": "Ví dụ: dự án lớn dần và không ai biết nó lớn đến đâu hay đã thay đổi thế nào.\nVí dụ: không thêm công cụ mới, và ai có mã nguồn cũng kiểm tra lại được các con số.\nVí dụ: giữ lịch sử bằng các commit nhỏ và mỗi thay đổi cơ sở dữ liệu nằm trong một migration có số thứ tự, rồi đo bằng các lệnh đơn giản.\nSố tệp migration cơ sở dữ liệu trong kho mã nguồn: 39\nSố dòng của tệp build backend: 266\nVí dụ: tôi sẽ ghi mỗi số đo cùng lệnh tạo ra nó ngay từ đầu, để các con số không bao giờ lỗi thời."
+    }
+  ]
+}

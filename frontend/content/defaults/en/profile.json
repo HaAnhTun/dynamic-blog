@@ -1,0 +1,13 @@
+{
+  "name": "Your Name",
+  "location": "Your city, Your country",
+  "role": "Your role",
+  "seeking": "Say here what you are looking for, or clear this field in Admin > Settings.",
+  "avatar": null,
+  "galleryLead": "A few photos from my days. Replace this line in Admin > Settings.",
+  "hero": {
+    "greeting": "Hi, I am Your Name.",
+    "headline": "Write one line about what you do. Replace this in Admin > Settings.",
+    "subline": "Write one line about what you write about."
+  }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+    <!-- The parity test prints its comparison lines on purpose: the run output is the report. -->
+    <suppress checks="RegexpSinglelineJava" files="MeiliParityIT\.java"/>
+</suppressions>

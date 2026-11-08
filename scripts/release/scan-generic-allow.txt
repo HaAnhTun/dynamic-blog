@@ -1,0 +1,64 @@
+# Allowed findings of scan-generic.py. Format: RULE | PATH_GLOB | MATCH | reason
+# MATCH is `*` (every match of the rule in those files) or a substring of the matched text. The reason is mandatory.
+# Findings that point at real personal data are NOT listed here on purpose: they must be fixed in the repository.
+
+# GitHub's own URL paths (not user logins)
+github-url | * | github.com/login | GitHub OAuth endpoint path, not a user
+github-url | * | github.com/users | GitHub API documentation path, not a user
+github-url | * | github.com/user | GitHub OAuth endpoint path, not a user
+github-url | * | github.com/settings | GitHub settings page path, not a user
+github-url | * | github.com/apps | GitHub apps page path, not a user
+github-url | * | github.com/rest | GitHub REST documentation path, not a user
+github-url | docs/CONVENTIONS.md | github.com/palantir | the public formatter project that the convention names
+github-url | frontend/app/api/views/route.test.ts | github.com/bitinn | public node-fetch project inside a user agent string fixture
+github-url | frontend/components/site/*.test.tsx | github.com/octocat | GitHub's public documentation sample account
+
+# Invented logins in test fixtures
+github-url | backend/src/test/** | github.com/example | invented login in a test fixture
+github-url | backend/src/test/java/com/blog/sitecontent/schema/SiteContentSchemasTest.java | github.com/x | invented login in a test fixture
+github-url | frontend/** | github.com/example-user | invented login in a test fixture
+github-url | frontend/** | github.com/maryexample | invented login in a test fixture
+github-url | frontend/app/*/(site)/u/*/page.test.tsx | github.com/alice-gh | invented login in a test fixture
+github-url | frontend/components/site/ProfileCard.test.tsx | github.com/doc-gia | invented login in a test fixture
+github-url | frontend/components/site/ProfileCard.test.tsx | github.com/a | invented login in a test fixture
+
+# Fake or public addresses in tests and comments
+email | backend/src/main/java/com/blog/common/security/AdminSeedEmail.java | me@x.com | invented address in an explanatory comment
+email | backend/src/test/java/com/blog/analytics/service/ViewSourceClassifierTest.java | user@google.com | invented address in a test fixture
+email | backend/src/test/java/com/blog/newsletter/service/EmailAddressesTest.java | alice@ | malformed invented address in a validation test
+email | backend/src/test/java/com/blog/sitecontent/schema/SiteContentSchemasTest.java | x.com | invented addresses in a validation test
+email | frontend/app/api/views/route.test.ts | @ | public contact addresses of crawler operators inside user agent string fixtures
+email | frontend/components/site/Avatar.test.tsx | evil.example | URL userinfo trick used as a negative test input
+email | frontend/lib/blocks/parse-budget*.test.ts | a@b.co | invented address text: the parse budget prices every place an e-mail address can start
+email | frontend/lib/blocks/parse-budget*.test.ts | a@example.test | invented address in a sentence the parse budget must leave alone
+
+# Paths in comments
+abs-path | backend/src/main/java/com/blog/media/service/MediaService.java | C:\ | Windows path used as an example in a comment
+private-ref | .gitignore | * | comment explaining the ignored private folder
+private-ref | scripts/check-personal-data.py | * | documented default path of the private blocklist, which is never part of the repository
+private-ref | scripts/test_check_personal_data.py | * | same documented default path
+
+# Applied migrations and test fixtures that cannot or need not change
+secret | backend/src/main/resources/db/migration/V8__set_admin_password.sql | * | applied migration (immutable): a salted hash of a throw-away development password
+secret | backend/src/main/resources/db/migration/V36__create_app_settings.sql | * | applied migration (immutable): compares against the same development hash to neutralize it
+secret | backend/src/test/** | * | invented token or key in a test fixture
+secret | frontend/**/*.test.ts | * | invented token in a test fixture
+secret | frontend/**/*.test.tsx | * | invented token in a test fixture
+entropy | backend/src/test/** | * | invented token or key in a test fixture
+entropy | frontend/**/*.test.ts | * | invented token in a test fixture
+entropy | frontend/**/*.test.tsx | * | invented token in a test fixture
+
+# The exporter and its tests (not part of the exported snapshot) name the private folder and carry scanner fixtures
+private-ref | scripts/release/export-clean-snapshot.py | * | the exporter refers to the private folder it never exports
+private-ref | scripts/test_release_export.py | * | exporter tests build paths of the private folder on purpose
+secret | scripts/test_release_export.py | * | invented secrets that test the scanner
+entropy | scripts/test_release_export.py | * | invented high-entropy string that tests the scanner
+github-url | scripts/test_release_export.py | github.com/jane-doe | invented login of the placeholder substitution tests
+github-url | scripts/test_release_export.py | github.com/Jane-Doe | invented login of the placeholder substitution tests
+github-url | CODE_OF_CONDUCT.md | github.com/mozilla | public link of the Contributor Covenant text
+secret | .github/workflows/ci.yml | * | the documented development password of the throw-away E2E stack
+secret | docs/DEVELOPMENT.md | * | the documented development password of the throw-away E2E stack
+
+# The development MFA encryption key: committed on purpose, recognised by a constant, refused in production (MfaSecretCipher.refuseUnsafeKey)
+secret | backend/src/main/resources/application-dev.yml | kKTD05O9 | the throw-away development MFA encryption key; the backend refuses it outside an opted-in development run
+entropy | backend/src/main/java/com/blog/auth/mfa/MfaProperties.java | kKTD05O9 | the constant that names the development MFA encryption key so that production can refuse it

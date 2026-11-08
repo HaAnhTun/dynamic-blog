@@ -1,0 +1,2792 @@
+{
+  "Site": {
+    "account": {
+      "signedOut": "Signed out",
+      "signIn": "Sign in",
+      "signInWithGithub": "Sign in with GitHub",
+      "accountLabel": "Account: {name}",
+      "unreadDescription": "You have {count} unread notifications",
+      "notifications": "Notifications",
+      "notificationsWithCount": "Notifications ({count})",
+      "profile": "Profile",
+      "bookmarks": "Saved posts",
+      "admin": "Admin",
+      "signingOut": "Signing out…",
+      "signOut": "Sign out",
+      "signOutFailed": "Could not sign out. Check your connection and try again."
+    },
+    "login": {
+      "page": {
+        "title": "Sign in",
+        "metaDescription": "Sign in with GitHub to comment on and like posts."
+      },
+      "intro": "The blog only reads your public GitHub name, avatar and username.",
+      "continueWithGithub": "Continue with GitHub",
+      "backHome": "Back to the home page",
+      "errors": {
+        "denied": "You cancelled the sign-in on GitHub. Nothing was saved.",
+        "state": "The sign-in session expired or is not valid. Please try again.",
+        "unavailable": "Could not reach GitHub right now. Try again in a few minutes.",
+        "suspended": "This account is suspended.",
+        "disabled": "Signing in with GitHub is not enabled on this server.",
+        "rate": "You tried to sign in too many times. Wait a few minutes and try again.",
+        "failed": "Sign-in failed. Please try again."
+      }
+    },
+    "profile": {
+      "page": {
+        "title": "Profile",
+        "metaDescription": "Your GitHub account profile on the blog."
+      },
+      "author": {
+        "heading": "Apply to become an author",
+        "adminNote": "You are an admin of the blog: there is no need to apply to become an author.",
+        "authorNote": "You are already an author: write and manage your posts in the <admin>admin area</admin>. If your role was just changed, sign out and sign in again.",
+        "loadFailed": "Could not load the status of your application.",
+        "retry": "Try again",
+        "cannotApply": "Your account cannot submit an application right now.",
+        "deadline": "{time} on {date}",
+        "status": {
+          "pending": {
+            "title": "Waiting for review",
+            "sent": "You submitted the application on <time>{date}</time>.",
+            "review": "An admin will review it, and the result will appear here."
+          },
+          "approved": {
+            "title": "Approved — sign in again to use your author permissions",
+            "detail": "Sign out and sign in again with GitHub, then write and manage your posts in the admin area."
+          },
+          "rejected": {
+            "title": "Rejected",
+            "titleCanApply": "Your previous application was rejected",
+            "canApply": "You can submit a new application below.",
+            "reapplyFrom": "You can apply again from <time>{deadline}</time>.",
+            "notYet": "You cannot apply again right now."
+          }
+        },
+        "form": {
+          "intro": "Authors write and manage their own posts in the admin area. Submit an application for an admin to review; the result appears here.",
+          "motivationLabel": "Why do you want to write for the blog? <optional>(optional)</optional>",
+          "hint": "A few sentences about the topics you plan to write about. Plain text, no formatting.",
+          "sending": "Sending…",
+          "submit": "Submit application",
+          "signInAgain": "Sign in with GitHub again"
+        },
+        "errors": {
+          "sessionExpired": "Your session has ended. Sign in with GitHub again, then resubmit.",
+          "network": "Could not send. Check your connection and try again.",
+          "fallback": "Could not send the application. Please try again.",
+          "tooLong": "The reason can be at most {max} characters long.",
+          "pending": "You already have an application waiting for review. Reload the page to see its status.",
+          "cooldown": "Your previous application was rejected less than 30 days ago, so you cannot apply again yet. Reload the page to see when you can.",
+          "notAllowed": "Only reader accounts can submit an application. If your role was just changed, reload the page.",
+          "rateLimited": "You have sent too many applications in the past hour. Wait a moment and try again.",
+          "suspended": "Your account is suspended, so you cannot submit an application."
+        }
+      }
+    },
+    "bookmarks": {
+      "page": {
+        "title": "Saved posts",
+        "metaDescription": "The posts you saved to read later."
+      },
+      "signInPrompt": "Sign in with GitHub to see the posts you saved.",
+      "signIn": "Sign in with GitHub",
+      "loading": "Loading…",
+      "loadFailed": "Could not load your saved posts.",
+      "retry": "Try again",
+      "empty": "No saved posts yet.",
+      "emptyHint": "Press “Save” at the end of a post to read it again later.",
+      "unsaveLabel": "Remove “{title}” from saved posts",
+      "unsave": "Unsave",
+      "unsaved": "Post removed from saved posts",
+      "loadMore": "Load more"
+    },
+    "notifications": {
+      "page": {
+        "title": "Notifications",
+        "metaDescription": "Notifications about your posts and comments on the blog."
+      },
+      "markedAll": "All notifications marked as read",
+      "markAll": "Mark all as read",
+      "loading": "Loading…",
+      "loadFailed": "Could not load notifications.",
+      "retry": "Try again",
+      "copy": {
+        "lead": {
+          "POST_LIKED": "liked your post",
+          "POST_COMMENTED": "commented on",
+          "COMMENT_REPLIED": "replied to your comment on",
+          "COMMENT_LIKED": "liked your comment on"
+        },
+        "tail": {
+          "POST_LIKED": ".",
+          "POST_COMMENTED": ".",
+          "COMMENT_REPLIED": ".",
+          "COMMENT_LIKED": "."
+        }
+      },
+      "errors": {
+        "network": "Could not send. Check your connection and try again.",
+        "generic": "Could not do that. Please try again."
+      },
+      "item": {
+        "new": "New"
+      },
+      "bell": {
+        "label": "Notifications",
+        "labelUnread": "Notifications, {count} unread",
+        "title": "Notifications",
+        "empty": "No notifications yet.",
+        "viewAll": "View all notifications"
+      },
+      "center": {
+        "signInPrompt": "Sign in with GitHub to see your notifications.",
+        "signIn": "Sign in with GitHub",
+        "deleted": "Notification deleted",
+        "filterLabel": "Filter notifications",
+        "filterAll": "All",
+        "filterUnread": "Unread",
+        "marking": "Marking…",
+        "emptyUnread": "No unread notifications.",
+        "emptyAll": "You have no notifications yet.",
+        "deleteLabel": "Delete the notification from {name}",
+        "loadMore": "Load more"
+      }
+    },
+    "newsletter": {
+      "page": {
+        "title": "Newsletter",
+        "intro": "Whenever there is a new post, you get a short email: the title, a few lines of description and a link to the post. No other mail.",
+        "privacyHeading": "About your address",
+        "privacyStored": "The blog only stores your email address, its status (pending or confirmed) and which posts were sent to it.",
+        "privacyDoubleOptIn": "Two-step signup: you only receive posts after you click the link in the confirmation email.",
+        "privacyUnsubscribeLink": "Every email has an unsubscribe link, no sign-in needed.",
+        "privacyNoTracking": "No tracking pixel. Your address is only handed to the mail service to deliver the email, and to nobody else.",
+        "privacyDeletion": "Unsubscribing deletes your address. The blog only keeps a one-way hash of it, so it never sends to it again until you subscribe and confirm again."
+      },
+      "form": {
+        "emailLabel": "Email address",
+        "submit": "Subscribe",
+        "sending": "Sending…",
+        "accepted": "Check your inbox to confirm. If this address is not subscribed yet, the confirmation email arrives within a few minutes; the link in it works for 48 hours."
+      },
+      "errors": {
+        "emailInvalid": "Enter a valid email address.",
+        "rateLimited": "You have sent too many requests. Wait a moment and try again.",
+        "network": "Could not send. Check your connection and try again.",
+        "generic": "Could not send. Please try again."
+      },
+      "token": {
+        "linkInvalid": "This link is not valid or has expired.",
+        "confirm": {
+          "button": "Confirm subscription",
+          "busy": "Confirming…",
+          "done": "Confirmed. From now on you will get an email whenever the blog has a new post.",
+          "back": "Subscribe again to get a new link"
+        },
+        "unsubscribe": {
+          "button": "Unsubscribe",
+          "busy": "Unsubscribing…",
+          "done": "Unsubscribed. Your address has been deleted, and the blog will not send you any more email.",
+          "back": "Back to the newsletter page"
+        }
+      },
+      "confirm": {
+        "title": "Confirm subscription",
+        "metaDescription": "Confirm your email address to get the blog's new posts.",
+        "intro": "Press the button below to start getting new posts by email."
+      },
+      "unsubscribe": {
+        "title": "Unsubscribe",
+        "metaDescription": "Stop getting the blog's new posts by email.",
+        "intro": "Press the button below to stop getting posts by email. Your address will be deleted."
+      }
+    },
+    "article": {
+      "toc": "Table of contents",
+      "views": "{n, plural, one {{count} view} other {{count} views}}",
+      "readingTime": "{minutes} min read",
+      "updated": "Updated <time>{date}</time>",
+      "tagsLabel": "Tags",
+      "tableNumbered": "Table {n}",
+      "tableNamed": "Table: {label}",
+      "notFoundTitle": "Post not found",
+      "readNextTitle": "What to read next",
+      "translations": {
+        "label": "Read this article in another language"
+      }
+    },
+    "frame": {
+      "sidebarLabel": "Browse the blog",
+      "skipSidebar": "Skip the sidebar",
+      "summary": "Explore · {current}"
+    },
+    "reader": {
+      "leftLabel": "Where you are in the blog",
+      "skipToArticle": "Skip to the article",
+      "exploreTitle": "Explore",
+      "categoryTitle": "More in {category}",
+      "latestTitle": "Latest posts",
+      "archiveMonth": "Archive · {month}",
+      "railLabel": "Reading tools",
+      "progressLabel": "Read",
+      "seriesOverview": "Overview",
+      "subscribe": "Subscribe",
+      "nextPart": "Next part",
+      "actionsLabel": "Post actions",
+      "partBadge": "Part {current} of {total}",
+      "skipToBody": "Skip to the text of the article"
+    },
+    "share": {
+      "label": "Share",
+      "shareOn": "Share on {target}",
+      "sendVia": "Send via…",
+      "copyLink": "Copy link",
+      "copied": "Link copied.",
+      "copyFailed": "Could not copy. You can copy the link from the address bar."
+    },
+    "code": {
+      "copy": "Copy code",
+      "copied": "Code copied.",
+      "copyFailed": "Could not copy the code. You can select it and copy it yourself.",
+      "copyFailedShort": "Could not copy",
+      "highlightedLines": "{count, plural, one {Line {lines} is highlighted.} other {Lines {lines} are highlighted.}}",
+      "lineRange": "{start} to {end}",
+      "diffHint": "Diff: a line that starts with + is added, a line that starts with - is removed."
+    },
+    "like": {
+      "liked": "Liked the post",
+      "unliked": "Like removed",
+      "ariaLabel": "Like this post ({n, plural, one {{count} like} other {{count} likes}})",
+      "guestAriaLabel": "Sign in with GitHub to like this post ({n, plural, one {{count} like} other {{count} likes}})",
+      "guestLabel": "Sign in with GitHub to like"
+    },
+    "bookmarkButton": {
+      "label": "Save",
+      "guestName": "Save — sign in with GitHub",
+      "saved": "Post saved",
+      "unsaved": "Post removed from saved"
+    },
+    "blocks": {
+      "callout": {
+        "types": {
+          "info": "Info",
+          "note": "Note",
+          "tip": "Tip",
+          "warning": "Warning",
+          "danger": "Danger"
+        }
+      },
+      "stepsLabel": "Steps",
+      "takeawaysLabel": "Key takeaways",
+      "checklistLabel": "Checklist",
+      "itemDone": "Done:",
+      "itemNotDone": "Not done:",
+      "codeTabs": {
+        "label": "Code in several versions",
+        "tab": "Tab {n}"
+      },
+      "diagram": {
+        "label": "Diagram",
+        "failed": "The diagram could not be drawn. Its source is shown instead."
+      },
+      "fileTreeLabel": "File tree",
+      "timelineLabel": "Timeline",
+      "metricsLabel": "Key figures",
+      "metric": {
+        "trend": {
+          "up": "Up",
+          "down": "Down",
+          "flat": "Flat"
+        }
+      },
+      "tabsLabel": "Tabs"
+    },
+    "authorBox": {
+      "eyebrow": "Author",
+      "about": "About <arrow>→</arrow>",
+      "startHere": "First time here? Read “Best posts” <arrow>→</arrow>",
+      "email": "Email"
+    },
+    "related": {
+      "title": "Related posts"
+    },
+    "postNav": {
+      "navLabel": "Post navigation",
+      "previous": "Previous post",
+      "next": "Next post",
+      "previousPart": "Previous part · {title}",
+      "nextPart": "Next part · {title}"
+    },
+    "seriesBlock": {
+      "partOf": "Series · Part {current}/{total}",
+      "currentPart": "(currently reading)",
+      "viewAll": "View the whole series <arrow>→</arrow>"
+    },
+    "comments": {
+      "heading": "Comments",
+      "announce": {
+        "posted": "Comment posted",
+        "replied": "Reply posted",
+        "saved": "Comment saved",
+        "deleted": "Comment deleted",
+        "liked": "Liked the comment",
+        "unliked": "Comment like removed"
+      },
+      "empty": "No comments yet. Be the first.",
+      "loadFailed": "Could not load comments.",
+      "retry": "Try again",
+      "loadMore": "Show more comments",
+      "loadingMore": "Loading…",
+      "loading": "Loading comments…",
+      "loginPrompt": "Sign in with GitHub to comment.",
+      "rootForm": {
+        "label": "Your comment",
+        "submit": "Post comment"
+      },
+      "replyForm": {
+        "label": "Your reply",
+        "submit": "Post reply"
+      },
+      "form": {
+        "pending": "Sending…",
+        "minLength": "At least {min} characters.",
+        "needsVisibleText": "Add some visible text.",
+        "shortcutHint": "<kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> to {action}",
+        "cancel": "Cancel"
+      },
+      "like": {
+        "ariaLabel": "Like {author}'s comment ({n, plural, one {{count} like} other {{count} likes}})",
+        "countLabel": "{n, plural, one {like} other {likes}}"
+      },
+      "item": {
+        "ownerBadge": "Site owner",
+        "deleted": "This comment was deleted.",
+        "hidden": "This comment was hidden.",
+        "editedAt": "edited at <time>{date}</time>",
+        "edited": "edited",
+        "editLabel": "Edit comment",
+        "editSave": "Save",
+        "editPending": "Saving…",
+        "reply": "Reply",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this comment?",
+        "deleting": "Deleting…",
+        "cancel": "Cancel"
+      }
+    },
+    "footer": {
+      "navLabel": "Footer links",
+      "readTitle": "Read",
+      "aboutTitle": "About me",
+      "links": {
+        "writing": "Writing",
+        "startHere": "Best posts",
+        "series": "Series",
+        "topics": "Topics",
+        "archive": "Archive",
+        "random": "Read a random post",
+        "about": "About",
+        "caseStudies": "Case studies",
+        "gallery": "Photos",
+        "rss": "RSS",
+        "newsletter": "Newsletter"
+      },
+      "copyright": "© {year} {name}"
+    },
+    "startHere": {
+      "title": "Best posts",
+      "eyebrow": "Start here",
+      "lead": "If you are new to this blog, these are the posts I would like you to read first, in the order I suggest.",
+      "readFirst": "Read these first",
+      "empty": "No posts have been picked yet.",
+      "allPosts": "All posts",
+      "bySeries": "Read by series",
+      "byCategory": "By category",
+      "postsUnit": "{count, plural, one {post} other {posts}}",
+      "closing": "I picked and ordered this list myself — it is not based on page views."
+    },
+    "home": {
+      "introTitle": "Quick intro",
+      "aboutLink": "About page",
+      "featuredTitle": "Best posts",
+      "recentTitle": "New posts",
+      "featuredLead": "{count, plural, =1 {If you are new here, start with this post.} =2 {If you are new here, start with these two posts.} =3 {If you are new here, start with these three posts.} other {If you are new here, start with these posts.}}",
+      "fullList": "Full list",
+      "allPosts": "All posts",
+      "empty": "No posts yet.",
+      "seriesTitle": "Series",
+      "seriesLead": "Posts that build on each other, best read in order.",
+      "allSeries": "All series",
+      "now": {
+        "title": "Now",
+        "updated": "updated <time>{date}</time>"
+      },
+      "timeline": {
+        "title": "Journey",
+        "education": "Education",
+        "experience": "Experience"
+      }
+    },
+    "writing": {
+      "title": "Writing",
+      "statsLine": "{parts, select, postsSeriesViews {{posts, plural, one {# post} other {# posts}} · {series, plural, one {# series} other {# series}} · {views, plural, one {# view} other {# views}}} postsSeries {{posts, plural, one {# post} other {# posts}} · {series, plural, one {# series} other {# series}}} postsViews {{posts, plural, one {# post} other {# posts}} · {views, plural, one {# view} other {# views}}} other {{posts, plural, one {# post} other {# posts}}}}",
+      "random": "Read a random post",
+      "filterHeading": "Filter posts",
+      "categories": "Categories",
+      "discoverTitle": "Discover"
+    },
+    "discovery": {
+      "popular": "Most read",
+      "viewsUnit": "{count, plural, one {view} other {views}}",
+      "readFirst": "Read these first",
+      "fullList": "See the full list",
+      "recent": "Recently written",
+      "series": "Series",
+      "seriesParts": "{parts, plural, one {# part} other {# parts}}",
+      "seriesPartsWithTime": "{parts, plural, one {# part} other {# parts}} · {minutes} min read",
+      "allSeries": "All series",
+      "tags": "Tags",
+      "allTopics": "All topics",
+      "archive": "Archive",
+      "fullArchive": "Full archive",
+      "blogroll": "Blogs worth reading",
+      "randomPost": "Read a random post",
+      "followRss": "Follow by RSS",
+      "postsUnit": "{count, plural, one {post} other {posts}}"
+    },
+    "topics": {
+      "title": "Topics",
+      "empty": "No topics yet.",
+      "categories": "Categories",
+      "tags": "Tags",
+      "postCount": "{count, plural, one {# post} other {# posts}}"
+    },
+    "archive": {
+      "title": "Archive",
+      "yearTitle": "Archive {year}",
+      "yearDescription": "Posts published in {year}, by month.",
+      "notFoundTitle": "Not found",
+      "yearSummary": "{count, plural, one {# post} other {# posts}} in {year}",
+      "byYear": "By year",
+      "byMonth": "By month",
+      "monthLink": "Month {month}",
+      "monthPosts": "{count, plural, one {# post} other {# posts}}",
+      "minutes": "{minutes} min",
+      "empty": "No posts yet."
+    },
+    "series": {
+      "title": "Series",
+      "empty": "No series yet.",
+      "pageTitle": "Series: {title}",
+      "defaultDescription": "The parts of the series {title}, in reading order.",
+      "notFoundTitle": "Series not found",
+      "startAtPart1": "Start with part 1",
+      "part": "Part {number}",
+      "otherSeries": "More series",
+      "otherMeta": "{parts, plural, one {# part} other {# parts}} · {minutes} min read"
+    },
+    "taxonomy": {
+      "backToAll": "← All posts",
+      "tagEyebrow": "Tag",
+      "categoryEyebrow": "Category",
+      "tagTitle": "Tag: {name}",
+      "categoryTitle": "Category: {name}",
+      "tagDescription": "Posts tagged {name}.",
+      "categoryDescription": "Posts in the category {name}.",
+      "tagNotFoundTitle": "Tag not found",
+      "categoryNotFoundTitle": "Category not found",
+      "postCount": "{count, plural, one {# post} other {# posts}}",
+      "tagEmpty": "This tag has no posts yet.",
+      "categoryEmpty": "This category has no posts yet."
+    },
+    "about": {
+      "title": "About",
+      "readNext": "Read next",
+      "readNextLinks": {
+        "startHere": "Best posts",
+        "caseStudies": "Case studies",
+        "writing": "Posts",
+        "gallery": "Photos"
+      },
+      "onThisPage": "On this page",
+      "skillsTitle": "Skills",
+      "experienceTitle": "Experience",
+      "educationTitle": "Education"
+    },
+    "gallery": {
+      "title": "Photos",
+      "count": "{count, plural, one {# photo} other {# photos}}",
+      "empty": "No photos yet.",
+      "seeAll": "See all photos",
+      "photoName": "Photo {number}",
+      "dialogLabel": "Photo {index} of {total}",
+      "close": "Close",
+      "previous": "Previous photo",
+      "next": "Next photo"
+    },
+    "caseStudies": {
+      "title": "Case studies",
+      "intro": "Both case studies below are about <b>this very site</b> and how I work on it: something I own entirely and can make fully public, including the places where I got it wrong. Every number comes with a command or a file so you can check it yourself.",
+      "resultsMeta": "{count, plural, one {# measurement} other {# measurements}}, each with its source · updated {date}",
+      "notFoundTitle": "Case study not found",
+      "problem": "The problem",
+      "constraints": "Constraints",
+      "solution": "The solution, and why this way",
+      "results": "Measured results",
+      "lastRun": "Last re-run: {date}. Every row comes with a command or a file to check it yourself — a number without a source does not belong in this table.",
+      "ifRedone": "If I did it again",
+      "readMore": "Read more",
+      "readNext": "Read next",
+      "allCaseStudies": "All case studies",
+      "posts": "Posts",
+      "measurement": "Measurement",
+      "value": "Value",
+      "source": "Source"
+    },
+    "userProfile": {
+      "notFoundTitle": "User not found",
+      "descriptionAuthor": "Profile of {name} and {count, plural, one {# published post} other {# published posts}}.",
+      "descriptionReader": "Public profile of {name}.",
+      "authorBadge": "Author",
+      "joined": "Joined <time>{date}</time>",
+      "posts": "Posts",
+      "empty": "No posts yet."
+    },
+    "hero": {
+      "readPosts": "Read the posts",
+      "about": "About"
+    },
+    "contact": {
+      "title": "Contact",
+      "form": {
+        "requiredNote": "Fields marked * are required.",
+        "nameLabel": "Name",
+        "emailLabel": "Email",
+        "subjectLabel": "Subject",
+        "optional": "(optional)",
+        "messageLabel": "Message",
+        "namePlaceholder": "Your name",
+        "emailPlaceholder": "you@example.com",
+        "subjectPlaceholder": "What is it about?",
+        "messagePlaceholder": "Write your message here",
+        "submit": "Send message",
+        "sending": "Sending…",
+        "success": "Thanks, your message was sent. I'll reply to the email address you gave."
+      },
+      "errors": {
+        "name": "Enter your name, up to 100 characters.",
+        "email": "Enter a valid email address.",
+        "subject": "Keep the subject under 150 characters.",
+        "message": "Write a message of 10 to 5000 characters.",
+        "validation": "Some fields are not valid. Check them and try again.",
+        "rateLimited": "You have sent too many messages. Wait a while and try again.",
+        "generic": "Could not send your message. Please try again."
+      },
+      "info": {
+        "expectTitle": "What to expect",
+        "expectReply": "I'll reply to the email address you give in the form.",
+        "expectWelcome": "Work enquiries, collaborations and general questions are all welcome.",
+        "responseTitle": "Response time",
+        "responseBody": "Usually within a few working days."
+      }
+    },
+    "profileCard": {
+      "anonymous": "You are not signed in.",
+      "signInGithub": "Sign in with GitHub",
+      "joined": "Joined <time>{date}</time>",
+      "signingOut": "Signing out…",
+      "signOut": "Sign out",
+      "signOutFailed": "Could not sign out. Check your connection and try again."
+    },
+    "pageDescriptions": {
+      "writing": "Notes on programming, system architecture and how I work.",
+      "startHere": "The posts to read first on {name}'s blog, in the order I suggest.",
+      "caseStudies": "Case studies of personal projects: the problem, the constraints, the solution, the measured results, and what I would do differently.",
+      "about": "Who I am, what I work with, what I like to build, what I am learning and what I write about here.",
+      "topics": "Every category and tag on the blog, with post counts.",
+      "archive": "Every published post, by month, newest first.",
+      "series": "Multi-part posts to read in order, starting from part 1.",
+      "gallery": "Photos {name} has posted on this blog.",
+      "newsletter": "Get a short email whenever the blog has a new post. Two-step confirmation, unsubscribe in one click.",
+      "titles": {
+        "topics": "Topics",
+        "archive": "Archive",
+        "series": "Series",
+        "gallery": "Photos",
+        "newsletter": "Newsletter"
+      }
+    },
+    "search": {
+      "degraded": "Using basic search",
+      "heading": "Search",
+      "meta": {
+        "title": "Search",
+        "titleWithQuery": "Search: {query}",
+        "description": "Search the posts by keyword across everything published.",
+        "descriptionFiltered": "Posts that match the selected filters.",
+        "descriptionWithQuery": "Search results for “{query}”."
+      },
+      "form": {
+        "keywordLabel": "Keyword",
+        "placeholder": "markdown, setup, newsletter…",
+        "submit": "Search"
+      },
+      "filters": {
+        "summary": "Filters",
+        "category": "Category",
+        "allCategories": "All categories",
+        "series": "Series",
+        "allSeries": "All series",
+        "tags": "Tags",
+        "combineHelp": "<b>How filters combine:</b> a post must match every selected filter; with several tags, a post must have all of them (at most 5 tags). When you are done, press “Search”."
+      },
+      "active": {
+        "label": "Filtering by:",
+        "clear": "Clear filters",
+        "chip": {
+          "category": "Category: {name}",
+          "tag": "Tag: {name}",
+          "series": "Series: {name}"
+        },
+        "remove": {
+          "category": "Remove category filter: {name}",
+          "tag": "Remove tag filter: {name}",
+          "series": "Remove series filter: {name}"
+        }
+      },
+      "prompt": "Enter a keyword to search the titles, descriptions and content of the published posts. Or browse <link>all posts</link>.",
+      "busy": "There are too many searches right now. Try again in a moment.",
+      "badRequest": "This request could not be searched. Try a shorter keyword or remove some filters.",
+      "noMatch": {
+        "withQuery": "No posts match “{query}”.",
+        "withQueryAndFilters": "No posts match “{query}” and the selected filters.",
+        "filtersOnly": "No posts match the selected filters.",
+        "retryKeyword": "Try a shorter keyword, or browse <link>all posts</link> and look through the categories.",
+        "retryKeywordOrFilters": "Try a shorter keyword or remove some filters, or browse <link>all posts</link> and look through the categories.",
+        "retryFilters": "Try removing some filters, or browse <link>all posts</link> and look through the categories."
+      },
+      "count": {
+        "withQuery": "{count, plural, one {# result for “{query}”} other {# results for “{query}”}}",
+        "filtersOnly": "{count, plural, one {# post matches the filters} other {# posts match the filters}}"
+      },
+      "suggestionsTitle": "Suggested reading"
+    },
+    "palette": {
+      "dialogLabel": "Search",
+      "inputLabel": "Search the blog",
+      "placeholder": "Search posts, code, topics, authors…",
+      "clearQuery": "Clear search",
+      "closeLabel": "Close (esc)",
+      "closeShort": "Close",
+      "maxChars": "At most {max} characters.",
+      "tabsLabel": "Result type",
+      "tabAll": "All",
+      "groups": {
+        "post": "Posts",
+        "topic": "Topics",
+        "series": "Series",
+        "caseStudy": "Case studies",
+        "author": "Authors",
+        "page": "Pages"
+      },
+      "resultsLabel": "Results",
+      "searchPageGroup": "Search page",
+      "hints": {
+        "select": "<kbd>↑</kbd> <kbd>↓</kbd> select",
+        "open": "<kbd>↵</kbd> open",
+        "close": "<kbd>esc</kbd> close"
+      },
+      "clearRecent": "Clear recent searches",
+      "announce": {
+        "results": "{count, plural, one {# result} other {# results}}",
+        "none": "No results",
+        "resultsDegraded": "{count, plural, one {# result} other {# results}}. Using basic search",
+        "noneDegraded": "No results. Using basic search"
+      },
+      "meta": {
+        "readingMinutes": "{minutes} min read",
+        "categoryCount": "Category · {count, plural, one {# post} other {# posts}}",
+        "tagCount": "Tag · {count, plural, one {# post} other {# posts}}",
+        "parts": "{parts, plural, one {# part} other {# parts}}"
+      },
+      "noMatch": {
+        "title": "No results for “{query}”.",
+        "tryShorter": "Try a different, shorter word, or type the whole word.",
+        "searchAllTypes": "Search all types",
+        "openFullSearch": "Open the full search page"
+      },
+      "unavailable": {
+        "rateLimited": "There are too many searches right now. Try again in a moment.",
+        "failed": "Could not search right now.",
+        "tryPage": "Try the search page"
+      },
+      "sections": {
+        "nav": "Quick navigation",
+        "popular": "Most read",
+        "recent": "Recent searches"
+      },
+      "bookmarks": {
+        "title": "Saved posts",
+        "description": "The posts you saved to read later."
+      },
+      "allResults": "See all results for “{query}”"
+    },
+    "shell": {
+      "backToTop": "Back to top",
+      "themeToggle": {
+        "label": "Theme: {current, select, system {system} light {light} other {dark}}. Switch to {next, select, system {system} light {light} other {dark}}.",
+        "title": "Theme: {current, select, system {system} light {light} other {dark}}"
+      }
+    },
+    "nav": {
+      "skipToContent": "Skip to content",
+      "mainLabel": "Main navigation",
+      "search": "Search",
+      "writing": "Writing",
+      "startHere": "Best posts",
+      "caseStudies": "Case studies",
+      "about": "About"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "← Previous page",
+      "next": "Next page →",
+      "status": "Page {page} of {total}"
+    },
+    "errorPage": {
+      "title": "This page could not be loaded",
+      "lead": "Something went wrong while loading this page. This is usually temporary: try again in a moment, or keep reading on another page.",
+      "retry": "Try again",
+      "digest": "Error code: {digest}",
+      "exits": {
+        "home": "Back to home",
+        "allPosts": "See all posts",
+        "search": "Search"
+      }
+    },
+    "notFound": {
+      "title": "Page not found",
+      "lead": "This path does not exist. The post may have moved to a new URL, or it has not been published yet.",
+      "home": "Back to home",
+      "allPosts": "See all posts",
+      "search": "Search"
+    },
+    "listing": {
+      "empty": "No posts yet.",
+      "partLabel": "Part {number}/{total}",
+      "sectionNav": {
+        "label": "Browse posts by",
+        "latest": "Latest",
+        "series": "Series",
+        "topics": "Topics",
+        "archive": "Archive"
+      },
+      "seriesMeta": {
+        "parts": "{count, plural, one {# part} other {# parts}}",
+        "readingMinutes": "{minutes} min read",
+        "updated": "updated <time>{date}</time>"
+      },
+      "seriesEntry": {
+        "moreParts": "{count, plural, one {+# more part} other {+# more parts}}",
+        "ofSeries": "of {title}",
+        "startAtPartOne": "Start at part 1"
+      }
+    },
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "writing": "Writing",
+      "series": "Series"
+    },
+    "time": {
+      "justNow": "just now"
+    },
+    "languageFallback": {
+      "message": "There are no posts in this language yet.",
+      "link": "See this page in {language}."
+    },
+    "entry": {
+      "techLabel": "Technologies",
+      "showMore": "Show {count, plural, one {# more item} other {# more items}}",
+      "showLess": "Show fewer"
+    }
+  },
+  "Errors": {
+    "interaction": {
+      "sessionExpired": "Your session has ended. Sign in with GitHub again to continue.",
+      "network": "Could not send. Check your connection and try again.",
+      "fallback": "Could not do that. Please try again.",
+      "byCode": {
+        "FORBIDDEN": "You do not have permission to do this.",
+        "COMMENT_NOT_FOUND": "This comment no longer exists.",
+        "COMMENT_NOT_REPLYABLE": "You cannot reply to this comment.",
+        "COMMENT_DUPLICATE": "You just sent this exact comment.",
+        "RATE_LIMITED": "You are doing that a bit fast. Wait a moment and try again."
+      },
+      "userSuspended": {
+        "comment": "Your account is suspended, so you cannot comment or like posts.",
+        "like": "Your account is suspended, so you cannot comment or like posts.",
+        "bookmark": "Your account is suspended, so you cannot save posts."
+      },
+      "postNotFound": {
+        "comment": "This post does not accept comments right now.",
+        "like": "This post does not accept likes right now.",
+        "bookmark": "This post is no longer public."
+      },
+      "invalid": {
+        "comment": "A comment needs 2 to 2000 characters.",
+        "like": "Invalid request.",
+        "bookmark": "Invalid request."
+      }
+    },
+    "admin": {
+      "codes": {
+        "MEDIA_TOO_LARGE": "The image is too large, even after resizing. Choose a different image.",
+        "MEDIA_UNSUPPORTED_TYPE": "Only JPEG, PNG or WebP images are accepted.",
+        "MEDIA_UNREADABLE": "This image could not be read; the file may be corrupted.",
+        "MEDIA_DIMENSIONS_TOO_LARGE": "The image has too many pixels (50 million at most).",
+        "MEDIA_QUOTA_EXCEEDED": "The image storage is full. Delete some old images.",
+        "MEDIA_BUSY": "The server is processing another image. Try again in a few seconds.",
+        "MEDIA_NOT_FOUND": "The image was not found; it may have been removed elsewhere.",
+        "POST_NOT_FOUND": "The post was not found; it may have been deleted.",
+        "POST_NOT_PUBLISHABLE": "Cannot publish yet: the saved post needs content and a category. Choose a category, press Save, then publish again.",
+        "CATEGORY_NOT_FOUND": "The category was not found; it may have been deleted.",
+        "CATEGORY_ALREADY_EXISTS": "A category with this name already exists.",
+        "CATEGORY_IN_USE": "Some posts still use this category. Move them to another category, then delete it.",
+        "TAG_NOT_FOUND": "The tag was not found; it may have been deleted.",
+        "TAG_ALREADY_EXISTS": "A tag with this name already exists.",
+        "SERIES_NOT_FOUND": "The series was not found; it may have been deleted.",
+        "SERIES_ALREADY_EXISTS": "A series with this name already exists.",
+        "GALLERY_PHOTO_NOT_FOUND": "The photo was not found; it may have been deleted.",
+        "RESOURCE_CONFLICT": "The data conflicts with existing data (usually a duplicate name or path, or it was just changed elsewhere). Reload the page and try again.",
+        "FORBIDDEN": "This account is not allowed to do that.",
+        "COMMENT_NOT_FOUND": "This comment no longer exists.",
+        "USER_NOT_FOUND": "This user was not found.",
+        "USER_NOT_SUSPENDABLE": "Only reader accounts can be suspended.",
+        "LAST_ADMIN": "Cannot lower this role: the site must always keep at least one active admin.",
+        "SITE_OWNER_PROTECTED": "Only the site owner can change the site owner’s role.",
+        "ROLE_TARGET_SUSPENDED": "This account is suspended: unsuspend it before changing its role.",
+        "AUTHOR_APPLICATION_NOT_FOUND": "This application was not found; the applicant’s account may have been deleted.",
+        "AUTHOR_APPLICATION_PENDING": "This person already has an application waiting for review.",
+        "AUTHOR_APPLICATION_COOLDOWN": "A rejected application cannot be resubmitted until 30 days have passed.",
+        "AUTHOR_APPLICATION_NOT_ALLOWED": "Only reader accounts can apply.",
+        "AUTHOR_APPLICATION_DECIDED": "This application was just decided differently elsewhere. Reload the page to see its new status.",
+        "RATE_LIMITED": "You have done this too many times in a few minutes. Wait a few minutes and try again.",
+        "REVISION_NOT_FOUND": "This revision was not found; it may have been pruned (only the 20 most recent are kept). Reload the page to see the new history.",
+        "TRANSLATION_CONFLICT": "That language is already taken by another post of the same article. Unlink or change that post first.",
+        "SITE_CONTENT_NOT_FOUND": "This content has not been saved yet for this language.",
+        "SITE_CONTENT_INVALID": "The content is not valid. Fix the marked field and save again.",
+        "SITE_CONTENT_REVISION_NOT_FOUND": "That earlier version no longer exists.",
+        "POST_IMPORT_INVALID_FILE": "A file cannot be read as a post file. Check that the name ends in .md, that the file is not empty and that it is plain UTF-8 text.",
+        "POST_IMPORT_INVALID": "Some files have problems. Fix them or untick those files, then preview again.",
+        "POST_IMPORT_HASH_MISMATCH": "The files are not the ones that were previewed. Choose the files again and review the preview.",
+        "POST_IMPORT_PREVIEW_OUT_OF_DATE": "Some posts changed since the preview, so nothing was imported. Preview the files again.",
+        "POST_IMPORT_NOTHING_TO_UNDO": "There is no import to undo.",
+        "POST_IMPORT_UNDO_CONFLICT": "A post that the import wrote was changed afterwards, so the import cannot be undone safely. Nothing was changed.",
+        "POST_IMPORT_MEDIA_QUOTA_EXCEEDED": "The image storage is full, so the images of the package could not be saved and nothing was imported. Delete some old images and import again.",
+        "POST_IMPORT_MEDIA_BUSY": "The server is processing other images. Nothing was imported; try again in a few seconds.",
+        "NEWSLETTER_ISSUE_NOT_FOUND": "This newsletter is no longer waiting for approval; it may have been released or discarded in another tab. Reload the page.",
+        "NEWSLETTER_ISSUE_CHANGED": "The post was changed after this page loaded, so nothing was released. The text shown now is the current one: read it, then release it again.",
+        "AUTHOR_QUOTA_EXCEEDED": "You reached a limit that applies to authors: posts a day, images in a post, or the size of the tag and category lists. Try again later, or ask an administrator to raise it.",
+        "MFA_CODE_INVALID": "That code is not valid. Check the code and try again.",
+        "MFA_RATE_LIMITED": "Too many tries. Wait a little and try again.",
+        "MFA_FROZEN": "Two-step verification is locked after too many wrong codes. The server owner has to reset it.",
+        "REAUTHENTICATION_REQUIRED": "For your safety, sign in again (sign out, then sign in), then repeat this."
+      },
+      "serverError": "The server ran into an error. Try again later.",
+      "unreachable": "Could not reach the server. Try again later.",
+      "invalid": "The data is not valid.",
+      "invalidDetail": "The data is not valid: {detail}",
+      "refused": "Could not do that.",
+      "refusedDetail": "Could not do that: {detail}",
+      "staleList": "The list changed elsewhere. Reload the page.",
+      "sessionExpired": "Your session has expired. Open the sign-in page in a new tab, sign in again, then press Save again — what you were writing is still here.",
+      "commentStatusChanged": "The comment’s status just changed elsewhere (its author may have deleted it). Reload the page to see the new status."
+    }
+  },
+  "Admin": {
+    "posts": {
+      "import": {
+        "entry": {
+          "header": "Import posts",
+          "empty": "Import posts from files"
+        },
+        "page": {
+          "title": "Import posts",
+          "description": "Upload Markdown files or ZIP packages (an article with its images, including a package downloaded from the post editor), review what would change, then confirm. Imported posts are always drafts, and nothing is written before you confirm.",
+          "back": "All posts"
+        },
+        "route": {
+          "badLocale": "Unknown language.",
+          "forbidden": "You cannot download this file.",
+          "unavailable": "The download is not available right now."
+        },
+        "errors": {
+          "noFile": "Choose at least one file first.",
+          "emptyFile": "File {position} is empty.",
+          "notMarkdown": "The name of file {position} must end in .md or .zip.",
+          "fileTooLarge": "File {position} is too large ({maxKib} KiB at most).",
+          "packageTooLarge": "Package {position} is too large ({maxPackageMib} MiB at most).",
+          "tooMany": "Too many files ({maxFiles} at most).",
+          "totalTooLarge": "The files are too large together ({maxMib} MiB at most).",
+          "badArguments": "The request is not valid. Choose the files again and preview them.",
+          "articleUnavailable": "The article of this file cannot be previewed.",
+          "unreachable": "Could not reach the server. Try again later."
+        },
+        "template": {
+          "heading": "1. Template",
+          "intro": "Download the file format for your language: the exact keys, instructions for an AI assistant and a neutral example post.",
+          "language": "Language of the template",
+          "download": "Download template",
+          "authoringIntro": "For an article with blocks (callouts, steps, diagrams, comparisons) and images, give an AI assistant the authoring prompt: it lists the supported blocks and how to pack the article and its images into a ZIP package.",
+          "authoringDownload": "Download authoring prompt"
+        },
+        "files": {
+          "heading": "2. Files",
+          "intro": "Choose up to {maxFiles} files, one post each, or drop them here: Markdown (.md) files of {maxKib} KiB at most, or ZIP packages (.zip) of {maxPackageMib} MiB at most that hold an article and its images. {maxMib} MiB in all.",
+          "inputLabel": "Post files (.md or .zip)",
+          "dropTitle": "Choose files or drop them here",
+          "dropHint": "Markdown (.md) or ZIP package (.zip), up to {maxFiles} files",
+          "hint": "The server checks the files again when you import them.",
+          "listLabel": "Chosen files",
+          "size": "({kib} KiB)",
+          "choose": "Choose other files",
+          "remove": "Remove all files",
+          "previewAgain": "Preview again"
+        },
+        "status": {
+          "previewing": "Reading the files and preparing the preview…",
+          "previewReady": "Preview ready. Nothing has been written.",
+          "checking": "Preview ready. Checking the blocks of the articles…",
+          "articleLoading": "Preparing the article preview…",
+          "articleReady": "The article preview is ready.",
+          "applying": "Importing the posts…",
+          "applied": "Import finished."
+        },
+        "preview": {
+          "heading": "3. Preview",
+          "nothingWritten": "Nothing has been written. Imported posts are always drafts: an import never publishes anything.",
+          "listLabel": "Files of the import",
+          "select": "Import {name}",
+          "state": {
+            "new": "New post",
+            "will_change": "Will change",
+            "unchanged": "Unchanged",
+            "error": "Error"
+          },
+          "slug": "URL slug: {slug}",
+          "language": "Language: {language}",
+          "published": "This post is published: importing the file changes the live article, so it is not ticked by default.",
+          "changes": {
+            "title": "Title",
+            "description": "Description",
+            "category": "Category",
+            "series": "Series",
+            "seriesPart": "Part in the series",
+            "before": "Before",
+            "after": "After",
+            "none": "(empty)",
+            "tags": "Tags: {added} added, {removed} removed, {kept} kept",
+            "content": "{differs, select, yes {The text changes.} other {The text is the same.}}",
+            "link": "A translation link will be added."
+          },
+          "newCategories": "A category that does not exist yet will be created: {names}",
+          "newTags": "Tags that do not exist yet will be created: {names}",
+          "notes": {
+            "language_defaulted": "The file names no language, so the post gets the default language of the site.",
+            "category_missing": "This post has no category. It imports as a draft, but choose a category in the editor before publishing.",
+            "slug_from_file_name": "The slug comes from the file name.",
+            "slug_from_title": "The slug was made from the title.",
+            "featured_ignored": "The “featured” key is ignored: an import never changes what is featured.",
+            "status_ignored": "The “status” key is ignored: an import never publishes or unpublishes a post.",
+            "translation_of_ignored": "The “translation_of” key is read but not applied yet: link the translation in the Translations panel of the editor.",
+            "asset_unused": "The image {path} is not used by the article, so it is not stored.",
+            "series_will_be_created": "The series does not exist yet and will be created.",
+            "series_ignored_author": "The series keys are read and checked but not used: only an administrator puts a post in a series.",
+            "series_title_differs": "The series was found by its URL slug or by letter case; it keeps the title it has.",
+            "series_description_ignored": "The series description is not used: the series already has a description or an earlier file sets it.",
+            "series_description_will_be_set": "The series has no description yet, so this file sets it.",
+            "cover_will_be_set": "The post has no cover yet, so the cover image of this package becomes its cover.",
+            "cover_will_be_replaced": "The post already has a different cover, so the cover image of this package replaces it.",
+            "other": "There is something to check in this file."
+          },
+          "package": {
+            "facts": "ZIP package: {assets, plural, one {# image} other {# images}} ({kib} KiB), {used} used, {unused} not used.",
+            "unsupported": "{count, plural, one {# item of the package cannot be used.} other {# items of the package cannot be used.}}"
+          },
+          "blocks": {
+            "summary": "Blocks used: {names}.",
+            "none": "No blocks: the article is plain Markdown.",
+            "checking": "Checking the blocks…",
+            "failed": "The blocks could not be checked. The file can still be imported; a block with a mistake shows as plain text."
+          },
+          "article": {
+            "show": "Show article preview",
+            "hide": "Hide article preview",
+            "region": "Article preview: {name}",
+            "intro": "The article as it would look in a post page. Links to other pages do not open here, and nothing has been written.",
+            "failed": "The article preview could not be prepared. Try again."
+          },
+          "problemsHeading": "Problems",
+          "problem": "{where}: {message}",
+          "lineNumber": "line {line}",
+          "problemsMore": "{count, plural, one {# more problem is not listed} other {# more problems are not listed}}",
+          "ignoredHeading": "{count, plural, one {# ignored key} other {# ignored keys}}",
+          "ignoredNamed": "Key “{name}” (line {line})",
+          "ignoredUnnamed": "Unrecognised key (line {line})",
+          "ignoredMore": "{count, plural, one {# more is not listed} other {# more are not listed}}",
+          "summary": "{count, plural, one {# file} other {# files}} in the preview.",
+          "filesWithProblems": "{count, plural, one {# file has problems and cannot be imported.} other {# files have problems and cannot be imported.}}",
+          "nothingSelected": "Tick at least one file to import.",
+          "apply": "Import {count, plural, one {# post} other {# posts}}"
+        },
+        "result": {
+          "heading": "Import result",
+          "summary": "{created} created, {updated} updated, {unchanged} unchanged, {skipped} skipped.",
+          "file": "{name}: {status, select, created {created as a draft} updated {updated} unchanged {unchanged} skipped {skipped} other {done}}",
+          "open": "Open in the editor",
+          "openFor": "Open in the editor: {name}",
+          "preview": "Preview the draft",
+          "previewFor": "Preview the draft: {name}",
+          "another": "Import more files"
+        }
+      },
+      "seriesLabel": "Series",
+      "inSeries": "Part of the series <name>{title}</name> · position {position}",
+      "manageSeries": "Manage series",
+      "preview": {
+        "heading": "Preview",
+        "savedVersion": "(saved version)",
+        "back": "Posts",
+        "viewOnBlog": "View on blog",
+        "newTab": "(new tab)",
+        "edit": "Edit post"
+      },
+      "exportRoute": {
+        "notFound": "Post not found; it may have been deleted.",
+        "forbidden": "This account is not allowed to download this post.",
+        "tooLarge": "This post is too large to download as a ZIP package.",
+        "unavailable": "Could not load the post from the server. Try again later."
+      },
+      "actions": {
+        "notPublished": "This post is not published right now; it may have just been unpublished elsewhere. Reload the page to see its current state.",
+        "bulkInvalid": "Select between 1 and 20 posts at a time.",
+        "outdatedBackend": "The server does not support this yet: the backend is older than the interface. Update and restart the backend, then try again.",
+        "copySuffix": "(copy)",
+        "noFile": "No image selected to upload.",
+        "fileTooLarge": "The image is larger than 4 MB. Choose another image."
+      },
+      "delete": {
+        "heading": "Delete post",
+        "question": "Delete the post “{title}”?",
+        "publishedWarning": "The post is published: its public URL will become a 404 page.",
+        "consequences": "Its cover image and views are deleted too. This cannot be undone.",
+        "forever": "Delete permanently",
+        "cancel": "Cancel",
+        "hintPublished": "To take the post off the blog but keep it, use \"Unpublish\". Deleting removes it for good.",
+        "hintDraft": "Delete this draft for good, together with its cover image.",
+        "button": "Delete post",
+        "author": {
+          "consequences": "The post leaves the site and your list. An administrator keeps it and can restore it or delete it for good; you cannot restore it yourself.",
+          "confirm": "Delete post",
+          "hintPublished": "To take the post off the blog but keep it in your list, use \"Unpublish\". Deleting removes it from your list; an administrator keeps it.",
+          "hintDraft": "Delete this draft. It leaves your list; an administrator keeps it and can restore it or delete it for good."
+        }
+      },
+      "list": {
+        "selectAllAria": "{count, plural, one {Select the # post on this page} other {Select all # posts on this page}}",
+        "selectRowAria": "Select “{title}”",
+        "selected": "{count, plural, one {# post selected} other {# posts selected}}",
+        "publishN": "{count, plural, one {Publish # post} other {Publish # posts}}",
+        "unpublishN": "{count, plural, one {Unpublish # post} other {Unpublish # posts}}",
+        "deleteN": "{count, plural, one {Delete # post} other {Delete # posts}}",
+        "clearSelection": "Clear selection",
+        "confirmQuestion": "{count, plural, one {Permanently delete the # selected post?} other {Permanently delete the # selected posts?}}",
+        "publishedWarning": "{count, plural, one {# post is published: its public URL will become a 404 page.} other {# posts are published: their public URLs will become 404 pages.}}",
+        "consequences": "Their cover images, views and comments are deleted too. This cannot be undone.",
+        "deleting": "Deleting…",
+        "deleteForeverN": "{count, plural, one {Permanently delete # post} other {Permanently delete # posts}}",
+        "author": {
+          "confirmQuestion": "{count, plural, one {Delete the # selected post?} other {Delete the # selected posts?}}",
+          "consequences": "They leave the site and your list. An administrator keeps them and can restore them or delete them for good.",
+          "confirmN": "{count, plural, one {Delete # post} other {Delete # posts}}"
+        },
+        "cancel": "Cancel",
+        "failedHeading": {
+          "publish": "{count, plural, one {Could not publish # post:} other {Could not publish # posts:}}",
+          "unpublish": "{count, plural, one {Could not unpublish # post:} other {Could not unpublish # posts:}}",
+          "delete": "{count, plural, one {Could not delete # post:} other {Could not delete # posts:}}"
+        },
+        "doneAll": {
+          "publish": "{count, plural, one {Published # post.} other {Published # posts.}}",
+          "unpublish": "{count, plural, one {Unpublished # post.} other {Unpublished # posts.}}",
+          "delete": "{count, plural, one {Deleted # post.} other {Deleted # posts.}}"
+        },
+        "donePartial": {
+          "publish": "Published {done} of {total} posts.",
+          "unpublish": "Unpublished {done} of {total} posts.",
+          "delete": "Deleted {done} of {total} posts."
+        },
+        "skipped": {
+          "publish": "{count, plural, one {# post was already published, so it was skipped.} other {# posts were already published, so they were skipped.}}",
+          "unpublish": "{count, plural, one {# post was already unpublished, so it was skipped.} other {# posts were already unpublished, so they were skipped.}}",
+          "delete": "{count, plural, one {# post was already deleted elsewhere, so it was skipped.} other {# posts were already deleted elsewhere, so they were skipped.}}"
+        },
+        "failedItem": "“{title}”: {error}"
+      },
+      "row": {
+        "preview": "Preview",
+        "download": "Download ZIP",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "featured": "Best posts",
+        "featuredTitleOn": "In Best posts — click to remove",
+        "featuredTitleOff": "Add to Best posts",
+        "delete": "Delete",
+        "deleteSr": "post {title}",
+        "confirmQuestion": "Delete the post {title}?",
+        "publishedWarning": "The post is published: its public URL will become a 404 page.",
+        "consequences": "Its cover image, views and comments are deleted too. This cannot be undone.",
+        "deleting": "Deleting…",
+        "deleteForever": "Delete permanently",
+        "author": {
+          "consequences": "It leaves the site and your list. An administrator keeps it and can restore it or delete it for good.",
+          "confirm": "Delete"
+        },
+        "cancel": "Cancel",
+        "announcePublished": "Published {title}.",
+        "announceUnpublished": "Unpublished {title}.",
+        "skippedPublished": "{title} was already published.",
+        "skippedUnpublished": "{title} was already unpublished.",
+        "announceFeatured": "Added {title} to Best posts.",
+        "announceUnfeatured": "Removed {title} from Best posts.",
+        "announceDeleted": "Deleted the post {title}.",
+        "announceDeletedElsewhere": "The post {title} was deleted elsewhere."
+      },
+      "translations": {
+        "heading": "Translations",
+        "hint": "This post is in {language}. A translation is its own post with its own text, slug and status.",
+        "loadFailed": "The translations could not be loaded. Reload the page to try again.",
+        "none": "No other language is linked to this post yet.",
+        "listLabel": "Linked translations",
+        "edit": "edit",
+        "createLanguage": "Create a translation in",
+        "createSlug": "Path of the translation",
+        "optional": "(optional)",
+        "createHint": "Leave empty to use this post's path followed by the language. The new draft copies the title, description, category and tags and has no content yet.",
+        "create": "Create translation",
+        "linkLabel": "Link an existing post",
+        "linkPlaceholder": "Choose a post…",
+        "linkOption": "{title} ({language})",
+        "link": "Link",
+        "unlink": "Unlink this post",
+        "unlinkHint": "The posts stay as they are; only the link between the languages is removed.",
+        "languageRequired": "Choose a language for the translation.",
+        "pickPost": "Choose the post to link."
+      }
+    },
+    "lint": {
+      "heading": "Check before publishing",
+      "allClear": "Nothing to fix.",
+      "summary": "{count, plural, one {# thing to review.} other {# things to review.}} Not required: the post can still be saved and published.",
+      "fenceLanguageMissing": "Line {line}: the code block has no language (for example ```java), so it is not highlighted.",
+      "fenceLanguageUnknown": "Line {line}: the language “{language}” is not loaded for highlighting; this block will show as plain text.",
+      "bodyH1": "Line {line}: there is a level 1 heading (“# …”). The post page already uses the post title as level 1; use ## for sections.",
+      "fenceUnclosed": "The code block opened on line {line} is not closed with ```: the rest of the post will become code.",
+      "blockProblem": "Line {line}: {message}",
+      "excerptEmpty": "There is no short description yet. Aim for {min}–{max} characters: this text shows under the post title, in post lists and when sharing.",
+      "excerptLength": "{count, plural, one {The short description is {formatted} character; aim for {min}–{max}.} other {The short description is {formatted} characters; aim for {min}–{max}.}}"
+    },
+    "revisions": {
+      "heading": "History",
+      "loadFailed": "Could not load the post history. Reload the page to try again.",
+      "empty": "No earlier versions yet. Each time a save changes the title, description or content, the previous version is kept (the 20 most recent, at least 10 minutes apart).",
+      "view": "View",
+      "viewAria": "View the version from {time}",
+      "loading": "Loading this version…",
+      "textRegionAria": "Text of the version from {time}",
+      "restoreQuestion": "Restore the version from {time}?",
+      "restoreDetails": "The title, description and content go back to this version. The current version is kept in the history, so you can still go back.",
+      "restoring": "Restoring…",
+      "restore": "Restore",
+      "cancel": "Cancel",
+      "restoreThis": "Restore this version",
+      "dirtyHint": "There are unsaved changes: save or discard them before restoring."
+    },
+    "postImages": {
+      "heading": "Images in the post",
+      "saveFirst": "Save the post once to upload images into its body.",
+      "loadFailed": "Could not load the post images. Reload the page to try again; you can still insert new images.",
+      "empty": "No images yet. Use the “Insert image” button above the content box, or paste or drag images into it.",
+      "noDescription": "no description",
+      "size": "{width}×{height}",
+      "sizeInUse": "{width}×{height} · used in the post",
+      "deleteQuestion": "Delete the image “{label}” from the server?",
+      "deleteDetailsInUse": "The post uses this image: that spot will become a broken image. This cannot be undone.",
+      "deleteDetails": "This cannot be undone.",
+      "deleteForever": "Delete permanently",
+      "cancel": "Cancel",
+      "reinsertAria": "Insert the image “{label}” again",
+      "reinsert": "Insert again",
+      "deleteAria": "Delete the image “{label}”",
+      "delete": "Delete",
+      "publicHint": "Uploaded images have a public, hard-to-guess URL, even while the post is unpublished.",
+      "needSave": "Save the post once before inserting images: an image needs a post to attach to.",
+      "oneAtATime": "Another image is uploading; wait for it to finish, then try again.",
+      "uploadingOne": "Uploading image…",
+      "uploadingProgress": "Uploading image {current} of {total}…",
+      "insertedOne": "Inserted the image into the content.",
+      "insertedMany": "Inserted {count} images into the content.",
+      "deleted": "Deleted the image from the server.",
+      "unreadable": "Could not read this image. Choose another image.",
+      "altDefault": "Image",
+      "altScreenshot": "Screenshot",
+      "uploadRejected": {
+        "unsupported": "Only JPEG, PNG or WebP are accepted.",
+        "undecodable": "The browser could not read this image to shrink it. Choose a JPEG or PNG image smaller than 4 MB.",
+        "stillTooLarge": "The image is still too large after shrinking. Choose another image."
+      }
+    },
+    "editor": {
+      "titleNew": "New post",
+      "titleEdit": "Edit post",
+      "restoredNotice": "Restored an earlier version",
+      "backToPosts": "Posts",
+      "sessionExpired": "Your session has expired. Open the <login>sign-in page</login> in a new tab, sign in again, then press Save once more — what you are writing is still here.",
+      "state": {
+        "saving": "Saving…",
+        "publishing": "Publishing…",
+        "unpublishing": "Unpublishing…",
+        "unsaved": "Unsaved changes",
+        "saved": "Saved",
+        "savedAt": "Saved at {time}",
+        "publishedAt": "Published at {time}",
+        "unpublishedAt": "Unpublished at {time}"
+      },
+      "previewLinkTitle": "Open the preview (saved version) in a new tab",
+      "previewLinkSr": "Open preview",
+      "previewLinkText": "Preview",
+      "viewOnBlogTitle": "Open the post on the blog in a new tab",
+      "viewOnBlog": "View on blog",
+      "unpublish": "Unpublish",
+      "lintTitle": "Check before publishing",
+      "lintCountSr": "{count, plural, one {# thing to review before publishing} other {# things to review before publishing}}",
+      "saveTitle": "Save (Ctrl+S)",
+      "save": "Save",
+      "publish": "Publish",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Post title",
+      "excerptLabel": "Short description",
+      "excerptPlaceholder": "Short description: one or two sentences summarizing the post",
+      "excerptHint": "Shown under the post title, in post lists and when sharing.",
+      "excerptCount": "{count, plural, one {{formatted} character.} other {{formatted} characters.}}",
+      "contentLabel": "Content (Markdown)",
+      "words": "{count, plural, one {{formatted} word} other {{formatted} words}}",
+      "wordsWithMinutes": "{count, plural, one {{formatted} word} other {{formatted} words}} · about {minutes} min read",
+      "insertImage": "Insert image",
+      "uploadingImage": "Uploading image…",
+      "previewToggle": "Preview",
+      "contentPlaceholder": "Write in Markdown: ## headings, ```code```, > quotes, [link](url)…",
+      "previewHeading": "Preview of the saved version",
+      "previewSavedNote": "The last saved version, rendered exactly like the public page.",
+      "previewUnsavedNote": "Unsaved changes are not shown here — press Save to update.",
+      "settingsHeading": "Post settings",
+      "slugLabel": "URL path",
+      "slugHintPublished": "The post is published: if you change the path, the old link redirects to the new one.",
+      "slugHintLocked": "The permanent path of the post once published.",
+      "slugHintAuto": "Generated from the title; if you edit this box, your exact text is kept.",
+      "categoryLabel": "Category",
+      "categoryNone": "— none selected —",
+      "categoryHint": "Required before publishing.",
+      "addCategory": "Add category",
+      "categoryName": "Category name",
+      "tagsLegend": "Tags",
+      "noTags": "No tags yet.",
+      "addTag": "Add tag",
+      "tagName": "Tag name",
+      "commentsHeading": "Comments",
+      "commentsLink": "Comments on this post",
+      "toolsHeading": "Download and duplicate",
+      "download": "Download ZIP",
+      "duplicate": "Duplicate",
+      "duplicating": "Duplicating…",
+      "toolsHint": "“Download ZIP” takes the saved version as a ZIP package with the article, its images and its cover image, in the format the post import reads, so the package can be imported again. “Duplicate” creates a new draft with the same content, description, category and tags; it does not copy the cover image, the series or the Best posts flag.",
+      "toolsDirty": "There are unsaved changes: the ZIP package and the copy only contain the saved version, so save first.",
+      "draftOffer": "There is an unsaved copy from {time} in this browser.",
+      "draftRestore": "Restore",
+      "draftDiscard": "Discard",
+      "facts": {
+        "heading": "Publishing",
+        "publishedOn": "Published on",
+        "notPublished": "Not published",
+        "readingTime": "Reading time",
+        "minutes": "{minutes} min",
+        "views": "Views",
+        "featured": "Best posts",
+        "yes": "Yes",
+        "no": "No",
+        "manage": "Manage"
+      },
+      "leaveQuestion": "The post has unsaved changes. If you leave now, you lose them.",
+      "stay": "Stay",
+      "leave": "Leave page",
+      "cover": {
+        "heading": "Cover image",
+        "currentAlt": "Current cover image",
+        "none": "No cover image yet. The public page draws an automatic image for this post.",
+        "draftNote": "The post is not published, so the cover image is hidden from the site; anyone with the link can still see the image.",
+        "altLabel": "Image description (alt)",
+        "altHint": "One sentence describing the image, for screen reader users. At most 300 characters.",
+        "chooseLabel": "Choose image",
+        "fileHint": "JPEG, PNG or WebP, at least {min} pixels wide ({recommended} is ideal for sharp display on high-density screens). Large images are shrunk in the browser before they are sent.",
+        "lowResolution": "This image is only {width} pixels wide, so it looks soft when shown at the top of the post. Upload one at least {min} pixels wide ({recommended} is ideal).",
+        "upload": "Upload image",
+        "saveAlt": "Save description",
+        "remove": "Remove cover image",
+        "uploaded": "Cover image uploaded.",
+        "altSaved": "Image description saved.",
+        "removed": "Cover image removed."
+      },
+      "inlineCreate": {
+        "add": "Add",
+        "cancel": "Cancel"
+      },
+      "emptyPreview": "No content to preview yet.",
+      "blockProblemsTitle": "Problems with blocks in this text",
+      "blockProblemLine": "Line {line}: {message}",
+      "languageLabel": "Language",
+      "languageHint": "The language this article is written in. Other languages are separate posts, linked under Translations."
+    },
+    "login": {
+      "tooManyAttempts": "You tried to sign in too many times. Wait about {minutes, plural, one {# minute} other {# minutes}} and try again.",
+      "backendBusy": "The server is busy with other sign-ins. Wait a moment and try again.",
+      "backendUnavailable": "The server is temporarily unavailable. Wait a moment and try again.",
+      "apiUnreachable": "Could not reach the server",
+      "unusableSession": "The server returned a session that cannot be used",
+      "title": "Sign in",
+      "lead": "Go to the admin area of the blog.",
+      "forbidden": "The account you are signed in with cannot open the admin area: only admins and authors can. Sign in with another account (an author who was just granted access should sign in again with GitHub), or <home>go to the home page</home>.",
+      "sessionNotEnded": "You are signed out on this device, but the server could not end the session, so it stays valid until it expires. Sign in again and use \"Sign out everywhere\" on the Security page to end it now.",
+      "or": "or",
+      "github": "Sign in with GitHub",
+      "authorHint": "Author accounts have no password: sign in with GitHub.",
+      "backToBlog": "Back to the blog",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "failed": "Sign-in failed",
+      "network": "Could not reach the server",
+      "mfa": {
+        "title": "Two-step verification",
+        "lead": "Enter the 6-digit code from your authenticator app.",
+        "leadRecovery": "Enter one of your recovery codes. Each works once.",
+        "code": "Code",
+        "recoveryLabel": "Recovery code",
+        "useRecovery": "Use a recovery code instead",
+        "useApp": "Use the authenticator app instead",
+        "submit": "Verify",
+        "submitting": "Verifying…",
+        "invalid": "That code is not valid. Check the code and try again.",
+        "expired": "This step expired. Sign in again.",
+        "tooMany": "Too many tries. Wait about {minutes, plural, one {# minute} other {# minutes}} and try again.",
+        "busy": "Too many tries at the moment. Wait a little and try again.",
+        "frozen": "Two-step verification is locked after too many wrong codes. The server owner has to reset it; see the documentation.",
+        "recoveryUsed": "You signed in with a recovery code.",
+        "recoveryLeft": "You have {count, plural, one {# recovery code} other {# recovery codes}} left.",
+        "recoveryLow": "Only a few are left. Generate new recovery codes in Security.",
+        "replaceHint": "Lost your device? Replace your authenticator in Security.",
+        "openSecurity": "Open Security",
+        "continue": "Continue",
+        "back": "Back to sign-in"
+      },
+      "enroll": {
+        "title": "Set up two-step verification",
+        "lead": "Admin accounts need a second step. It takes about two minutes.",
+        "enrollmentCode": "Enrollment code",
+        "enrollmentCodeHint": "The server owner can read it from the file or setting described in the documentation.",
+        "start": "Show the setup key",
+        "starting": "Please wait…",
+        "secretTitle": "Add the key to an authenticator app",
+        "step2": "Add this key to an authenticator app (time-based, 6 digits, 30 seconds).",
+        "secret": "Setup key",
+        "copy": "Copy",
+        "copied": "Copied",
+        "copySelected": "The key is selected. Press Ctrl+C to copy it.",
+        "openApp": "Open in your authenticator app",
+        "firstCode": "Enter the first 6-digit code",
+        "confirm": "Confirm",
+        "confirming": "Confirming…",
+        "recoveryTitle": "Save your recovery codes",
+        "recoveryLead": "Each code works once if you lose your device. They are shown only now.",
+        "recoveryList": "Recovery codes",
+        "download": "Download as a text file",
+        "copyCodes": "Copy the codes",
+        "saved": "I stored these codes somewhere safe",
+        "continue": "Continue to the admin area",
+        "codeRequired": "Enter the enrollment code.",
+        "codeInvalid": "The enrollment code is not valid."
+      }
+    },
+    "shell": {
+      "navLabel": "Admin",
+      "sectionsLabel": "Sections",
+      "nav": {
+        "posts": "Posts",
+        "myPosts": "My posts",
+        "analytics": "Analytics",
+        "topics": "Topics",
+        "series": "Series",
+        "curated": "Best posts",
+        "gallery": "Gallery",
+        "comments": "Comments",
+        "users": "Users",
+        "applications": "Author applications",
+        "newsletter": "Newsletter",
+        "contact": "Contact",
+        "security": "Security",
+        "settings": "Settings"
+      },
+      "newPost": "Write a post",
+      "viewBlog": "View blog",
+      "role": "Role <strong>{role}</strong>",
+      "logout": "Sign out",
+      "logoutFailed": "The sign-out did not go through. You are still signed in. Try again.",
+      "subtitle": "Blog admin",
+      "menu": "Menu",
+      "postDeleted": "The post was deleted.",
+      "loading": "Loading…",
+      "skipToContent": "Skip to content",
+      "error": {
+        "title": "This page could not be loaded",
+        "body": "The server did not answer or returned an error while fetching data, so the page cannot be shown. The blog itself is not affected. Try again in a moment; if it keeps failing, check the backend.",
+        "retry": "Try again",
+        "toPosts": "Back to Posts",
+        "digest": "Error code for the log: {digest}"
+      },
+      "notFound": {
+        "title": "Page not found",
+        "body": "This item no longer exists, or the link is wrong. It may have just been deleted.",
+        "toPosts": "Back to Posts"
+      }
+    },
+    "security": {
+      "title": "Security",
+      "lead": "Two-step verification and your password.",
+      "mfaTitle": "Two-step verification",
+      "status": {
+        "on": "Two-step verification is on",
+        "off": "Two-step verification is off"
+      },
+      "offHint": "Ask for a code from an authenticator app at every sign-in.",
+      "recoveryLeft": "Recovery codes left: {count}",
+      "recoveryLowHint": "Few codes are left. Generate new ones before they run out.",
+      "regenerate": "Generate new recovery codes",
+      "regenerateLead": "The old codes stop working.",
+      "replace": "Replace authenticator",
+      "replaceLead": "For a new phone. The current app keeps working until the new one is confirmed.",
+      "currentCode": "Code from your authenticator, or a recovery code",
+      "codeRequired": "Enter a code from your authenticator, or a recovery code.",
+      "turnOn": "Turn on",
+      "turnOff": "Turn off",
+      "turnOffLead": "Your other devices are signed out and the recovery codes stop working.",
+      "turnOffConfirm": "Turn off two-step verification",
+      "adminRequired": "Admin accounts always use two-step verification.",
+      "reauth": "For your safety, sign in again to continue.",
+      "reauthAction": "Sign in again",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "working": "Working…",
+      "done": "Done",
+      "notice": {
+        "turnedOn": "Two-step verification is on. Your other devices were signed out.",
+        "replaced": "Authenticator replaced. Your other devices were signed out.",
+        "turnedOff": "Two-step verification is off. Your other devices were signed out.",
+        "regenerated": "New recovery codes are ready. The old ones no longer work."
+      },
+      "password": {
+        "title": "Change password",
+        "current": "Current password",
+        "new": "New password",
+        "repeat": "Repeat new password",
+        "hint": "{min} to {max} characters.",
+        "submit": "Change password",
+        "submitting": "Changing…",
+        "tooShort": "Use at least {min} characters.",
+        "tooLong": "Use at most {max} characters.",
+        "mismatch": "The two new passwords do not match.",
+        "weak": "Choose a different password. It is too common or too easy to guess.",
+        "same": "The new password must be different from the current one.",
+        "currentRequired": "Enter your current password.",
+        "done": "Password changed. Other devices were signed out.",
+        "managedByEnvironment": "The server sets this password. Remove the ADMIN_PASSWORD setting from the server's .env file to change it here."
+      },
+      "signOutEverywhere": "Sign out everywhere",
+      "signOutLead": "Ends every session of your account, this one included. You will sign in again.",
+      "signOutConfirm": "Sign out of every device?",
+      "errors": {
+        "codeInvalid": "That code is not valid. Check the code and try again.",
+        "passwordInvalid": "The current password is not correct.",
+        "tooMany": "Too many tries. Wait about {minutes, plural, one {# minute} other {# minutes}} and try again.",
+        "busy": "Too many tries at the moment. Wait a little and try again.",
+        "frozen": "Two-step verification is locked after too many wrong codes. The server owner has to reset it; see the documentation.",
+        "forbidden": "This account cannot do that.",
+        "invalid": "Check the fields and try again.",
+        "sessionExpired": "Your session has expired. Sign in again.",
+        "unreachable": "Could not reach the server",
+        "failed": "That did not work. Try again in a moment."
+      }
+    },
+    "common": {
+      "noAccess": {
+        "back": "Posts",
+        "post": {
+          "title": "This post cannot be opened",
+          "body": "The post no longer exists, or it does not belong to your account. If your role was just changed, sign out and sign in again."
+        },
+        "account": {
+          "title": "This account can no longer open the admin area",
+          "body": "The role or status of this account was just changed, so the server returned no data for this page. Sign out and sign in again."
+        }
+      },
+      "adminOnly": {
+        "title": "This page is for admins only",
+        "body": "Your account is not allowed to view this page. If your role was just changed, sign out and sign in again.",
+        "toMyPosts": "Back to your posts"
+      },
+      "staleList": {
+        "notice": "{count, plural, other {# {unit, select, comment {{count, plural, one {comment} other {comments}}} user {{count, plural, one {account} other {accounts}}} other {{count, plural, one {application} other {applications}}}}}} just left this filter, {kept, select, review {kept here so you can review {count, plural, one {it} other {them}}} other {kept here so you can undo {count, plural, one {it} other {them}}}}. Pagination and counts are not recalculated: reload before moving to another page so you do not miss any {unit, select, comment {comments} user {accounts} other {applications}}.",
+        "reloading": "Reloading…",
+        "reload": "Reload the list"
+      },
+      "pager": {
+        "label": "Pagination",
+        "summary": "{from, number}–{to, number} of {unit, select, post {{total, plural, one {# post} other {# posts}}} comment {{total, plural, one {# comment} other {# comments}}} user {{total, plural, one {# account} other {# accounts}}} other {{total, plural, one {# application} other {# applications}}}} · page {page}/{totalPages}",
+        "previous": "Previous page",
+        "next": "Next page"
+      },
+      "quota": {
+        "title": "Image storage",
+        "underOnePercent": "under 1%",
+        "valueText": "{used} used of {max} ({percent})",
+        "usage": "{used} / {max} ({percent}) · {count, plural, one {# image} other {# images}}",
+        "scope": "Covers cover images, gallery photos and images inside posts: one shared limit for every upload.",
+        "danger": "Storage is almost full: once the limit is reached every image upload is refused. Delete images you no longer use.",
+        "warn": "Getting full: delete images you no longer use before uploading more."
+      }
+    },
+    "statuses": {
+      "post": {
+        "PUBLISHED": "Published",
+        "DRAFT": "Draft",
+        "ARCHIVED": "Archived"
+      },
+      "comment": {
+        "VISIBLE": "Visible",
+        "HIDDEN": "Hidden",
+        "DELETED": "Deleted"
+      },
+      "user": {
+        "ACTIVE": "Active",
+        "SUSPENDED": "Currently suspended"
+      },
+      "role": {
+        "USER": "Reader",
+        "AUTHOR": "Author",
+        "ADMIN": "Admin"
+      },
+      "application": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      },
+      "filter": {
+        "anyRole": "All roles",
+        "anyStatus": "All statuses"
+      }
+    },
+    "dashboard": {
+      "copy": {
+        "admin": {
+          "title": "Posts",
+          "lead": "Every post on the blog, newest first. A draft only shows here until it is published.",
+          "empty": "Every post on the blog lives here, including drafts nobody has seen."
+        },
+        "author": {
+          "title": "My posts",
+          "lead": "The posts you wrote, newest first. A draft only shows here until it is published.",
+          "empty": "The posts you write live here, including drafts not yet published."
+        }
+      },
+      "filters": {
+        "all": "All",
+        "published": "Published",
+        "draft": "Draft"
+      },
+      "emptyHint": {
+        "all": "The list is empty.",
+        "published": "No post is published yet. Open a draft and press “Publish”.",
+        "draft": "Every post is published. A new post stays a draft until you press “Publish”."
+      },
+      "views": "Views",
+      "notPublished": "Not published",
+      "newPost": "Write a post",
+      "attention": {
+        "title": "Needs attention:"
+      },
+      "health": {
+        "draft-no-category": {
+          "label": "drafts without a category",
+          "hint": "cannot be published yet",
+          "item": "{count, plural, one {# draft without a category} other {# drafts without a category}}"
+        },
+        "featured-unpublished": {
+          "label": "in Best posts but not published",
+          "hint": "not shown anywhere",
+          "item": "{count, plural, one {# post in Best posts but not published} other {# posts in Best posts but not published}}"
+        },
+        "no-excerpt": {
+          "label": "without a short description",
+          "hint": "the description used when sharing and on Google",
+          "item": "{count, plural, one {# post without a short description} other {# posts without a short description}}"
+        },
+        "no-tags": {
+          "label": "without tags",
+          "hint": "does not appear on any tag page",
+          "item": "{count, plural, one {# post without tags} other {# posts without tags}}"
+        }
+      },
+      "toolbar": {
+        "searchLabel": "Search posts",
+        "searchPlaceholder": "Search by title or slug…",
+        "category": "Category",
+        "anyCategory": "All categories",
+        "tag": "Tag",
+        "anyTag": "All tags",
+        "sort": "Sort",
+        "sortNewest": "Newest created",
+        "sortUpdated": "Recently edited",
+        "sortViews": "Most read",
+        "filter": "Filter",
+        "language": "Language",
+        "anyLanguage": "All languages"
+      },
+      "activeFilters": {
+        "label": "Filtering by:",
+        "query": "“{query}”",
+        "category": "category {name}",
+        "tag": "tag {name}",
+        "remove": "(remove this filter)",
+        "clearAll": "Clear all filters",
+        "language": "language {name}"
+      },
+      "meta": {
+        "edited": "edited <time>{date}</time>",
+        "seriesPart": "{title} · part {position}",
+        "featured": "Best posts",
+        "featuredRanked": "Best posts #{rank}",
+        "readingMinutes": "{minutes} min read",
+        "view": "View",
+        "viewSr": "“{title}” on the blog (new tab)"
+      },
+      "table": {
+        "post": "Post",
+        "status": "Status",
+        "publishedOn": "Published",
+        "views": "Views",
+        "caption": "Posts ({filter}{searched, select, yes {, search “{query}”} other {}}{sort, select, updated {, recently edited first} views {, most read first} other {}}), page {page}/{totalPages}"
+      },
+      "noPosts": {
+        "title": "No posts yet.",
+        "action": "Write the first post",
+        "body": "A new post is a draft that only you can see until you press “Publish”. Choose a category before publishing."
+      },
+      "results": "Filter results",
+      "postCount": "{count, plural, one {# post} other {# posts}}",
+      "empty": {
+        "noMatch": "No posts match.",
+        "noneIn": "No posts under “{filter}”.",
+        "viewAll": "View all posts",
+        "queryHint": "No {status, select, all {} other {{filter} }}post has “{query}” in its title or slug{withFilters, select, yes { with the active filters} other {}}. Try a shorter word; typing with or without accents both work.",
+        "filtersHint": "No post meets every active filter. Remove a filter in the “Filtering by” line."
+      }
+    },
+    "analytics": {
+      "copy": {
+        "admin": {
+          "title": "Analytics",
+          "lead": "Views of every post on the blog: per day, the most read posts and where visitors come from."
+        },
+        "author": {
+          "title": "My post analytics",
+          "lead": "Views of the posts you wrote: per day, the most read posts and where visitors come from."
+        }
+      },
+      "range": {
+        "label": "Date range",
+        "from": "From",
+        "to": "To",
+        "submit": "View",
+        "last30": "Last 30 days",
+        "format": "The date must be written year-month-day and be a real date, for example 2026-10-10.",
+        "order": "The start date must be on or before the end date.",
+        "tooLong": "The date range can be at most {days} days long, both ends included."
+      },
+      "totals": {
+        "inRange": "Views in this range",
+        "allTime": "Total to date"
+      },
+      "daily": {
+        "tableLabel": "Views per day table",
+        "caption": "Views per day, from {from} to {to}",
+        "day": "Day",
+        "views": "Views",
+        "noData": "no data yet"
+      },
+      "top": {
+        "empty": "No posts have views in this range.",
+        "caption": "Most read posts in this range",
+        "post": "Post",
+        "status": "Status",
+        "views": "Views"
+      },
+      "sources": {
+        "caption": "Views by traffic source",
+        "source": "Source",
+        "views": "Views",
+        "share": "Share",
+        "group": {
+          "direct": "Direct",
+          "search": "Search engines",
+          "social": "Social networks",
+          "github": "GitHub",
+          "internal": "On this site",
+          "other": "Other"
+        }
+      },
+      "report": {
+        "range": "<from></from> – <to></to> · days are counted in the {timeZone} time zone",
+        "note": "These are recorded views, after filtering bots, limiting views per IP and merging repeat visits to the same post within 30 minutes; they are not the number of readers.",
+        "noDaily": "No day has per-day figures yet.",
+        "dailySince": "Per-day figures start on <day></day>; before that only the total to date exists.",
+        "emptyTitle": "No views in this range.",
+        "emptyNoDaily": "Per-day figures start from the first recorded view.",
+        "emptySince": "Per-day figures start on {date}. Choose a different date range above.",
+        "byDay": "By day",
+        "topPosts": "Most read posts",
+        "sources": "Traffic sources"
+      },
+      "chart": {
+        "summary": "Bar chart of views per day, from {from} to {to}: {total, plural, one {# view} other {# views}} in total, peaking at {peak, plural, one {# view} other {# views}} on {peakDay}.",
+        "bar": "{date}: {views, plural, one {# view} other {# views}}",
+        "barNoData": "{date}: no data yet"
+      }
+    },
+    "comments": {
+      "title": "Comments",
+      "description": "Readers’ comments on every post, newest first. Hiding takes a comment off the post page but it can be shown again; deleting removes it for good. The text always stays here for reference.",
+      "statusNav": "Filter by status",
+      "filters": {
+        "all": "All",
+        "visible": "Visible",
+        "hidden": "Hidden",
+        "deleted": "Deleted"
+      },
+      "searchLabel": "Search by text or author",
+      "searchPlaceholder": "Search by text or author…",
+      "search": "Search",
+      "results": "Search results",
+      "count": "{count, plural, one {# comment} other {# comments}}",
+      "chip": {
+        "label": "Filtering by:",
+        "selectedPost": "Selected post",
+        "post": "Post: {title}",
+        "removePost": "(remove the post filter)",
+        "query": "“{query}”",
+        "removeQuery": "(remove this search)"
+      },
+      "postFilterIgnored": "The server cannot filter by post yet (it needs a newer backend): the list below has comments from every post.",
+      "empty": {
+        "all": {
+          "title": "No comments yet.",
+          "hint": "Readers’ comments on every post will show up here, newest first, so you can hide or delete them when needed."
+        },
+        "visible": {
+          "title": "No comments are visible.",
+          "hint": "A reader’s new comment shows on the post page right away, and in this list."
+        },
+        "hidden": {
+          "title": "No comments are hidden.",
+          "hint": "A hidden comment disappears from the post page but stays here, and can be shown again at any time."
+        },
+        "deleted": {
+          "title": "No comments are deleted.",
+          "hint": "A deleted comment — removed by its author or by you — keeps its text here for reference; readers no longer see it."
+        },
+        "noMatch": "No comments match.",
+        "viewAll": "View all comments",
+        "queryHint": "No {status, select, visible {visible } hidden {hidden } deleted {deleted } other {}}comment has “{query}” in its text, or in the author’s name or login{onPost, select, yes { on this post} other {}}. Try a shorter word, and type it exactly as it appears in the comment.",
+        "postNone": "This post has no comments under “{filter}”.",
+        "clearPost": "Remove the post filter",
+        "postHint": "Change the tab above to see other comments on this post, or remove the filter to go back to every post."
+      },
+      "caption": "Comments ({filter}{onPost, select, yes {, post “{postTitle}”} other {}}{searched, select, yes {, search “{query}”} other {}}), page {page}/{totalPages}",
+      "captionSelectedPost": "selected",
+      "table": {
+        "comment": "Comment",
+        "author": "Author",
+        "post": "Post",
+        "date": "Date",
+        "status": "Status",
+        "actions": "Actions",
+        "notice": {
+          "hide": "Hid the comment by <bdi>{name}</bdi>.",
+          "restore": "Showed the comment by <bdi>{name}</bdi> again.",
+          "delete": "Deleted the comment by <bdi>{name}</bdi>."
+        },
+        "target": "comment by {name}: “{excerpt}”",
+        "reply": "Reply",
+        "collapse": "Show less",
+        "expand": "Show full comment",
+        "hide": "Hide",
+        "restore": "Show again",
+        "delete": "Delete",
+        "confirmDelete": "<strong>Delete this comment?</strong> Readers will no longer see it.",
+        "deleting": "Deleting…",
+        "cancel": "Cancel",
+        "onPost": "on <post></post>",
+        "edited": "edited",
+        "usersPageSr": "(see on the Users page)",
+        "onlyThisPost": "Only comments on this post",
+        "onlyThisPostSr": "(“{title}”)",
+        "postNotPublished": "({status}, opens in the editor)",
+        "newTabSr": "(new tab)",
+        "viewCommentsSr": "(view the comments on the blog, new tab)"
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "Every account on the blog: readers who sign in with GitHub, authors and admins. Suspending a reader signs them out and blocks commenting and liking; unsuspending lets them sign in again. Changing a role means retyping that person’s GitHub login (or name) to confirm, and they will have to sign in again.",
+      "searchLabel": "Search by name or GitHub login",
+      "searchPlaceholder": "Search by name or GitHub login…",
+      "roleLabel": "Role",
+      "statusLabel": "Status",
+      "filter": "Filter",
+      "results": "Filter results",
+      "all": "All",
+      "count": "{count, plural, one {# account} other {# accounts}}",
+      "empty": {
+        "noMatch": "No accounts match.",
+        "viewAll": "View all accounts",
+        "queryHint": "No account has “{query}” in its name or GitHub login{withFilters, select, yes { with the active filters} other {}}. Try a shorter word.",
+        "filtersHint": "No account meets the active filters.",
+        "none": "No accounts yet.",
+        "noneHint": "A reader gets an account the first time they sign in with GitHub."
+      },
+      "caption": "Users ({role}, {status}{searched, select, yes {, search “{query}”} other {}}), page {page}/{totalPages}",
+      "table": {
+        "user": "User",
+        "role": "Role",
+        "status": "Status",
+        "joined": "Joined",
+        "lastLogin": "Last sign-in",
+        "actions": "Actions",
+        "notice": {
+          "suspended": "Suspended <bdi>{handle}</bdi>.",
+          "unsuspended": "Unsuspended <bdi>{handle}</bdi>.",
+          "roleChanged": "Changed the role of <bdi>{handle}</bdi> to {role}.",
+          "mfaReset": "Reset two-step verification for <bdi>{handle}</bdi>."
+        },
+        "you": "You",
+        "suspend": "Suspend",
+        "unsuspend": "Unsuspend",
+        "changeRole": "Change role",
+        "confirmSuspend": "<strong>Suspend <bdi>{handle}</bdi>?</strong> They will be signed out and cannot comment or like posts.",
+        "suspending": "Suspending…",
+        "cancel": "Cancel",
+        "joinedOn": "Joined <date></date>",
+        "lastLoginOn": "Last sign-in <date></date>",
+        "neverLoggedIn": "Has not signed in with GitHub",
+        "resetMfa": "Reset two-step verification",
+        "resetMfaConfirm": "<strong>Reset two-step verification for <bdi>{handle}</bdi>?</strong> Their authenticator and recovery codes are removed and they are signed out. Enter your own code to confirm.",
+        "resetMfaCode": "Your code (authenticator or recovery)",
+        "resetMfaSubmit": "Reset",
+        "resetMfaWorking": "Resetting…"
+      },
+      "roleChange": {
+        "title": "<strong>Change the role of <bdi>{handle}</bdi>?</strong>",
+        "newRole": "New role",
+        "current": "(current)",
+        "effect": {
+          "promote": "<bdi>{handle}</bdi> will have {to, select, AUTHOR {permission to write posts and manage their own posts in the admin area} ADMIN {full admin rights over the site, including changing roles and suspending others} other {reader permissions: read, comment and like posts}}.",
+          "promoteSessions": "All their sessions are revoked: the new role takes effect when they sign in again.",
+          "demote": "<bdi>{handle}</bdi> will immediately lose {from, select, ADMIN {admin rights} other {access to the admin area}} and keep only {to, select, AUTHOR {permission to write posts and manage their own posts in the admin area} ADMIN {full admin rights over the site, including changing roles and suspending others} other {reader permissions: read, comment and like posts}}.",
+          "demoteKeepsPosts": "The posts they wrote stay as they are.",
+          "demoteSessions": "All their sessions are also revoked: they must sign in again.",
+          "promoteEnrollsAgain": "An admin always uses two-step verification: their authenticator, if they had one, is removed, and at their next sign-in they set one up again with the enrollment code.",
+          "suspendedNote": "This account is suspended: unsuspend it first, then you can change its role."
+        },
+        "confirmLogin": "Type <b>{handle}</b> to confirm",
+        "confirmName": "Type the name “<b>{handle}</b>” to confirm",
+        "submitting": "Changing…",
+        "changeTo": "Change to {role}",
+        "change": "Change role",
+        "cancel": "Cancel"
+      }
+    },
+    "stepUp": {
+      "codeLabel": "Your code (authenticator or recovery)",
+      "codeHint": "This change needs your own code, and a sign-in from the last 10 minutes."
+    },
+    "applications": {
+      "title": "Author applications",
+      "description": "Readers asking for permission to write posts. Approving grants the Author role: retype that person’s GitHub login (or name) to confirm, and they must sign in again. If you reject, they can apply again after 30 days.",
+      "statusNav": "Filter by status",
+      "count": "{count, plural, one {# application} other {# applications}}",
+      "empty": {
+        "pending": {
+          "title": "No applications are waiting for review.",
+          "hint": "Readers who sign in with GitHub apply from their profile page; new applications show here, oldest first."
+        },
+        "approved": {
+          "title": "No applications approved yet.",
+          "hint": "Approved applications stay here for reference: who became an author, and since when."
+        },
+        "rejected": {
+          "title": "No applications rejected yet.",
+          "hint": "A rejected person can apply again after 30 days; old applications stay here for reference."
+        }
+      },
+      "listLabel": "Author applications ({status}), page {page}/{totalPages}",
+      "list": {
+        "notice": {
+          "approved": "Approved the application of <bdi>{handle}</bdi>.",
+          "rejected": "Rejected the application of <bdi>{handle}</bdi>."
+        },
+        "you": "You",
+        "submittedOn": "Applied <date></date>",
+        "approvedOn": "Approved <date></date>",
+        "rejectedOn": "Rejected <date></date>",
+        "currentRole": "Is already {role, select, ADMIN {an admin} other {an author}}",
+        "noReason": "No reason given.",
+        "approve": "Approve",
+        "reject": "Reject",
+        "ofApplicant": "application of {handle}",
+        "confirmReject": "<strong>Reject the application of <bdi>{handle}</bdi>?</strong> They will see the result on their profile page, and can apply again after 30 days.",
+        "rejecting": "Rejecting…",
+        "cancel": "Cancel",
+        "confirmApprove": "<strong>Approve the application of <bdi>{handle}</bdi>?</strong>",
+        "effect": {
+          "alreadyRole": "<bdi>{handle}</bdi> is already {role, select, ADMIN {an admin} other {an author}}: approving only closes the application, the role stays the same.",
+          "promote": "<bdi>{handle}</bdi> will become an Author: able to write posts and manage their own posts in the admin area.",
+          "sessions": "All their sessions are revoked: the new role takes effect when they sign in again.",
+          "suspendedNote": "This account is suspended: unsuspend it first, then you can approve."
+        },
+        "confirmLogin": "Type <b>{handle}</b> to confirm",
+        "confirmName": "Type the name “<b>{handle}</b>” to confirm",
+        "approving": "Approving…",
+        "approveApplication": "Approve application"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Readers subscribe at /newsletter and confirm by email; each post, when first published by an administrator (or released here after an author published it), is sent to the people who confirmed. This page only has counts, no addresses.",
+      "transport": "Emails go through the configured transport (<code>NEWSLETTER_TRANSPORT</code>). By default it only writes to the log and sends no email.",
+      "held": {
+        "title": "Waiting for approval",
+        "description": "A post written by an author is not sent to subscribers until you release it. Release it to send the post to the confirmed subscribers of its language, or discard it: it is kept as a record and never sent. The post itself is not changed. What you see here is what subscribers would read. If the author changes the post after this page loaded, the release is refused and the new text is shown for you to read again. Once released, the title, excerpt and language are stored, so a later edit changes neither the email nor who gets it.",
+        "listLabel": "Newsletters waiting for approval",
+        "more": "This list shows the oldest {count} newsletters. Release or discard some to see the others.",
+        "by": "By {name}",
+        "noAuthor": "Unknown author",
+        "language": "Language {language}",
+        "recipients": "{count, plural, one {# subscriber would get it} other {# subscribers would get it}}",
+        "unpublished": "Not published",
+        "notPublished": "Not published now: it is sent once the post is published again.",
+        "noExcerpt": "No excerpt: only the title is sent.",
+        "release": "Release",
+        "discard": "Discard",
+        "releasing": "Releasing…",
+        "discarding": "Discarding…",
+        "keep": "Keep waiting",
+        "confirmDiscard": "Discard this newsletter? It is never sent and this cannot be undone. The post itself stays as it is.",
+        "target": "“{title}”",
+        "notice": {
+          "released": "Released: {title} goes to the subscribers.",
+          "discarded": "Discarded: {title} will not be sent."
+        }
+      },
+      "subscribers": {
+        "title": "Subscribers",
+        "confirmed": {
+          "label": "Confirmed",
+          "hint": "Receive an email whenever a new post is published."
+        },
+        "pending": {
+          "label": "Waiting for confirmation",
+          "hint": "Have not pressed the link in the confirmation email."
+        },
+        "suppressed": {
+          "label": "Unsubscribed",
+          "hint": "Only a hash of the address is kept, so nothing is sent again."
+        }
+      },
+      "issues": {
+        "title": "Latest sends",
+        "description": "Each post is sent once, when it is first published by an administrator or released here, to the people who had confirmed at that time.",
+        "emptyTitle": "No posts sent yet.",
+        "emptyBody": "The first send happens when a post is published for the first time. Editing, unpublishing and republishing does not send again.",
+        "caption": "Latest sends",
+        "post": "Post",
+        "created": "Created",
+        "status": "Status",
+        "delivery": {
+          "sent": "Sent",
+          "retrying": "Retrying",
+          "dead": "Failed",
+          "pending": "Pending"
+        },
+        "deliveryCount": {
+          "sent": "Sent {count, number}",
+          "retrying": "Retrying {count, number}",
+          "dead": "Failed {count, number}",
+          "pending": "Pending {count, number}"
+        },
+        "issueStatus": {
+          "PENDING": "Waiting to split",
+          "EXPANDED": "Split into emails",
+          "HELD": "Waiting for approval",
+          "DISCARDED": "Discarded"
+        }
+      },
+      "failures": {
+        "title": "Send failures by code",
+        "description": "The code the worker writes when a send fails; the provider’s message is not stored.",
+        "none": "No send failures.",
+        "caption": "Send failures by code",
+        "error": "Error",
+        "emails": "Emails",
+        "reason": {
+          "CONNECTION_FAILED": "Could not connect to the mail server",
+          "TIMEOUT": "The mail server did not answer in time",
+          "AUTH_FAILED": "The mail server rejected the credentials",
+          "REJECTED": "The mail server rejected the email",
+          "INVALID_ADDRESS": "The recipient address is not valid",
+          "SUPPRESSED": "The address has unsubscribed",
+          "UNKNOWN": "Unknown error"
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact messages",
+      "description": "What visitors sent through the contact form, newest first. Every message is kept here. When <code>CONTACT_RECIPIENT</code> is set, it is also emailed to that address.",
+      "listLabel": "Messages",
+      "count": "{count, plural, one {# message} other {# messages}}",
+      "unreadCount": "{count, plural, =0 {none unread} other {# unread}}",
+      "empty": {
+        "title": "No messages yet.",
+        "hint": "When a visitor sends the contact form on the site, the message shows up here, newest first."
+      },
+      "unreadBadge": "Unread",
+      "noSubject": "(no subject)",
+      "pageLanguage": "Page language: {locale}",
+      "target": "message from {name}",
+      "markRead": "Mark as read",
+      "delete": "Delete",
+      "deleting": "Deleting…",
+      "cancel": "Cancel",
+      "confirmDelete": "<strong>Delete this message?</strong> It is removed for good and cannot be restored.",
+      "notice": {
+        "read": "Marked the message from <bdi>{name}</bdi> as read.",
+        "delete": "Deleted the message from <bdi>{name}</bdi>."
+      },
+      "pager": {
+        "label": "Messages pagination",
+        "summary": "{from, number}–{to, number} of {total, plural, one {# message} other {# messages}} · page {page}/{totalPages}",
+        "previous": "Previous page",
+        "next": "Next page"
+      }
+    },
+    "topics": {
+      "title": "Topics",
+      "description": "Categories and tags of the posts, exactly what readers see on the Topics page. Renaming does not change the public path.",
+      "nameRequired": "Enter a name.",
+      "pickOtherCategory": "Choose another category to move the posts to.",
+      "pickOtherTag": "Choose another tag to merge into.",
+      "mergeUnsupported": "The server does not support merging categories and tags yet. Update the backend and try again.",
+      "manager": {
+        "unreachable": "Could not reach the server, try again later.",
+        "renamed": "Renamed to “{name}”.",
+        "usageNone": "no posts yet",
+        "usageAll": "{count, plural, one {# post} other {# posts}}",
+        "usagePartly": "{count, plural, one {# post} other {# posts}} · {published} published",
+        "edit": "Edit",
+        "merge": "Merge",
+        "delete": "Delete",
+        "viewPostsTitle": "Move these posts to another category before you can delete this category",
+        "viewPosts": "View {count, plural, one {# post} other {# posts}}",
+        "viewPostsSr": "in category “{name}”",
+        "moveAndDelete": "Move posts, then delete",
+        "targetOption": "{name} ({count, plural, =0 {no posts} one {# post} other {# posts}})",
+        "moving": "Moving…",
+        "cancel": "Cancel",
+        "pathHint": "The path {path} stays the same, so old links keep working.",
+        "descriptionLabel": "Description",
+        "optional": "(optional)",
+        "saving": "Saving…",
+        "save": "Save",
+        "irreversible": "This cannot be undone.",
+        "deleteConfirm": "Delete permanently",
+        "category": {
+          "title": "Categories",
+          "description": "The main grouping of posts: each post has one category, and a post needs a category before it can be published. A category that still has posts cannot be deleted.",
+          "empty": "No categories yet.",
+          "emptyHint": "Create the first category below, or right in the post editor when choosing a category.",
+          "listLabel": "Category list",
+          "added": "Added category “{name}”.",
+          "saved": "Saved category “{name}”.",
+          "deleted": "Deleted category “{name}”.",
+          "merged": "Moved {moved, plural, one {# post} other {# posts}} to “{target}” and deleted category “{name}”.",
+          "subject": "category “{name}”",
+          "mergeTitle": "Move posts, then delete category “{name}”",
+          "mergeLabel": "Move {count, plural, one {# post} other {# posts}} of “{name}” to category",
+          "mergePlaceholder": "Choose a category…",
+          "consequence": "{count, plural, one {# post} other {# posts}}{partial, select, yes { ({published} published)} other {}} of “{name}” will move to “{target}”, then category “{name}” is deleted; the path {path} becomes a 404 page. This cannot be undone.",
+          "mergeSubmit": "Move posts and delete “{name}”",
+          "nameLabel": "Category name",
+          "deleteQuestion": "Delete category “{name}”?",
+          "newNameLabel": "New category name",
+          "addButton": "Add category"
+        },
+        "tag": {
+          "title": "Tags",
+          "description": "Secondary labels; a post can carry many tags. Deleting a tag only removes it from the posts; the posts stay.",
+          "empty": "No tags yet.",
+          "emptyHint": "Create a tag below, or right in the post editor.",
+          "listLabel": "Tag list",
+          "added": "Added tag “{name}”.",
+          "saved": "Saved tag “{name}”.",
+          "deleted": "Deleted tag “{name}”.",
+          "merged": "Merged tag “{name}” into “{target}” ({moved, plural, one {# post} other {# posts}}).",
+          "subject": "tag “{name}”",
+          "mergeTitle": "Merge tag “{name}”",
+          "mergeLabel": "Merge “{name}” into tag",
+          "mergePlaceholder": "Choose a tag…",
+          "consequence": "{count, plural, one {# post} other {# posts}} carrying “{name}” will carry “{target}”, then tag “{name}” is deleted; the path {path} becomes a 404 page. This cannot be undone.",
+          "mergeSr": "tag “{name}” into another tag",
+          "mergeSubmit": "Merge into…",
+          "mergeSubmitInto": "Merge into “{target}”",
+          "nameLabel": "Tag name",
+          "deleteQuestion": "Delete tag “{name}”?",
+          "deleteLeavesPosts": "The tag will leave {count, plural, one {# post} other {# posts}} that carry it; the posts stay.",
+          "newNameLabel": "New tag name",
+          "addButton": "Add tag"
+        },
+        "translationLegend": "{language} version",
+        "translatedNameLabel": "Name in {language}",
+        "translatedNamePlaceholder": "Name (empty: the base name is used)",
+        "translatedDescriptionLabel": "Description in {language}"
+      }
+    },
+    "series": {
+      "title": "Series",
+      "description": "A series groups posts in reading order. The <link>Series</link> page only shows series with at least one published post, and only its published posts.",
+      "countNone": "No posts yet",
+      "countAll": "{total, plural, one {# post} other {# posts}}",
+      "countPartlyPublished": "{total, plural, one {# post} other {# posts}} · {published} published",
+      "editAria": "Edit series “{title}”",
+      "hiddenOnSite": "Not shown on the site yet",
+      "create": "Create series",
+      "emptyTitle": "No series yet.",
+      "emptyBody": "A series arranges related posts into an ordered reading path. Name it in the form below, then add posts on the next page.",
+      "listLabel": "Series list",
+      "createHeading": "Create a new series",
+      "createHint": "After creating, you go to the series edit page, where you add posts and set the order.",
+      "titleRequired": "Enter a series name.",
+      "edit": {
+        "title": "Edit series",
+        "allSeries": "All series",
+        "description": "Arrange the parts and edit the details of the series “{title}”.",
+        "viewOnBlogTitle": "Open the series on the blog in a new tab",
+        "viewOnBlog": "View on blog",
+        "partsHeading": "Parts",
+        "partsHint": "The order here is the reading order. Adding, removing or moving only takes effect when you press “Save order”. The public page only shows published parts and renumbers them; a post that is in another series will be moved here.",
+        "infoHeading": "Details"
+      },
+      "delete": {
+        "unreachable": "Could not reach the server, try again later.",
+        "heading": "Delete series",
+        "confirmQuestion": "Delete series “{title}”?",
+        "postsKept": "The {count, plural, one {# post} other {# posts}} in the series stay, they only leave the series.",
+        "irreversible": "This cannot be undone.",
+        "confirmButton": "Delete permanently",
+        "cancel": "Cancel",
+        "restKept": "The posts are not deleted, they only leave the series.",
+        "restEmpty": "The series has no posts yet.",
+        "trigger": "Delete series"
+      },
+      "form": {
+        "saved": "Saved.",
+        "unreachable": "Could not reach the server, try again later.",
+        "titleLabel": "Series name",
+        "slugLabel": "Path",
+        "slugHintCreate": "Leave empty to generate it from the name.",
+        "slugHintEdit": "Changing the path breaks old links. Leave empty to keep it.",
+        "descriptionLabel": "Description",
+        "descriptionHint": "Shown under the series name on the public page. Up to 2000 characters.",
+        "create": "Create series",
+        "saveInfo": "Save details"
+      },
+      "parts": {
+        "movedTo": "“{title}” is now at position {position}.",
+        "removed": "Removed “{title}” from the list.",
+        "added": "Added “{title}” to the end of the list.",
+        "orderSaved": "Order saved.",
+        "unreachable": "Could not reach the server, try again later.",
+        "emptyTitle": "The series has no parts yet.",
+        "emptyBodyAdd": "Add posts from the box below, arrange them in reading order, then press “Save order”.",
+        "emptyBodyWriteFirst": "There are no posts to add yet: write a post first, then come back here.",
+        "orderLabel": "Order of the parts",
+        "notShown": "{status} · not shown on the site yet",
+        "otherSeriesNote": "(currently in series {name}) · saving moves the post to this series",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "remove": "Remove from series",
+        "moveUpLabel": "Move “{title}” up",
+        "moveDownLabel": "Move “{title}” down",
+        "removeLabel": "Remove “{title}” from the series",
+        "noCandidates": "No posts left to add.",
+        "addLabel": "Add a post",
+        "pickPlaceholder": "— choose a post —",
+        "optionOtherSeries": "(currently in series {name})",
+        "add": "Add",
+        "fullHint": "A series can have at most {max} parts.",
+        "addHint": "Drafts can be added too. A newly added post goes to the end of the list.",
+        "save": "Save order",
+        "unsaved": "Unsaved changes.",
+        "saveReminder": "Adding, removing or moving only takes effect when you save."
+      }
+    },
+    "gallery": {
+      "title": "Gallery",
+      "description": "The order here is the order on the <link>Photos</link> page, and the first few photos appear on the home page and the About page. Hidden photos are not listed anywhere on the site.",
+      "errors": {
+        "altRequired": "Enter a description of the photo (alt text).",
+        "badDate": "The date taken must be in the form year-month-day.",
+        "missingVisibility": "The photo visibility choice is missing.",
+        "noFile": "No photo chosen to upload.",
+        "fileTooLarge": "The photo is larger than 4 MB. Choose another one."
+      },
+      "manager": {
+        "noDescriptionName": "photo without a description",
+        "noDescriptionAlt": "Photo without a description",
+        "unreachable": "Could not reach the server, try again later.",
+        "movedTo": "“{name}” is now at position {position}.",
+        "orderSaved": "Order saved.",
+        "photoSaved": "Saved photo “{name}”.",
+        "photoDeleted": "Deleted photo “{name}”.",
+        "tally": "{count, plural, one {# photo} other {# photos}}",
+        "tallyWithHidden": "{count, plural, one {# photo} other {# photos}} · {hidden} hidden",
+        "heading": "Existing photos",
+        "hint": "Newly uploaded photos go first. Edits and deletes take effect at once; an order changed with ↑ ↓ is only saved when you press <nowrap>“Save order”</nowrap>.",
+        "saveOrder": "Save order",
+        "unsaved": "Unsaved order.",
+        "emptyTitle": "No photos yet.",
+        "emptyBody": "The home page and the About page only have a Photos section when at least one photo is visible. Drag and drop or choose photos in the <nowrap>“Upload photos”</nowrap> box above to start.",
+        "orderLabel": "Photo order",
+        "hiddenBadge": "Hidden from the site",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "moveUpLabel": "Move photo “{name}” up",
+        "moveDownLabel": "Move photo “{name}” down",
+        "save": "Save",
+        "photoSubject": "photo “{name}”",
+        "deleteQuestion": "Delete this photo? This cannot be undone.",
+        "deleteConfirm": "Delete permanently",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      },
+      "fields": {
+        "altLabel": "Photo description (alt)",
+        "altHint": "Required. One sentence describing the photo, for screen reader users.",
+        "captionLabel": "Caption",
+        "dateLabel": "Date taken",
+        "publishedLabel": "Show on the site",
+        "publishedHint": "Uncheck to hide the photo from the site; anyone with the link can still view it."
+      },
+      "uploader": {
+        "unreadable": "This photo could not be read. Choose another one.",
+        "unreachable": "Could not reach the server, try again later.",
+        "progress": "Uploading photo {current}/{total}…",
+        "done": "Uploaded {uploaded}/{total} photos.",
+        "doneWithFailures": "Uploaded {uploaded}/{total} photos. {failed, plural, one {# photo} other {# photos}} failed, see the reason right under each one.",
+        "heading": "Upload photos",
+        "intro": "Choose or drag and drop several photos at once, fill in a description for each, then upload them in one go.",
+        "dropPrompt": "Drag and drop photos here, or",
+        "choose": "Choose photos",
+        "chooseHint": "JPEG, PNG or WebP, you can choose several. Large photos are downsized in the browser before sending.",
+        "queueLabel": "Photos waiting to upload",
+        "previewAlt": "Preview of {name}",
+        "removeFromQueue": "Remove from the queue",
+        "removeFromQueueLabel": "Remove “{name}” from the queue",
+        "dateHint": "Leave empty to use the date recorded in the photo, if any.",
+        "upload": "Upload",
+        "altNeeded": "Each photo needs a description (alt) before uploading."
+      }
+    },
+    "curated": {
+      "title": "Best posts",
+      "description": "The order here is the order on the <link>Best posts</link> page; the first three published posts appear on the home page. Adding or removing a post takes effect at once, while changing the order needs “Save order”.",
+      "missingPost": "A post in the list no longer exists, reload the page.",
+      "unreachable": "Could not reach the server, try again later.",
+      "movedTo": "“{title}” is now at position {position}.",
+      "orderSaved": "Order saved.",
+      "added": "Added “{title}”.",
+      "removed": "Removed “{title}” from Best posts.",
+      "emptyTitle": "No posts picked yet.",
+      "emptyBodyAdd": "The /start-here page and the home page take their posts from this list. Add a published post from the box below.",
+      "emptyBodyPublishFirst": "The /start-here page and the home page take their posts from this list. Publish a post first, then come back here to pick it.",
+      "orderLabel": "Best posts order",
+      "onHome": "Shown on the home page",
+      "notShown": "{status} · not shown on the site yet",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "remove": "Remove from Best posts",
+      "moveUpLabel": "Move “{title}” up",
+      "moveDownLabel": "Move “{title}” down",
+      "removeLabel": "Remove “{title}” from Best posts",
+      "noCandidates": "No published posts left to add.",
+      "addLabel": "Add a post",
+      "pickPlaceholder": "— choose a published post —",
+      "add": "Add",
+      "addHint": "Published posts only. A newly added post goes to the end of the list.",
+      "save": "Save order",
+      "unsaved": "Unsaved order.",
+      "nothingToSort": "No posts to arrange yet.",
+      "saveReminder": "Adding and removing take effect at once; only moving needs saving."
+    },
+    "language": {
+      "label": "Language"
+    },
+    "settings": {
+      "title": "Site content",
+      "description": "Edit the text of the public pages for each language: brand, profile, about, skills, contact and more.",
+      "listLabel": "Content sections",
+      "deployment": "Default language: {defaultLocale}. Enabled languages: {enabled}. These are deployment settings: they are changed in the server configuration, not here.",
+      "editAria": "Edit {section} in {language}",
+      "allSettings": "Site content",
+      "languageSwitch": "Language of the content",
+      "notSaved": "Nothing is saved for this language yet. The form starts from the packaged defaults; saving creates the content.",
+      "otherLanguage": "Reference: the {language} version",
+      "otherMissing": "No saved version in that language yet.",
+      "save": "Save",
+      "saved": "Saved.",
+      "remove": "Remove",
+      "removeAria": "Remove {title}",
+      "listFull": "The list is full ({max} at most).",
+      "locales": {
+        "vi": "Vietnamese",
+        "en": "English"
+      },
+      "status": {
+        "saved": "Saved",
+        "missing": "Missing translation"
+      },
+      "sections": {
+        "site": {
+          "title": "General",
+          "description": "Site name, tagline and positioning sentence."
+        },
+        "profile": {
+          "title": "Profile and hero",
+          "description": "The person, the home page greeting and the avatar."
+        },
+        "about": {
+          "title": "About",
+          "description": "The introduction, the Markdown body and the sections of the About page."
+        },
+        "skills": {
+          "title": "Skills",
+          "description": "Skill groups with a level for each item."
+        },
+        "now": {
+          "title": "Now",
+          "description": "What is being worked on at the moment."
+        },
+        "timeline": {
+          "title": "Timeline",
+          "description": "Education and experience: company or school, period, highlights, technologies and a logo."
+        },
+        "contact": {
+          "title": "Contact",
+          "description": "Email, GitHub and other links."
+        },
+        "blogroll": {
+          "title": "Blogroll",
+          "description": "Sites worth reading."
+        },
+        "case_studies": {
+          "title": "Case studies",
+          "description": "Write-ups with problem, solution and measured results."
+        }
+      },
+      "errors": {
+        "badArguments": "This request is not valid. Reload the page and try again.",
+        "invalid": "The server refused this content. Fix the items below and save again.",
+        "noFile": "Choose a file first.",
+        "fileTooLarge": "This file is too large.",
+        "notJson": "This file is not a JSON document.",
+        "unreachable": "Could not reach the server. Check your connection and try again."
+      },
+      "exportRoute": {
+        "badLocale": "Unknown language.",
+        "forbidden": "Only admins can export the site content.",
+        "unavailable": "The export is not available right now."
+      },
+      "export": {
+        "heading": "Export",
+        "hint": "Download the saved content of one language as a JSON file. Sections that were never saved are not included.",
+        "download": "Download {language} (JSON)"
+      },
+      "import": {
+        "heading": "Import",
+        "intro": "Upload a file made by the export. Every section is checked first: if anything is invalid, nothing is imported.",
+        "file": "Export file",
+        "hint": "A JSON file of at most 512 KiB. The language is read from the file.",
+        "submit": "Import",
+        "importing": "Importing…",
+        "done": "Import finished.",
+        "sectionResult": "{name}: {status, select, created {created} updated {updated} other {unchanged}}",
+        "unreachable": "Could not reach the server. Check your connection and try again."
+      },
+      "revisions": {
+        "heading": "Earlier versions",
+        "hint": "Each save keeps the previous version (the 10 most recent). Restoring one keeps the current version in this list.",
+        "empty": "No earlier versions yet.",
+        "restore": "Restore",
+        "restoreAria": "Restore the version from {time}",
+        "restored": "Restored. The form shows the restored version.",
+        "unreachable": "Could not reach the server. Check your connection and try again."
+      },
+      "json": {
+        "label": "Content (JSON)",
+        "hint": "A JSON object. It is formatted when you save; the server checks every field.",
+        "syntax": "Invalid JSON at line {line}, column {column}.",
+        "syntaxNoPosition": "Invalid JSON.",
+        "notObject": "The content must be a JSON object.",
+        "line": "Line {line}:",
+        "format": "Format",
+        "formatHint": "Checks the syntax and indents the text."
+      },
+      "site": {
+        "name": "Site name",
+        "nameHint": "Shown in the header, footer, page titles and feeds.",
+        "tagline": "Tagline",
+        "taglineHint": "A short line after the name in the home page title. May be empty.",
+        "positioning": "Positioning sentence",
+        "positioningHint": "Used as the default page description and in the footer. May be empty."
+      },
+      "profile": {
+        "personHeading": "The person",
+        "name": "Name",
+        "role": "Role",
+        "location": "Location",
+        "seeking": "Looking for",
+        "seekingHint": "Leave empty to hide it.",
+        "galleryLead": "Gallery lead",
+        "galleryLeadHint": "The sentence under the gallery title. Leave empty to hide it.",
+        "heroHeading": "Home page hero",
+        "greeting": "Greeting",
+        "headline": "Headline",
+        "subline": "Subline",
+        "avatarHeading": "Avatar",
+        "avatarNone": "No avatar.",
+        "avatarRemove": "Remove avatar",
+        "avatarFile": "Image file",
+        "avatarHint": "JPEG or PNG. Uploading does not change the profile until you save it.",
+        "avatarUpload": "Upload avatar",
+        "avatarUploading": "Uploading…",
+        "avatarUploaded": "Uploaded. Save the profile to use it."
+      },
+      "about": {
+        "intro": "Introduction",
+        "body": "Page body (Markdown)",
+        "bodyHint": "Optional. Takes the same Markdown and blocks as an article (callouts, metrics, timeline, tabs, steps and more). It is shown after the introduction. Leave it empty for none.",
+        "bodyPrompt": "Download the authoring prompt",
+        "bodyCount": "{count} / {max} characters",
+        "sections": "Sections",
+        "addSection": "Add a section",
+        "sectionTitle": "Section {n}",
+        "sectionId": "Identifier",
+        "sectionIdHint": "Lowercase letters, digits and hyphens. Used in the page link.",
+        "sectionHeading": "Heading",
+        "sectionBody": "Paragraphs",
+        "sectionBodyHint": "One paragraph per line.",
+        "photoHeading": "Photo",
+        "photoNone": "No photo of its own: the page shows the profile avatar, if there is one.",
+        "photoRemove": "Remove photo",
+        "photoHint": "The photo comes from importing a ZIP package (Settings, Import); it cannot be uploaded here. It stays when you save this page."
+      },
+      "contact": {
+        "email": "Email",
+        "emailHint": "A plain address. Leave empty to hide it.",
+        "github": "GitHub link",
+        "githubHint": "An https:// address. Leave empty to hide it.",
+        "blurb": "Short note",
+        "social": "Other links",
+        "addSocial": "Add a link",
+        "socialTitle": "Link {n}",
+        "socialLabel": "Label",
+        "socialUrl": "Address",
+        "socialUrlHint": "Starts with https:// or mailto:."
+      },
+      "timeline": {
+        "summary": "Experience summary",
+        "summaryHint": "One or two sentences shown above the journey on the home page.",
+        "entries": "Entries",
+        "addEntry": "Add an entry",
+        "entryTitle": "Entry {n}",
+        "untitled": "an entry without a title",
+        "kind": "Type",
+        "kinds": {
+          "experience": "Experience",
+          "education": "Education"
+        },
+        "title": "Role or degree",
+        "org": "Company or school",
+        "period": "Period",
+        "periodHint": "Free text, for example 09/2023 - Present.",
+        "entrySummary": "Short description",
+        "url": "Link",
+        "urlHint": "An https:// page of the company or school. The name links to it. Leave it empty for none.",
+        "location": "Location",
+        "department": "Department",
+        "highlights": "Highlights",
+        "highlightsHint": "One bullet point per line. Up to {max} lines of {length} characters.",
+        "tech": "Technologies",
+        "techHint": "One technology per line, shown as pills. Up to {max} lines of {length} characters.",
+        "tooMany": "Too many lines: at most {max}.",
+        "tooLong": "A line is longer than {length} characters.",
+        "moveUp": "Move up",
+        "moveDown": "Move down",
+        "moveUpAria": "Move {title} up",
+        "moveDownAria": "Move {title} down",
+        "logoHeading": "Logo",
+        "logoNone": "No logo.",
+        "logoRemove": "Remove logo",
+        "logoHint": "A logo comes from importing a ZIP package (Settings, Import); it cannot be uploaded here. It stays when you save."
+      },
+      "skills": {
+        "groups": "Groups",
+        "addGroup": "Add a group",
+        "groupTitle": "Group {n}",
+        "groupId": "Identifier",
+        "groupIdHint": "Lowercase letters, digits and hyphens.",
+        "groupHeading": "Group title",
+        "defaultLevel": "Default level",
+        "items": "Items of group {n}",
+        "addItem": "Add an item",
+        "itemTitle": "Item {n}",
+        "itemName": "Skill",
+        "itemLevel": "Level",
+        "levelDefault": "Group default",
+        "itemNote": "Note",
+        "levels": {
+          "used-in-project": "Used in a project",
+          "worked-with": "Worked with",
+          "learning": "Learning"
+        }
+      },
+      "profileImport": {
+        "card": {
+          "heading": "Import from a Markdown file",
+          "intro": "Fill the About page, skills, timeline, contact details and more from one file: download the template, fill it by hand or with an AI assistant, and review a preview before anything is written.",
+          "open": "Open the Markdown import"
+        },
+        "page": {
+          "title": "Import Markdown",
+          "description": "Upload a profile file or a ZIP package with the About page photo, its images and the timeline logos, review what would change, then confirm. Nothing is written before you confirm."
+        },
+        "route": {
+          "badLocale": "Unknown language.",
+          "forbidden": "Only admins can download this file.",
+          "unavailable": "The download is not available right now."
+        },
+        "errors": {
+          "noFile": "Choose a file first.",
+          "fileTooLarge": "This file is too large (256 KiB at most).",
+          "packageTooLarge": "This ZIP package is too large (4 MiB at most).",
+          "notMarkdown": "The file name must end in .md or .zip.",
+          "badArguments": "This request is not valid. Reload the page and try again.",
+          "unreachable": "Could not reach the server. Check your connection and try again.",
+          "codes": {
+            "SITE_IMPORT_HASH_MISMATCH": "The file is not the one that was previewed. Choose the file again and review the preview.",
+            "SITE_IMPORT_NOTHING_TO_UNDO": "There is no import to undo.",
+            "SITE_IMPORT_UNDO_CONFLICT": "A section was changed after the import, so it cannot be undone safely. Nothing was changed."
+          }
+        },
+        "status": {
+          "previewing": "Reading the file and preparing the preview…",
+          "previewReady": "Preview ready. Nothing has been written.",
+          "applying": "Applying the import…",
+          "applied": "Import finished.",
+          "undoing": "Undoing the import…",
+          "undone": "Import undone."
+        },
+        "template": {
+          "heading": "1. Language and template",
+          "intro": "The template lists every section and field with its limits and instructions for an AI assistant. The file you upload decides which language it writes to.",
+          "language": "Language",
+          "download": "Download template",
+          "export": "Export current content",
+          "exportZip": "Export ZIP with images",
+          "exportHint": "The ZIP package holds the profile file and every image the content uses (the About photo, the images of its body and the timeline logos). Importing it again restores both."
+        },
+        "file": {
+          "heading": "2. File",
+          "intro": "Choose one Markdown (.md) file of at most 256 KiB, or a ZIP package (.zip) of at most 4 MiB that holds the file and the About page photo, its images and the timeline logos under assets/, or drop it here.",
+          "inputLabel": "Profile file (.md or .zip)",
+          "dropTitle": "Choose a file or drop it here",
+          "dropHint": "Markdown (.md) up to 256 KiB, or ZIP package (.zip) up to 4 MiB",
+          "hint": "The server checks the file again when you apply it.",
+          "size": "({kib} KiB)",
+          "replace": "Replace file",
+          "remove": "Remove"
+        },
+        "preview": {
+          "heading": "3. Preview",
+          "willWriteTo": "Will write to: {language}",
+          "noLanguage": "The file does not name a valid language yet.",
+          "nothingWritten": "Nothing has been written. Missing or empty values never delete anything.",
+          "packageNote": "This is a ZIP package. Its images are stored only when you apply; the preview names them by path, never by content.",
+          "package": {
+            "facts": "ZIP package: {assets, plural, one {# image} other {# images}} ({kib} KiB), {used} used, {unused} not used.",
+            "unsupported": "{count, plural, one {# item of the package cannot be used.} other {# items of the package cannot be used.}}"
+          },
+          "notes": {
+            "asset_unused": "The image {path} is not used by the page, so it is not stored.",
+            "other": "There is something to check in this package."
+          },
+          "fileErrors": "The file has problems that must be fixed before it can be applied.",
+          "listLabel": "Sections of the file",
+          "line": "Line {line}",
+          "lineNumber": "line {line}",
+          "problem": "{where}: {message}",
+          "changes": "Changes",
+          "before": "Before",
+          "after": "After",
+          "none": "(empty)",
+          "listCounts": "list: {added} added, {removed} removed, {kept} kept",
+          "missingOptional": "Optional values not in the file: {fields}",
+          "status": {
+            "new": "New",
+            "will_change": "Will change",
+            "unchanged": "Unchanged",
+            "error": "Error",
+            "missing": "Missing (optional)"
+          },
+          "ignoredHeading": "{count, plural, one {# ignored item} other {# ignored items}}",
+          "ignoredHint": "These parts of the file are not part of the format and are not applied.",
+          "ignoredItem": "{kind, select, section {Section} field {Field} subsection {Subsection} image {Unused image} other {Item}} “{name}”{line, plural, =0 {} other { (line #)}}",
+          "ignoredMore": "{count, plural, one {# more is not listed} other {# more are not listed}}",
+          "applyBlocked": "Fix the file problems above to apply."
+        },
+        "mode": {
+          "legend": "4. How to write",
+          "create-only": {
+            "label": "Create only",
+            "hint": "Sections that already have content in this language are skipped, never overwritten."
+          },
+          "update": {
+            "label": "Update",
+            "hint": "Chosen sections are written. Object fields change only when the file gives them; lists in the file replace the whole stored list."
+          }
+        },
+        "apply": "{count, plural, one {Apply # section} other {Apply # sections}}",
+        "result": {
+          "heading": "Import result",
+          "summary": "{created} created, {updated} updated, {unchanged} unchanged, {skipped} skipped.",
+          "section": "{name}: {status, select, created {created} updated {updated} unchanged {unchanged} skipped {skipped} other {done}}",
+          "viewSite": "View the {language} site"
+        },
+        "undo": {
+          "heading": "Undo",
+          "last": "The last import ({when}, {language}) can be undone.",
+          "hint": "This import can be undone as long as none of its sections was changed afterwards.",
+          "none": "There is no import left to undo.",
+          "button": "Undo this import",
+          "confirmText": "Restore the previous version of every section this import wrote, and remove the sections it created? This does not touch anything changed after the import.",
+          "confirm": "Yes, undo the import",
+          "cancel": "Keep the import",
+          "section": "{key}: {status, select, restored {restored} removed {removed} other {done}}"
+        }
+      },
+      "sampleContent": {
+        "heading": "Sample content",
+        "intro": "Add four sample posts (two articles, each in English and Vietnamese, linked as translations of each other), the series \"Getting started\", the category \"Guides\" and two tags, so that a new site does not look empty. Pressing the button again never creates anything twice.",
+        "submit": "Load sample content",
+        "loading": "Loading sample content…",
+        "done": "Sample content loaded.",
+        "created": "Created: {posts, plural, one {# post} other {# posts}}, {series, plural, one {# series} other {# series}}, {categories, plural, one {# category} other {# categories}}, {tags, plural, one {# tag} other {# tags}}.",
+        "nothingNew": "Nothing new was created: the sample content is already there.",
+        "skipped": "Already there and left unchanged: {skipped, plural, one {# item} other {# items}}.",
+        "unreachable": "Could not reach the server. Check your connection and try again."
+      }
+    }
+  },
+  "Language": {
+    "navLabel": "Language"
+  },
+  "Meta": {
+    "feed": {
+      "unavailable": "The feed is temporarily unavailable.",
+      "notFound": "No such feed."
+    },
+    "profile": {
+      "joinedMonth": "{month}/{year}"
+    }
+  },
+  "Setup": {
+    "title": "Set up your blog",
+    "lead": "Create the owner account. This page closes for good as soon as the setup is done.",
+    "code": {
+      "label": "Setup code",
+      "hint": "Use the value of the <code>SETUP_TOKEN</code> environment variable of the backend. If it is not set, the backend writes a file named <code>setup-code</code> in its data directory and prints the path of that file (never the code itself) in its log. Open that file on the server and copy the code."
+    },
+    "displayName": {
+      "label": "Display name"
+    },
+    "email": {
+      "label": "Email"
+    },
+    "password": {
+      "label": "Password",
+      "hint": "At least {min} characters."
+    },
+    "confirm": {
+      "label": "Confirm password"
+    },
+    "submit": "Create the account",
+    "submitting": "Creating...",
+    "fieldErrors": {
+      "codeRequired": "Enter the setup code.",
+      "nameRequired": "Enter a display name.",
+      "nameTooLong": "The display name is too long (60 characters at most).",
+      "emailInvalid": "Enter a valid email address.",
+      "passwordShort": "The password is too short (12 characters at least).",
+      "passwordLong": "The password is too long (128 characters at most).",
+      "confirmMismatch": "The two passwords do not match."
+    },
+    "errors": {
+      "SETUP_CODE_INVALID": "The setup code is not correct.",
+      "SETUP_CLOSED": "The setup is already done. Sign in instead.",
+      "VALIDATION_ERROR": "Some of the values were refused. Check them and try again.",
+      "RATE_LIMITED": "Too many attempts. Wait a few minutes and try again.",
+      "UNAVAILABLE": "The server is not answering. Try again in a moment.",
+      "NETWORK": "Could not send the form. Check your connection and try again.",
+      "GENERIC": "The setup did not complete. Try again."
+    }
+  }
+}

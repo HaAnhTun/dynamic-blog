@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "id": "backend",
+      "title": "Backend",
+      "defaultLevel": "used-in-project",
+      "items": [{ "name": "Java" }, { "name": "PostgreSQL" }, { "name": "Docker", "level": "worked-with" }]
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend",
+      "defaultLevel": "used-in-project",
+      "items": [
+        { "name": "TypeScript" },
+        { "name": "React" },
+        { "name": "Tailwind CSS", "level": "worked-with" },
+        { "name": "Playwright", "level": "worked-with", "note": "Hãy thay các kỹ năng này trong Quản trị > Cài đặt." }
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Thực hành",
+      "defaultLevel": "worked-with",
+      "items": [
+        { "name": "Git" },
+        { "name": "Kiểm thử" },
+        { "name": "Observability", "level": "learning" },
+        { "name": "Kubernetes", "level": "learning" },
+        { "name": "Rust", "level": "learning" }
+      ]
+    }
+  ]
+}

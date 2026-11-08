@@ -1,0 +1,77 @@
+# gitleaks configuration (picked up automatically from the repository root).
+title = "blog-engine"
+
+[extend]
+useDefault = true
+
+# Allowlist policy (docs/CONVENTIONS.md, section 9).
+#
+# The values below are invented fixtures with no meaning outside a test, or the documented development default of the second step.
+# An entry names ONE EXACT VALUE (an anchored regex of the secret) and nothing else: no `paths`, no `commits`, no `stopwords`.
+# A file is never exempt as a whole, so a real secret that lands in the same file is still reported. Do not add `paths`: in `gitleaks dir`
+# a file that matches the `paths` of any allowlist is not scanned at all, even when the entry has `condition = "AND"` and a regex
+# (gitleaks 8.30, sources/common.go, shouldSkipPath); `gitleaks git` honours the condition, `dir` does not.
+# CI scans the files (`gitleaks dir`) and the history (`gitleaks git`), and a value-only entry works the same in both.
+# scripts/test_gitleaks_config.py checks the shape of this file and, where Docker is available, that a token in a file that holds an
+# allowlisted value is still found and that a token added and removed again is found in the history.
+
+[[allowlists]]
+description = "Development encryption key of the second step (MfaProperties.DEV_ENCRYPTION_KEY, used only with APP_ALLOW_DEV_DEFAULTS) and its copy in the test properties"
+regexTarget = "secret"
+regexes = ['''^kKTD05O9CzY77GBpadFxIY3buL3OixPWeQpATErrgxM=$''']
+
+[[allowlists]]
+description = "Base32 secret of the RFC 6238 test vectors (the ASCII string 12345678901234567890): MfaSecretsTest, e2e-totp.test.ts"
+regexTarget = "secret"
+regexes = ['''^GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ$''']
+
+[[allowlists]]
+description = "Invented operator reset tokens of MfaOperatorResetIT"
+regexTarget = "secret"
+regexes = ['''^dat-lai-lan-(mot|hai)-0123456789abcdefghij$''']
+
+[[allowlists]]
+description = "Invented signing secret and counting-bytes encryption key of the enrollment integration tests (MfaEnrollmentTokenIT, MfaEnrollmentCodeIT)"
+regexTarget = "secret"
+regexes = [
+  '''^chuoi-bi-mat-jwt-cua-cai-dat-san-xuat-thu-nghiem-0123456789$''',
+  '''^AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=$''',
+]
+
+[[allowlists]]
+description = "Invented newsletter signing key of NewsletterTokensTest"
+regexTarget = "secret"
+regexes = ['''^khoa-newsletter-cua-test-dai-hon-32-byte$''']
+
+[[allowlists]]
+description = "Invented newsletter tokens of the confirm and unsubscribe tests (TokenAction.test.tsx, which lived under app/(site) before the locale folder, and the two route tests)"
+regexTarget = "secret"
+regexes = [
+  '''^q0Vx8bT3sJm2Lr5YwN1eK7uHcA9dGf4ZpXiOtUnB6yQ$''',
+  '''^u7Kd2Qm9Xa4Wn1Lp8Rt3Ys6Vb0Ce5Fg-Hj_Iz2Ok4Q$''',
+]
+
+[[allowlists]]
+description = "Invented token-shaped value that the generic leak scanner test must flag (scripts/test_release_export.py)"
+regexTarget = "secret"
+regexes = ['''^aB3dE5gH7jK9mN1pQ3sT5vW7yZ9bD2fG4hJ6$''']
+
+[[allowlists]]
+description = "Invented session token of the GitHub callback route test (the signature part is the word sig)"
+regexTarget = "secret"
+regexes = ['''^eyJhbGciOiJIUzI1NiJ9\.eyJzdWIiOiJ1In0\.sig$''']
+
+[[allowlists]]
+description = "Invented client-IP and views tokens of the startup-check tests (ClientIpTokenCheckTest, ViewsTokenWarningTest, SecretStrengthTest): two random-looking 64-character values, one short guessable value and its 16-character longer sibling"
+regexTarget = "secret"
+regexes = [
+  '''^5b8e1d4a7c0f3926ad5b8e1d4a7c0f3926b1e4d7a0c3f6925a8b1e4d7a0c3f69$''',
+  '''^9d4f0b7a2c6e18530fa9d7b4c2e06a81b3f5d7092e4c6a8b0d2f4a6c8e0b2d46$''',
+  '''^k3Jd9fQx2LmP$''',
+  '''^k3Jd9fQx2LmPz7Ws$''',
+]
+
+[[allowlists]]
+description = "Invented encryption key of an earlier container-hardening test fixture, in history only (the file was removed)"
+regexTarget = "secret"
+regexes = ['''^k6LgNIv3SAN4kmB5p4o1Pr6OOR1dKAkCGD1N8ESfg8E=$''']

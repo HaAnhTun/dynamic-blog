@@ -1,0 +1,407 @@
+# Production-shaped Docker Compose for a single VPS: Postgres, the Spring Boot API, and the
+# Next server. Three services, two networks, a few volumes. Deployment is deliberately small:
+# this is the smallest thing that is actually deployable.
+#
+#   ./scripts/init-env.sh     # writes .env with random secrets (Windows: ./scripts/init-env.ps1)
+#   docker compose up -d --build
+#   # then open SITE_URL/setup; the setup code: docker compose exec backend sh -c 'cat /data/setup-code'
+#
+# Every service has a mem_limit sized for a 2 GB VPS (postgres 384m, backend 768m, frontend 384m, meilisearch 512m).
+#
+# Images: BACKEND_IMAGE and FRONTEND_IMAGE name the images. The defaults are local-only names, so `docker compose up -d --build`
+# builds from this checkout and tags the result with them, and `docker compose pull` finds nothing to fetch (it never resolves to
+# somebody else's registry namespace). The release workflow publishes the backend image only (to ghcr.io under the account of the
+# repository): to use it set BACKEND_IMAGE in .env to that namespace and to a version tag or a digest, never a moving tag. The
+# frontend is always built here, because its site address, language and HSTS are compiled in when the image is built, and it refuses
+# to start under a SITE_URL other than the one it was built for: docs/INSTALL.md, "Prebuilt backend image or build from source".
+#
+# Meilisearch search (V8b) is a fourth, optional service, started only with the `search` profile:
+#   docker compose --profile search up -d --build
+# Order of enabling, rollback and runbook: docs/CONFIGURATION.md, "Search with Meilisearch".
+#
+# A reverse proxy (Caddy or nginx, see deploy/) on the same machine sits in front of Next, handles TLS and is the only way
+# in from the internet: Next is published only on 127.0.0.1 (docs/INSTALL.md, "Deploy to a VPS").
+#
+# For local development use backend/docker-compose.yml instead: it starts only Postgres, and
+# the backend and frontend run from your shell with hot reload.
+
+# Container hardening, shared by every service (docs/SECURITY.md, "Containers"). The backend decodes uploaded images and reads ZIP
+# packages, the frontend renders author Markdown: a bug in either must not hand the attacker more than the process itself. So no
+# service can gain privileges (no setuid binary helps), every Linux capability is dropped, the root file system is read-only (the
+# few places that are written are tmpfs mounts or named volumes, below) and the number of processes is limited. Postgres adds back
+# the five capabilities its entrypoint needs to chown the data directory and drop to the postgres user.
+x-hardened: &hardened
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  read_only: true
+
+# Log limits, shared by all three services (V6). Docker logs with json-file by default and does not rotate: the
+# backend and Next logs keep growing on the VPS disk until it is full. Here each container keeps at most 3 files x 10 MB,
+# the oldest file is deleted; `docker compose logs` reads as before. Takes effect when the container is recreated, which
+# `docker compose up -d` does by itself after the configuration changes.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  postgres:
+    <<: *hardened
+    # Tag plus digest: the tag says which version it is, the digest makes the pull reproducible. The Dependabot docker-compose entry
+    # proposes new pairs; the major version (18) changes only with a migration of the data directory (docs/UPGRADING.md).
+    image: postgres:18@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6
+    restart: unless-stopped
+    logging: *logging
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+      - FOWNER
+      - DAC_OVERRIDE
+    # One process per connection, the autovacuum workers and a few helpers: well under 512 with the default 100 connections.
+    pids_limit: 512
+    # The two places the server writes besides its data volume: the socket directory and temporary files.
+    tmpfs:
+      - /tmp:size=64m
+      - /run/postgresql:mode=1777,size=1m
+    # The database network is internal: it has no route to the internet and only the backend joins it.
+    networks:
+      - db
+    # Sized for a 2 GB VPS together with the other services (see the header).
+    mem_limit: 384m
+    environment:
+      POSTGRES_DB: ${DB_NAME:?set DB_NAME in .env}
+      # The bootstrap superuser of the container: administration only (backups, repairs). A new install names it DB_ADMIN_USERNAME and
+      # the backend never connects as it. An install from before the three roles has neither variable, and then it is DB_USERNAME,
+      # the one role it has always had (docs/UPGRADING.md, "Moving to the three database roles"). Plain defaults only: no `:?` inside
+      # the default of another variable (Compose before v2.40 evaluates it eagerly and refuses a single-role .env). The rule that the
+      # three roles are all given and different is deploy/postgres-preflight.sh, below.
+      POSTGRES_USER: ${DB_ADMIN_USERNAME:-${DB_USERNAME}}
+      POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD:-${DB_PASSWORD}}
+      # For deploy/postgres-init, which makes the owner role (runs the migrations, owns the schema) and the runtime role (DB_USERNAME:
+      # rows only, no DDL) the first time the data directory is made, and by hand for an existing install. OWNER_DB_USER empty means
+      # a single-role install: nothing is created.
+      APP_DB_USER: ${DB_USERNAME:?set DB_USERNAME in .env}
+      APP_DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      OWNER_DB_USER: ${DB_OWNER_USERNAME:-}
+      OWNER_DB_PASSWORD: ${DB_OWNER_PASSWORD:-}
+      # The administration pair as .env gives it (empty when absent), for the preflight: it must tell "not given" from the fallback above.
+      ADMIN_DB_USER_GIVEN: ${DB_ADMIN_USERNAME:-}
+      ADMIN_DB_PASSWORD_GIVEN: ${DB_ADMIN_PASSWORD:-}
+    # With the owner role named, the owner and administration credentials are required and the three passwords must differ. The
+    # preflight checks that before initdb makes a data directory (a data directory whose init failed is not initialised again;
+    # docs/TROUBLESHOOTING.md), then runs the image's own entrypoint. Setting `entrypoint` clears the image's command, so it is given.
+    entrypoint: ["sh", "/usr/local/bin/postgres-preflight.sh"]
+    command: ["postgres"]
+    volumes:
+      # /var/lib/postgresql, NOT /var/lib/postgresql/data. Postgres 18's image wants a
+      # single mount at the parent and places PGDATA in a subdirectory of it, so that
+      # `pg_upgrade --link` has no mount-point boundary to cross. Mounting the data
+      # directory directly makes the container refuse to start — measured: it restarts
+      # in a loop, the healthcheck never passes, and compose reports only
+      # "dependency failed to start: container is unhealthy", which says nothing about
+      # the cause. backend/docker-compose.yml had this right; this file was written
+      # fresh and got it wrong.
+      - postgres_data:/var/lib/postgresql
+      - ./deploy/postgres-init:/docker-entrypoint-initdb.d:ro
+      - ./deploy/postgres-preflight.sh:/usr/local/bin/postgres-preflight.sh:ro
+    # No published port. Nothing outside this network needs to reach the database, and a
+    # Postgres listening on a public interface with a password from a .env file is how a
+    # small deployment gets found by a scanner.
+    healthcheck:
+      # The dependency below is on this check, so the API never starts against a Postgres
+      # that is accepting TCP but has not finished initialising. `pg_isready` answers that
+      # question honestly where a port probe does not.
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  backend:
+    <<: *hardened
+    image: ${BACKEND_IMAGE:-blog-engine-backend:local}
+    build:
+      context: ./backend
+    restart: unless-stopped
+    logging: *logging
+    volumes:
+      - backend_data:/data
+    # The JVM, Tomcat and the multipart parser write to /tmp; the first-run setup code goes to the /data volume. The JVM keeps a
+    # thread per request (200 at most) plus its own: 512 leaves room.
+    tmpfs:
+      - /tmp:mode=1777,size=96m
+    pids_limit: 512
+    # Both networks: the database, and the one that reaches the frontend and the internet (GitHub sign-in, SMTP, Meilisearch).
+    networks:
+      - db
+      - app
+    # The container memory limit. -XX:MaxRAMPercentage=70 in backend/Dockerfile is computed against this limit. Without a
+    # limit the JVM takes 70% of the whole machine's RAM: measured on a 7.5 GiB Docker VM, the maximum heap is 5.6 GB. Uploaded
+    # images are decoded inside this very JVM, so the heap can grow enough to crowd out Postgres and Next on a small VPS.
+    # Measured with this image: 1g -> maximum heap 718 MiB, 768m (the default) -> 538 MiB. Minimum VPS RAM: 2 GB (docs/INSTALL.md).
+    mem_limit: ${BACKEND_MEM_LIMIT:-768m}
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      # The runtime role: it reads and writes rows and cannot change the schema (with the three roles; docs/SECURITY.md).
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # Flyway migrates as the owner role. Without DB_OWNER_USERNAME (an install from before the three roles) that is the same role.
+      SPRING_FLYWAY_USER: ${DB_OWNER_USERNAME:-${DB_USERNAME}}
+      SPRING_FLYWAY_PASSWORD: ${DB_OWNER_PASSWORD:-${DB_PASSWORD}}
+      # Required. The `:?` makes compose refuse to start rather than fall back to the
+      # development default, which is committed to this repository and would let anyone
+      # mint an ADMIN token for this instance. The backend itself is fail-closed too: it has no default
+      # for it and refuses the dev value, because this stack does not opt in (no APP_ALLOW_DEV_DEFAULTS, no dev profile).
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env — see .env.example}
+      # Required, like JWT_SECRET and for the same reason: no default. The AES-256 key (base64 of 32 bytes) of the stored two-step
+      # verification secrets; the backend refuses to start without it. Backend only: the frontend never reads it. A database dump
+      # does not contain it, so back it up on its own (docs/BACKUP-AND-RESTORE.md).
+      MFA_ENCRYPTION_KEY: ${MFA_ENCRYPTION_KEY:?set MFA_ENCRYPTION_KEY in .env — see .env.example}
+      # Optional operator settings of two-step verification (docs/CONFIGURATION.md): the enrollment code of an install that already
+      # has an administrator, and the one-off reset of one administrator's second step.
+      MFA_ENROLLMENT_TOKEN: ${MFA_ENROLLMENT_TOKEN:-}
+      MFA_RESET_EMAIL: ${MFA_RESET_EMAIL:-}
+      MFA_RESET_TOKEN: ${MFA_RESET_TOKEN:-}
+      # How long a session of an ADMIN or AUTHOR account lives (docs/CONFIGURATION.md): this long without use, and this long in all
+      # after the person signed in. Readers are not affected.
+      PRIVILEGED_SESSION_IDLE_TTL: ${PRIVILEGED_SESSION_IDLE_TTL:-7d}
+      PRIVILEGED_SESSION_ABSOLUTE_TTL: ${PRIVILEGED_SESSION_ABSOLUTE_TTL:-30d}
+      # If it differs from admin@blog.local, at startup the backend renames the existing admin account's email
+      # to this value, provided no account already has that email (V6).
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@blog.local}
+      # Applied at startup by AdminPasswordFromEnvironment when set (and then the first-run /setup is closed: the owner already
+      # claimed the instance). Optional since V9: a fresh install without it is claimed through /setup, and the seeded dev
+      # password is locked there. An existing install that still has the dev password refuses to start on a public SITE_URL.
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      # First-run /setup. SETUP_TOKEN is the setup code; empty means the backend generates one and writes it to the file
+      # setup-code in SETUP_DATA_DIR (the backend log prints the path, never the code). The directory is a named volume.
+      SETUP_TOKEN: ${SETUP_TOKEN:-}
+      SETUP_DATA_DIR: /data
+      # The total size of stored uploaded images (cover images, gallery), in Spring's DataSize syntax (400MB, 1GB). Images live
+      # in Postgres, so this is the share of the database given to images; beyond it an upload returns 422 MEDIA_QUOTA_EXCEEDED.
+      MEDIA_MAX_TOTAL_SIZE: ${MEDIA_MAX_TOTAL_SIZE:-1GB}
+      # What an AUTHOR may write (an ADMIN is exempt): tags per post, posts per day, images per post, the size of the tag and
+      # category lists, and the author share of the image quota. docs/CONFIGURATION.md, "Author limits".
+      AUTHOR_MAX_TAGS_PER_POST: ${AUTHOR_MAX_TAGS_PER_POST:-10}
+      AUTHOR_MAX_POSTS_PER_DAY: ${AUTHOR_MAX_POSTS_PER_DAY:-30}
+      AUTHOR_MAX_BODY_IMAGES_PER_POST: ${AUTHOR_MAX_BODY_IMAGES_PER_POST:-30}
+      AUTHOR_MAX_TAGS: ${AUTHOR_MAX_TAGS:-1000}
+      AUTHOR_MAX_CATEGORIES: ${AUTHOR_MAX_CATEGORIES:-100}
+      AUTHOR_MEDIA_MAX_SIZE: ${AUTHOR_MEDIA_MAX_SIZE:-100MB}
+      AUTHOR_MEDIA_SHARE_PERCENT: ${AUTHOR_MEDIA_SHARE_PERCENT:-50}
+      AUTHOR_MAX_SLUG_HISTORY: ${AUTHOR_MAX_SLUG_HISTORY:-5}
+      # The time zone that decides the day boundary of the view statistics (V7c). A wrong id makes the backend refuse to start.
+      ANALYTICS_TIME_ZONE: ${ANALYTICS_TIME_ZONE:-Asia/Ho_Chi_Minh}
+      # Required since V6: a secret shared between Next and the backend for the view POST, an endpoint that writes without login
+      # (the V7c newsletter POSTs also need no login but do not use this token). The backend publishes no port here, so this is a
+      # second line of defence: another container on this network, or someone publishing the backend port one day, still cannot
+      # inject views on its own. The same variable for the frontend below; if one side differs,
+      # every view becomes a 403 with nothing reporting an error.
+      VIEWS_TOKEN: ${VIEWS_TOKEN:?set VIEWS_TOKEN in .env — see .env.example}
+      # Required: a secret shared between Next and the backend that lets the backend believe the reader address Next forwards in
+      # X-Client-Ip (docs/SECURITY.md, "Rate limits"). Without it the backend's per-address limits (contact form, newsletter, admin
+      # sign-in, refresh, setup, search) would see only the Next container, one caller for every reader, and the backend refuses to
+      # start. The same variable for the frontend below; if one side differs the readers count as one caller.
+      CLIENT_IP_TOKEN: ${CLIENT_IP_TOKEN:?set CLIENT_IP_TOKEN in .env — see .env.example}
+      # The language of posts that exist before V34 and of posts created without one; the same value as the frontend build arg below.
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en}
+      # Swagger UI and /v3/api-docs have been off by default since V6 (enabled only with SPRINGDOC_ENABLED=true, or when running
+      # `mvn spring-boot:run` with the dev profile). They describe the admin API too, and anyone can view them without logging
+      # in; stated explicitly here so a later change of the default does not reopen them on production.
+      SPRINGDOC_ENABLED: "false"
+      # The same public origin the frontend bakes in at build time. The backend builds the GitHub login callback from it
+      # (<SITE_URL>/api/auth/github/callback), and it is in production (fail-closed, ProductionMode): it refuses to start
+      # with the dev JWT_SECRET, when the existing admin still has the dev password, or when VIEWS_TOKEN or CLIENT_IP_TOKEN is missing.
+      SITE_URL: ${SITE_URL:?set SITE_URL in .env}
+      # Reader GitHub login (docs/CONFIGURATION.md, "GitHub login in production"). If either one is empty it is off: the site
+      # still runs, only nobody can log in with GitHub. The secret lives only in .env, never in this file.
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      # Empty is correct: the backend builds the callback from SITE_URL. If set, it must match the OAuth App's callback character for character.
+      GITHUB_REDIRECT_URI: ${GITHUB_REDIRECT_URI:-}
+      # The NUMERIC id of the site owner's GitHub account: at startup the backend attaches it to the admin account, so that GitHub login
+      # yields the ADMIN role (docs/CONFIGURATION.md, "Link the admin account to GitHub"). Empty means not attached.
+      ADMIN_GITHUB_ID: ${ADMIN_GITHUB_ID:-}
+      # Newsletter (V7c). Default is log: no mail is sent. smtp starts only when SITE_URL is a public https URL,
+      # NEWSLETTER_FROM is valid, SMTP_HOST has a value and NEWSLETTER_SECRET is at least 32 bytes (docs/CONFIGURATION.md).
+      NEWSLETTER_TRANSPORT: ${NEWSLETTER_TRANSPORT:-log}
+      NEWSLETTER_FROM: ${NEWSLETTER_FROM:-}
+      NEWSLETTER_SECRET: ${NEWSLETTER_SECRET:-}
+      # Contact form: the address that gets a mail copy of each message (needs NEWSLETTER_TRANSPORT=smtp to really send).
+      # Empty means the messages are only stored and read in /admin/contact.
+      CONTACT_RECIPIENT: ${CONTACT_RECIPIENT:-}
+      # Days a contact message is kept; a nightly job deletes older ones. 0 keeps every message until it is deleted by hand.
+      CONTACT_RETENTION_DAYS: ${CONTACT_RETENTION_DAYS:-365}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_STARTTLS: ${SMTP_STARTTLS:-true}
+      SMTP_PROTOCOL: ${SMTP_PROTOCOL:-smtp}
+      # Search (V8b). Default is postgres, no Meilisearch needed. With the `search` profile set MEILI_URL=http://meilisearch:7700
+      # (indexing on), reindex, and only then SEARCH_ENGINE=meilisearch. No depends_on meilisearch: the backend starts even if it is off
+      # or not there yet, and search then returns PostgreSQL results with degraded=true. The master key lives only in the backend, never in the frontend.
+      SEARCH_ENGINE: ${SEARCH_ENGINE:-postgres}
+      MEILI_URL: ${MEILI_URL:-}
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-}
+      MEILI_INDEX_NAME: ${MEILI_INDEX_NAME:-content_v1}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # Also unpublished. The browser never calls this API — every request to it is made by
+    # the Next server on this network — so publishing it would add an internet-facing
+    # surface that the architecture does not use, and would be the only reason this project
+    # needed CORS.
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:8080/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      # Flyway migrations and the JVM's own startup both happen before the first check can
+      # pass. A short start_period here would mark a healthy service unhealthy on deploy.
+      start_period: 60s
+
+  frontend:
+    <<: *hardened
+    image: ${FRONTEND_IMAGE:-blog-engine-frontend:local}
+    build:
+      context: ./frontend
+      args:
+        # NEXT_PUBLIC_ variables are substituted into the client bundle at BUILD time, so
+        # this has to be a build arg. Setting it as a runtime environment variable instead
+        # produces a site whose canonical URLs and Open Graph tags all say localhost — and
+        # nothing fails, which is why it is worth the comment.
+        NEXT_PUBLIC_SITE_URL: ${SITE_URL:?set SITE_URL in .env}
+        # The default locale of the site (vi or en): its URLs have no /<locale> prefix. Build time; changing it requires rebuilding the image.
+        NEXT_PUBLIC_DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en}
+        # next.config.ts headers are also written into the build: with an https SITE_URL every response carries
+        # `Strict-Transport-Security: max-age=<HSTS_MAX_AGE>`. Changing the value requires rebuilding the image.
+        HSTS_MAX_AGE: ${HSTS_MAX_AGE:-86400}
+        # `true` adds `; includeSubDomains` (only when you own and serve over https every subdomain of the host). Build time too.
+        HSTS_INCLUDE_SUBDOMAINS: ${HSTS_INCLUDE_SUBDOMAINS:-false}
+    restart: unless-stopped
+    logging: *logging
+    mem_limit: ${FRONTEND_MEM_LIMIT:-384m}
+    # Not the database network: a bug in the Markdown pipeline cannot open a connection to postgres. The application code is root-owned
+    # and read-only. The two places Next writes are tmpfs, which is RAM and counts against mem_limit: /tmp, and .next/cache, which holds
+    # only the optimized images (rendered pages and the data cache are kept in memory by frontend/cache-handler.mjs and written nowhere).
+    # A tmpfs is empty after every stop of the container, so a restart re-encodes the images it is asked for again. The cache holds at most
+    # images.maximumDiskCacheSize of frontend/next.config.ts (64 MB) and the size here is one and a half times that (scripts/test_container_hardening.py
+    # keeps the two in step): raise both together, and FRONTEND_MEM_LIMIT with them.
+    networks:
+      - app
+    tmpfs:
+      - /tmp:mode=1777,size=32m
+      - /app/.next/cache:mode=1777,size=96m
+    pids_limit: 256
+    healthcheck:
+      # Node is the only tool in the image (no wget, no curl). /robots.txt is a static route: it answers without the backend, so a
+      # backend outage does not restart the frontend.
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/robots.txt').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    environment:
+      # Read at request time by server-side code only, so a runtime variable is correct
+      # here. Service name, not localhost: inside a container localhost is the container.
+      API_BASE_URL: http://backend:8080
+      NODE_ENV: production
+      # The address of .env at run time. The image knows the address it was built for (BAKED_SITE_URL) and refuses to start when the two
+      # differ, which is what a changed SITE_URL without `docker compose up -d --build` looks like (frontend/scripts/start-check.mjs).
+      SITE_URL: ${SITE_URL:?set SITE_URL in .env}
+      ALLOW_SITE_URL_MISMATCH: ${ALLOW_SITE_URL_MISMATCH:-}
+      # Same value as the backend (required since V6). The /api/views route sends it in the X-View-Token header.
+      VIEWS_TOKEN: ${VIEWS_TOKEN:?set VIEWS_TOKEN in .env — see .env.example}
+      # Same value as the backend (required). Next sends the reader address it derives (below) in X-Client-Ip, with this secret in
+      # X-Client-Ip-Token, to the backend calls that have a per-address limit there.
+      CLIENT_IP_TOKEN: ${CLIENT_IP_TOKEN:?set CLIENT_IP_TOKEN in .env — see .env.example}
+      # The number of your own proxies in front of Next: 1 for one reverse proxy (deploy/). The per-IP limits and the address forwarded
+      # to the backend read the IP at position N counting from the RIGHT of X-Forwarded-For; the first entry is whatever the client
+      # sends itself. Behind Cloudflare keep 1 and restore the visitor address in nginx (docs/INSTALL.md, "Behind Cloudflare"); 2 is
+      # right only if the origin accepts connections from Cloudflare alone.
+      TRUSTED_PROXY_HOPS: ${TRUSTED_PROXY_HOPS:-1}
+      # No effect while frontend/cache-handler.mjs is configured (it is, in this image): pages rendered on demand and the data cache are
+      # kept in Next's in-memory LRU (cacheMaxMemorySize, 50 MB) and nothing is written to .next/server/route-cache. Only for a build
+      # without the handler: the most megabytes that folder may take on disk before the oldest are removed (0: no limit).
+      ROUTE_CACHE_MAX_MB: ${ROUTE_CACHE_MAX_MB:-256}
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      # The only port published for public traffic, and only on 127.0.0.1 by default (V6; the optional search profile also publishes
+      # Meilisearch on 127.0.0.1:7700 for manual checks, see below): the reverse proxy on the same
+      # host terminates TLS and proxies to it. Published on every interface, Next would be
+      # reachable straight from the internet — Docker opens published ports with its own
+      # iptables rules, which ufw does not see — and a direct client writes its own
+      # X-Forwarded-For, which is the key of every per-IP limit (GitHub login, admin login,
+      # view counting), and skips nginx's body-size limits. SITE_BIND=0.0.0.0 restores the old
+      # behaviour, for a proxy on another host; then firewall the port to that host only.
+      # The session cookies are `secure` when NODE_ENV is production, so serving the site over
+      # plain HTTP means the browser discards them and login silently fails.
+      - "${SITE_BIND:-127.0.0.1}:${SITE_PORT:-3000}:3000"
+
+  # Meilisearch (V8b), only when the `search` profile is on. The index is a copy that can be rebuilt from PostgreSQL (reindex): the
+  # volume needs no backup, if lost just reindex.
+  meilisearch:
+    <<: *hardened
+    # Pin the exact tested version, never `latest` or `v1` (the `v1` tag points at an older release), plus its digest. Upgrading = change the
+    # tag and the digest, then reindex.
+    image: getmeili/meilisearch:v1.54.3@sha256:e68913ab7d6f5b159529e472cfd362ce3c741fafd3c127961b2142abbe41b3c9
+    profiles: ["search"]
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      MEILI_ENV: production
+      # Not `:?`: compose interpolates the whole file before filtering profiles, so `:?` would force even an `up` that does not use search to have
+      # a key. Blocked elsewhere: MEILI_ENV=production does not start with an empty key or one under 16 bytes, and the backend rejects a key
+      # under 32 characters or the .env.example sample key when SITE_URL is public.
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-}
+      # Telemetry off: the site's privacy policy does not allow data to leave.
+      MEILI_NO_ANALYTICS: "true"
+      # 256 MiB written in bytes (how the engine reads "Mb" has not been verified), under the container's 512m limit; one indexing thread.
+      MEILI_MAX_INDEXING_MEMORY: "268435456"
+      MEILI_MAX_INDEXING_THREADS: "1"
+    mem_limit: 512m
+    volumes:
+      - meili_data:/meili_data
+    # Temporary files go to /tmp; the index is the named volume. On the application network only: the database is out of reach.
+    tmpfs:
+      - /tmp:mode=1777,size=64m
+    pids_limit: 256
+    networks:
+      - app
+    # Published on the machine's own 127.0.0.1 only (manual checks, curl /health), protected by MEILI_MASTER_KEY; the backend calls it
+    # through the compose network, and nothing outside the machine can reach it.
+    ports:
+      - "127.0.0.1:7700:7700"
+    healthcheck:
+      # curl is in the image; /health needs no key, it only says the process is alive (index and key: the admin status page).
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+
+networks:
+  # Backend and postgres only. `internal` means no route to the internet and none from the host: nothing outside these two
+  # containers reaches the database, and the database reaches nothing.
+  db:
+    internal: true
+  # Frontend, backend and (with the `search` profile) Meilisearch. The backend needs the route out: GitHub sign-in and SMTP.
+  app:
+
+volumes:
+  # The first-run setup code file (one tiny file, deleted when /setup completes).
+  backend_data:
+  # Uploaded images live here too, in Postgres as bytea: the backend has no volume and can only write to /tmp. One
+  # pg_dump backs up both posts and images (docs/BACKUP-AND-RESTORE.md).
+  postgres_data:
+  # Meilisearch data (`search` profile): can be rebuilt with a reindex.
+  meili_data:

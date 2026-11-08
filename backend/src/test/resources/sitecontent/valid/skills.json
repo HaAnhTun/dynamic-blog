@@ -1,0 +1,10 @@
+{
+  "groups": [
+    {
+      "id": "backend",
+      "title": "Backend",
+      "defaultLevel": "used-in-project",
+      "items": [ { "name": "Java" }, { "name": "SQL", "level": "worked-with", "note": "Mostly PostgreSQL" } ]
+    }
+  ]
+}

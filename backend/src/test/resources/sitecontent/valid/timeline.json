@@ -1,0 +1,7 @@
+{
+  "experienceSummary": "Several years of backend work.",
+  "entries": [
+    { "kind": "experience", "title": "Engineer", "org": "Example Corp", "period": "2020-2024", "summary": "Built services." },
+    { "kind": "education", "title": "Degree", "org": null, "period": null, "summary": "" }
+  ]
+}

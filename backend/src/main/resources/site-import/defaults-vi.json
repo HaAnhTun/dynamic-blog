@@ -1,0 +1,205 @@
+{
+  "format": "site-content",
+  "formatVersion": 1,
+  "locale": "vi",
+  "sections": {
+    "site": {
+      "schemaVersion": 1,
+      "payload": {
+        "name": "Tên site của bạn",
+        "tagline": "Blog cá nhân",
+        "positioning": "Ghi chép, dự án và bài viết. Hãy thay câu này trong Quản trị > Cài đặt."
+      }
+    },
+    "profile": {
+      "schemaVersion": 1,
+      "payload": {
+        "name": "Tên của bạn",
+        "location": "Thành phố của bạn, Quốc gia của bạn",
+        "role": "Vai trò của bạn",
+        "seeking": "Hãy ghi bạn đang tìm điều gì, hoặc xoá trường này trong Quản trị > Cài đặt.",
+        "avatar": null,
+        "galleryLead": "Vài tấm ảnh trong những ngày của tôi. Hãy thay dòng này trong Quản trị > Cài đặt.",
+        "hero": {
+          "greeting": "Xin chào, tôi là Tên của bạn.",
+          "headline": "Viết một dòng về việc bạn làm. Hãy thay dòng này trong Quản trị > Cài đặt.",
+          "subline": "Viết một dòng về điều bạn viết."
+        }
+      }
+    },
+    "about": {
+      "schemaVersion": 1,
+      "payload": {
+        "intro": "Trang này là bản mẫu. Hãy thay từng đoạn trong Quản trị > Cài đặt.",
+        "sections": [
+          {
+            "id": "who",
+            "title": "Tôi là ai",
+            "body": [
+              "Giới thiệu bản thân trong vài câu: tên, việc bạn làm và lý do bạn giữ site này.",
+              "Hãy thay đoạn này trong Quản trị > Cài đặt."
+            ]
+          },
+          {
+            "id": "stack",
+            "title": "Tôi làm việc với",
+            "body": [
+              "Liệt kê các công cụ và công nghệ bạn dùng nhiều nhất, và dùng chúng vào việc gì."
+            ]
+          },
+          {
+            "id": "building",
+            "title": "Tôi đang xây dựng",
+            "body": [
+              "Mô tả dự án bạn dành nhiều thời gian nhất."
+            ]
+          },
+          {
+            "id": "learning",
+            "title": "Tôi đang học",
+            "body": [
+              "Nói về điều bạn đang học bây giờ và vì sao nó quan trọng với bạn."
+            ]
+          },
+          {
+            "id": "writing",
+            "title": "Vì sao tôi viết",
+            "body": [
+              "Giải thích bạn viết về chủ đề gì và viết cho ai."
+            ]
+          }
+        ]
+      }
+    },
+    "skills": {
+      "schemaVersion": 1,
+      "payload": {
+        "groups": [
+          {
+            "id": "backend",
+            "title": "Backend",
+            "defaultLevel": "used-in-project",
+            "items": [
+              {
+                "name": "Java"
+              },
+              {
+                "name": "PostgreSQL"
+              },
+              {
+                "name": "Docker",
+                "level": "worked-with"
+              }
+            ]
+          },
+          {
+            "id": "frontend",
+            "title": "Frontend",
+            "defaultLevel": "used-in-project",
+            "items": [
+              {
+                "name": "TypeScript"
+              },
+              {
+                "name": "React"
+              },
+              {
+                "name": "Tailwind CSS",
+                "level": "worked-with"
+              },
+              {
+                "name": "Playwright",
+                "level": "worked-with",
+                "note": "Hãy thay các kỹ năng này trong Quản trị > Cài đặt."
+              }
+            ]
+          },
+          {
+            "id": "practice",
+            "title": "Thực hành",
+            "defaultLevel": "worked-with",
+            "items": [
+              {
+                "name": "Git"
+              },
+              {
+                "name": "Kiểm thử"
+              },
+              {
+                "name": "Observability",
+                "level": "learning"
+              },
+              {
+                "name": "Kubernetes",
+                "level": "learning"
+              },
+              {
+                "name": "Rust",
+                "level": "learning"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "now": {
+      "schemaVersion": 1,
+      "payload": {
+        "lastUpdated": "2026-10-11",
+        "intro": "Điều tôi đang dành thời gian cho lúc này. Hãy thay danh sách này trong Quản trị > Cài đặt.",
+        "items": [
+          {
+            "text": "Thiết lập site này và viết bài đầu tiên."
+          },
+          {
+            "text": "Đọc lại các bài viết tôi đã viết.",
+            "evidence": {
+              "href": "/writing",
+              "label": "Tất cả bài viết"
+            }
+          },
+          {
+            "text": "Học một công cụ mới, mỗi tuần một chút."
+          }
+        ]
+      }
+    },
+    "timeline": {
+      "schemaVersion": 1,
+      "payload": {
+        "experienceSummary": "Tóm tắt kinh nghiệm của bạn trong một hai câu. Hãy thay đoạn này trong Quản trị > Cài đặt.",
+        "entries": [
+          {
+            "kind": "education",
+            "title": "Bằng cấp hoặc khoá học của bạn",
+            "org": null,
+            "period": null,
+            "summary": "Nói về điều bạn đã học."
+          },
+          {
+            "kind": "experience",
+            "title": "Vai trò của bạn",
+            "org": null,
+            "period": null,
+            "summary": "Nói về việc bạn đã làm và điều bạn học được."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "schemaVersion": 1,
+      "payload": {
+        "email": null,
+        "github": null,
+        "blurb": "Hãy thêm email và địa chỉ GitHub trong Quản trị > Cài đặt để độc giả liên hệ được với bạn.",
+        "social": []
+      }
+    },
+    "blogroll": {
+      "schemaVersion": 1,
+      "payload": {
+        "entries": []
+      }
+    }
+  }
+}

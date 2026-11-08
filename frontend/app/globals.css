@@ -1,0 +1,570 @@
+/* frontend/app/globals.css — the single CSS entry, imported once in app/layout.tsx. */
+
+/* This one line replaces v3's @tailwind base/components/utilities, postcss-import
+   and autoprefixer. Using the v3 directives instead compiles "successfully" while
+   emitting almost no CSS, with no warning. */
+@import 'tailwindcss';
+
+/* Post bodies come from the API as Markdown, so Tailwind can never scan them for
+   class names. They are styled with `prose` instead. Plugins are registered in CSS
+   in v4 — there is no config file to list them in. */
+@plugin "@tailwindcss/typography";
+
+/* Design tokens must live in @theme. A plain :root block defines a CSS variable but
+   generates no utility, which looks like it worked until you use the class. */
+@theme {
+  --color-brand: oklch(0.55 0.17 250);
+  --radius-card: 0.75rem;
+  /* The viewport width from which the third column of the post page fits (1088px): generates the `rail:` and
+     `max-rail:` variants. Used by components/site/reader/reader-layout.ts. */
+  --breakpoint-rail: 68rem;
+  /* The viewport width from which the 1400px site frame is narrower than the window (1424px = 1400px + a few pixels of margin): the side hairlines
+     of the frame are only drawn from here. Generates the `frame:` and `max-frame:` variants. Used by FRAME_SIDES in
+     components/site/reader/reader-layout.ts (main, header and footer Containers). */
+  --breakpoint-frame: 89rem;
+}
+
+/* `color-scheme` follows the site theme: `light` here, `dark` in the
+   [data-theme='dark'] block right below, and `light` again for the admin pages.
+
+   Before, there was no declaration, i.e. `normal`: in the dark theme, scrollbars, inputs, checkboxes, selects
+   and the canvas background (the overscroll area on phones) were still drawn on a light background. Declaring it on <html> makes
+   them follow the theme that is selected, changing as soon as the toggle changes data-theme.
+
+   One value per theme, never `light dark`: declaring both tells the browser to follow the OS by itself — exactly what
+   the boot script in app/layout.tsx has already decided instead of it. For the same reason there is no <meta name="color-scheme">
+   (that meta is read before the CSS and before the boot script). The browser bar color (`theme-color`) is in the
+   `viewport` of app/layout.tsx and follows the OS: that meta can only be chosen by media query.
+
+   `:root:has([data-admin])`: admin has a single theme, light. The admin frame carries [color-scheme:light]
+   for its own tree (app/admin/(shell)/layout.tsx, admin/login), but the page scrollbar and canvas
+   belong to <html>, so this rule resets `light` at the root when the page has that frame. Specificity (0,2,0) beats
+   (0,1,0) of [data-theme='dark']: it wins even if the order changes. Guarded by app/globals.test.ts. */
+:root {
+  color-scheme: light;
+}
+
+/* The brand blue, lightened for the dark theme — a WCAG AA fix with a measurement behind
+   it, not a taste call.
+ *
+ * Measured by Lighthouse against the built page, which is the only way this surfaces:
+ * `#0073cf` on the dark ground `#0a0a0a` is 4.10:1, and AA wants 4.5:1 for body text. The
+ * element that failed was the nav link carrying `aria-current="page"` — the one word on
+ * the page telling a reader where they are. On white the same colour is 4.82:1 and passes,
+ * so the light theme is left alone.
+ *
+ * `#4da3ff` is 7.54:1 against the same ground, and is not a new colour: it is exactly the
+ * accent the article diagrams already switch to under `prefers-color-scheme: dark`. An SVG
+ * loaded through `<img>` cannot read the page's variables, so the two palettes are
+ * declared in different files and can only agree by being written to agree.
+ *
+ * Overriding the token rather than the rules that use it: every brand-coloured thing in
+ * dark mode — nav current, inline prose links, heading anchors, the hero calls to action —
+ * moves together, and a future component that uses `text-brand` is correct without anyone
+ * remembering this.
+ *
+ * `color-scheme: dark` lives in the same block: see the `:root` rule above. */
+[data-theme='dark'] {
+  --color-brand: #4da3ff;
+  color-scheme: dark;
+}
+
+:root:has([data-admin]) {
+  color-scheme: light;
+}
+
+/* The one font family, loaded by next/font in app/layout.tsx, which exposes it as
+   --font-inter on <html>.
+
+   `@theme inline` and not plain `@theme`: `inline` substitutes this value into the
+   rules that consume it instead of emitting `--font-sans` as a custom property that
+   every `font-sans` utility then dereferences — the form Tailwind documents for a
+   theme value that itself references a variable defined elsewhere, as --font-inter is.
+
+   Setting --font-sans here, rather than putting next/font's generated class on <html>,
+   is what makes Preflight's own `html { font-family: … }` use Inter: v4 derives
+   --default-font-family from --font-sans, so there is one declaration instead of a
+   class competing with Preflight on the same element. Verified in the dev server's
+   compiled stylesheet: it emits
+   `--default-font-family: var(--font-inter), ui-sans-serif, …` plus seven @font-face
+   blocks for Inter, one of which carries the Vietnamese unicode-range U+1EA0-1EF9. */
+@theme inline {
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Dark mode is driven by data-theme on <html>, set by the boot script in
+   app/layout.tsx before first paint — NOT by prefers-color-scheme.
+
+   Tailwind 4's built-in `dark:` variant compiles to @media (prefers-color-scheme: dark)
+   and nothing else. Without this line every `dark:` utility already in the tree
+   (PostCard, Pagination, the admin screens) would keep following the OS and ignore the
+   toggle entirely: a reader on a dark machine who picks "light" would get light chrome
+   with dark cards. Redefining the variant rewires all of them at once.
+
+   `:where(…)` keeps the variant at zero specificity, so `dark:text-neutral-100` still
+   loses to a later, more specific rule exactly as the undecorated utility would —
+   a bare `[data-theme="dark"] &` would quietly add a 0,1,0 and start winning fights it
+   used to lose.
+
+   The system default is handled by the boot script resolving "system" into an explicit
+   data-theme value, so there is exactly ONE source of truth for the active theme and
+   no second media-query branch to keep in sync. The cost is that with JavaScript
+   disabled the site is always light; the benefit is that the toggle, the `dark:`
+   utilities and the Shiki override below can never disagree.
+
+   `:not(:where([data-admin], [data-admin] *))`: admin has a single theme, light (the admin frame carries
+   `data-admin`, see app/admin/(shell)/layout.tsx). Components shared with the site — the cover art of the
+   post list and the cover image cell, PostCover — carry a `dark:` class; without this condition a site owner who chose the
+   dark theme would see neutral-900 cover art paper in the middle of the white admin page. Excluded at the variant, in one
+   place, instead of patching each component. `:where` inside `:not` keeps specificity at 0 as before. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *):not(:where([data-admin], [data-admin] *)));
+
+/* Vietnamese diacritics stack taller than Latin text; the default prose line-height
+   lets tone marks collide with the line above. From `sm` (40rem) the body is 18px at 1.8; on a phone it is 17px at 1.7 (a 29px
+   pitch): enough air for the stacked marks, and a long post is about 12% shorter. Guarded by app/globals.test.ts. */
+.prose {
+  line-height: 1.7;
+}
+
+@media (min-width: 40rem) {
+  .prose {
+    line-height: 1.8;
+  }
+}
+
+/* The reading size of an article on a phone: 17px (the `prose-base` modifier is 16px, `sm:prose-lg` takes over at 18px). Here and
+   not as a `max-sm:text-*` utility, which would compete with the size modifier of the typography plugin in the same layer. */
+@media (max-width: 39.999rem) {
+  .prose.prose-base {
+    font-size: 1.0625rem;
+  }
+}
+
+/* Shiki's dual-theme output puts light colours in the inline style and dark ones in
+   --shiki-dark* custom properties, so dark mode is a pure CSS swap — no second render,
+   no client JavaScript.
+
+   This block used to be wrapped in @media (prefers-color-scheme: dark), which was
+   correct only while the whole site followed the OS. It now has to key on the same
+   data-theme attribute the toggle writes, or the swap desynchronises from everything
+   else the moment the reader disagrees with their machine: on a dark OS with "light"
+   selected, the page would be light and the code blocks black-on-black; on a light OS
+   with "dark" selected, the page dark and the code blocks white.
+
+   The old media block is GONE rather than kept alongside this one. Two rules with the
+   same selector and the same !important would be resolved by source order, so the
+   later one would win unconditionally and the reader's choice would be ignored in one
+   of the two directions — a worse failure than either rule alone, because it only
+   shows up for half the readers. Guarded by a test in
+   components/site/ThemeToggle.test.tsx.
+
+   `:not([data-admin] *)`: the admin shell (app/admin/(shell)/layout.tsx marks its wrapper
+   `data-admin`) is always light, whatever the site theme. Without the exclusion its
+   "Preview" panel showed dark code blocks, near-black figure borders and neutral-400
+   captions on white (2.58:1) to an admin whose OS was dark — not what a light-mode reader
+   sees. The same exclusion is on the two figure rules below. */
+[data-theme='dark'] .shiki:not([data-admin] *),
+[data-theme='dark'] .shiki span:not([data-admin] *) {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  /* No font-style or font-weight here. github-light/github-dark emit only
+     --shiki-dark and --shiki-dark-bg, so var(--shiki-dark-font-style) has no value
+     and no fallback: the declaration is invalid at computed-value time and resolves
+     to `unset`, i.e. inherit — with !important. Italic or bold inside a code block
+     nested in a blockquote would have leaked in. */
+}
+
+/* Diagrams.
+
+   The frame, not the picture: every diagram is an SVG whose own background is
+   transparent, so on the dark theme it would otherwise float with no edge at all. A
+   1px border plus padding gives it the same container the code blocks have.
+
+   `width: 100%` with `height: auto` rather than `max-width: 100%`: the <img> carries
+   width and height attributes read from the file's viewBox (see lib/markdown.tsx), so
+   the browser reserves the right box before the file arrives and the article does not
+   jump. Letting the image render at its intrinsic 700px while the prose column is
+   narrower would scale it down on phones and leave it undersized on wide screens; the
+   drawings have no raster detail to lose, so filling the column is free.
+
+   No `color-scheme` here either. The SVGs carry their own prefers-color-scheme block,
+   which is the only channel an <img>-embedded document gets — the page's variables and
+   data-theme cannot reach inside it. What CAN reach it is the `color-scheme` of the <img>
+   (CSSWG resolution, w3c/csswg-drafts#7213): inside an SVG image, prefers-color-scheme
+   answers with the used color-scheme of the embedding element rather than the OS.
+   Since V6 P1-10 sets `color-scheme` on the root from data-theme, and <img> inherits it,
+   the diagrams now follow the site's toggle. Measured in Chrome 155 (headless, a probe SVG
+   in <img> on a page with the rules above): "dark" on a light OS draws the dark palette,
+   "light" on a dark OS the light one; without the rules both followed the OS. In the admin
+   preview the root is `light` (:root:has([data-admin])), so diagrams there are light too.
+   A browser without that behaviour falls back to the OS — a light diagram on a dark page
+   or the reverse — which is why the palette stays mid-grey: legible either way, never
+   inverted. */
+.prose figure {
+  margin: 2rem 0;
+  /* Scrolls instead of shrinking. The diagrams are 700px wide and their labels are
+     11.5px, so a phone column of ~328px would scale them to 47% and render that text at
+     about 6px — present, and unreadable. Below the min-width on the image this container
+     scrolls horizontally, which is the same treatment a wide table gets (.table-scroll
+     below). */
+  overflow-x: auto;
+}
+
+/* The horizontal scroll frame of a table: lib/markdown.tsx wraps each <table> in a
+   <div class="table-scroll" role="region" tabindex="0" aria-label="Table: …">.
+
+   Typography gives tables no scroll frame; a cell with unbreakable inline code kept the table 343px wide
+   in a 320px frame and the whole page scrolled horizontally (measured on a 320px frame). The frame
+   scrolls instead of the page. The vertical margin moves from the table to the frame, so the scrollbar sits against the bottom edge of the table.
+   A focus ring like everything focusable on the site: the frame takes Tab so it can be scrolled with the arrow keys. */
+.prose .table-scroll {
+  overflow-x: auto;
+  margin: 2em 0;
+  /* The frame: the scroll container carries the border, so the scrollbar sits inside the frame and the rounded
+     corners clip the header background. */
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+}
+
+.prose .table-scroll thead th {
+  background-color: var(--color-neutral-50);
+}
+
+[data-theme='dark'] .prose .table-scroll:not([data-admin] *) {
+  border-color: var(--color-neutral-800);
+}
+
+[data-theme='dark'] .prose .table-scroll thead th:not([data-admin] *) {
+  background-color: var(--color-neutral-900);
+}
+
+.prose .table-scroll > table {
+  margin: 0;
+}
+
+.prose .table-scroll:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+.prose figure img {
+  display: block;
+  width: 100%;
+  /* A raster image (photo, screenshot) fits the column at every width: it never scrolls the figure sideways. */
+  min-width: 0;
+  height: auto;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+/* The diagram frame is for SVG only: its labels are 11.5px, so it needs padding and a minimum width.
+   34rem = 544px, where the smallest label lands near 9px. Above it the image fills the
+   column exactly; below it the figure scrolls. */
+.prose figure img[src$='.svg'] {
+  min-width: 34rem;
+  padding: 0.75rem;
+}
+
+/* `[data-theme]` only, with no prefers-color-scheme companion — the same rule the Shiki
+   block below is written to, and for the same reason. The boot script in app/layout.tsx
+   resolves the OS preference and always writes light or dark onto <html> before paint,
+   so a media query here would be a second source of truth that disagrees with the
+   toggle in one direction and paints the server HTML dark in the other. */
+[data-theme='dark'] .prose figure img:not([data-admin] *) {
+  border-color: var(--color-neutral-800);
+}
+
+.prose figcaption {
+  /* Pinned to the left edge of the scrollport, so the caption stays on screen while the
+     reader is dragging a wide diagram sideways. A block child of a scroll container is
+     already only as wide as the container — without `sticky` it would simply scroll out
+     of view to the left. */
+  position: sticky;
+  left: 0;
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--color-neutral-500);
+}
+
+/* neutral-400 in dark, and this one is mine: neutral-500 reads 4.17:1 on `#0a0a0a`, which
+   Lighthouse failed against the built page. It passes on white at 4.74:1, so only the dark
+   branch moves. A caption is the sentence explaining what the diagram above it means —
+   exactly the text that must not be the hardest thing on the page to read. */
+[data-theme='dark'] .prose figcaption:not([data-admin] *) {
+  color: var(--color-neutral-400);
+}
+
+/* @tailwindcss/typography styles pre/code itself and overrides Shiki's colours.
+   Hand those back. */
+.prose pre {
+  background-color: transparent;
+  color: inherit;
+  padding: 1rem;
+}
+
+/* The strip above every code block, reserved for the "Copy code" button.
+
+   lib/markdown.tsx hands every <pre> to components/site/CodeBlock.tsx: <div data-code-block
+   class="relative"> wraps the <pre> and CopyCodeButton, the button anchored at the top right (40px, 32px from 40rem). The strip
+   sits in the <pre> own padding-top, so it is inside the block background color in both themes, and slightly taller than the button:
+   the first code line always starts below the button. A button over the code would hide exactly the end of the first line —
+   and a long line scrolled horizontally would slide right underneath it; reserving right padding would not save that either,
+   because the button stays still while the text scrolls.
+
+   Here and not as a Tailwind class on <pre>: `.prose pre` above is an out-of-layer rule, so every utility
+   in @layer utilities loses to it regardless of specificity. 40rem is Tailwind 4 `sm`, the same breakpoint
+   as the button `sm:h-8`. It is in the server HTML: no shift at hydration. Guarded by
+   app/globals.test.ts. */
+.prose [data-code-block] > pre {
+  padding-top: 2.75rem;
+}
+
+@media (min-width: 40rem) {
+  .prose [data-code-block] > pre {
+    padding-top: 2.25rem;
+  }
+}
+
+/* Code on a phone is 13px everywhere (a plain fence, a code-tabs panel, a block): the size modifier of the typography plugin would give
+   a different size to each (0.875em of the prose size in a fence, the block's own `text-sm` in a panel), and a Dockerfile in a tab would
+   clip earlier than the same lines in a fence. 13px monospace keeps about 47 characters in the 366px of a 430px phone. */
+@media (max-width: 39.999rem) {
+  .prose pre {
+    font-size: 0.8125rem;
+  }
+
+  /* A code block that scrolls sideways fades its right edge while there is more code to the right (components/site/CodeScrollCue.tsx sets
+     `data-more`): a phone shows no scrollbar, and a cut line reads as the end of the line. */
+  .prose pre[data-more='true'] {
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.5rem), transparent);
+  }
+
+  /* Blocks are 24px apart on a phone (`my-6`); a figure (an image, a diagram) is too, not 32px. */
+  .prose figure {
+    margin: 1.5rem 0;
+  }
+
+  /* A table on a phone is set like the rest of the UI text, 15px at 1.5: at the 17px and 1.7 of the body a three-column table wraps
+     every cell to four or five short lines. */
+  .prose .table-scroll > table {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+}
+
+/* Typography wraps inline <code> in literal backtick pseudo-elements. */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* Without the backticks, inline code is a chip: a tinted background tells it apart from the text around it. */
+.prose :not(pre) > code {
+  background-color: var(--color-neutral-100);
+  border-radius: 0.25rem;
+  padding: 0.15em 0.35em;
+  font-weight: 500;
+  font-size: 0.875em;
+}
+
+/* Short inline code stays on one line (markShortInlineCode in lib/markdown.tsx): `--flag` and `single-process` do not break at a hyphen. */
+.prose :not(pre) > code[data-short] {
+  white-space: nowrap;
+}
+
+[data-theme='dark'] .prose :not(pre) > code:not([data-admin] *) {
+  background-color: var(--color-neutral-800);
+}
+
+/* The edge of a code block. In light mode the inline style paints #fff on a white page, so without a border the block
+   has no visible edge. The padding and the copy-button strip (rules above) are untouched. */
+.prose pre {
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+}
+
+[data-theme='dark'] .prose pre:not([data-admin] *) {
+  border-color: var(--color-neutral-800);
+}
+
+/* A quote is a 2px brand rule on the inline-start side and a quieter text colour: no italics, no generated curly
+   quotes (typography adds open-quote/close-quote on the first and last paragraph). The same font family as the body. */
+.prose blockquote {
+  font-style: normal;
+  font-weight: 400;
+  border-inline-start: 2px solid var(--color-brand);
+  padding-inline-start: 1.25rem;
+  color: var(--color-neutral-700);
+}
+
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+[data-theme='dark'] .prose blockquote:not([data-admin] *) {
+  color: var(--color-neutral-300);
+}
+
+/* The anchor rehype-autolink-headings appends to each heading. It is aria-hidden and
+   out of the tab order deliberately — an accessible name on a descendant anchor gets
+   folded into the heading's own name, so labelling it made every heading announce as
+   "Heading, Link to this section". The table of contents is the accessible route to a
+   section; this is a pointer affordance. */
+.prose .heading-anchor::after {
+  /* The marker lives here, not in the anchor's children: text inside the <a> becomes
+     part of the heading's textContent, which also leaked into every toc entry. */
+  content: '#';
+}
+
+.prose .heading-anchor {
+  margin-left: 0.4rem;
+  color: var(--color-brand);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 120ms ease-in-out;
+}
+
+.prose :is(h2, h3, h4):hover .heading-anchor {
+  opacity: 1;
+}
+
+/* Devices that cannot hover: a phone has no :hover, so the # mark above never
+shows, and a reader who wants to send a link to exactly one section has no way to get it. There the mark is always shown.
+Still aria-hidden, outside the Tab order: this is the finger path, the table of contents is the keyboard path. */
+@media (hover: none) {
+  .prose .heading-anchor {
+    opacity: 1;
+  }
+}
+
+/* A heading just jumped to (table of contents, a #section link someone else sent): its own # mark shows, on every device
+— it marks where the reader just arrived, and the link to that section is right next to it. Guarded by app/globals.test.ts. */
+.prose :is(h2, h3, h4):target .heading-anchor {
+  opacity: 1;
+}
+
+/* Sticky header: useStickyHeader.ts writes the measured height of the public header into `--site-header-h` on
+<html>; 0px at admin and before JS runs. Anchors (table of contents, #binh-luan), keyboard focus, scrollIntoView (including Next's own
+on page change) stop below the header, whether it is hidden or shown. Guarded by app/globals.test.ts. */
+:root {
+  --site-header-h: 0px;
+  /* The part of the header that is on screen: the measured height while it is shown, 0px while it is hidden by the scroll (the sticky sidebar
+     and right column start under it). Written by useStickyHeader.ts. */
+  --site-header-visible-h: 0px;
+}
+
+html {
+  scroll-padding-top: var(--site-header-h);
+  /* The scrollbar's lane is always reserved. Without it a page too short to scroll (an English /series, /topics or /archive with
+     little content) is one scrollbar wider than a long page, so the 1400px frame and its columns jump sideways by about 15px when
+     navigating between them. No effect with overlay scrollbars (phones, macOS). */
+  scrollbar-gutter: stable;
+}
+
+/* Breathing room above a heading when jumping to it, added on top of the scroll-padding above: the heading stops at
+header + 32px. In px and equal to HEADING_SCROLL_MARGIN_PX of lib/toc.ts, where TocSpy puts the "currently reading" line
+right below it: the heading just jumped to is the section being read. Guarded by app/globals.test.ts. */
+.prose :is(h2, h3, h4) {
+  scroll-margin-top: 32px;
+}
+
+/* The text of the public post page fills the whole body column, like the code blocks, tables and figures: there is no reading-measure cap on
+   [data-post-body]. (The column is the width the layout gives it, reader-layout.ts; a cap here once left a gap to its right.) Guarded by
+   app/globals.test.ts. */
+
+/* Cover art: components/site/CoverArt.tsx, the ink palette in lib/cover-art.ts.
+
+   Each <svg class="cover-art"> carries the six colors of its assigned ink itself, in inline style:
+   --ink-l/--ink-d, --tint-l/--tint-d, --deep-l/--deep-d (light/dark). The two rules below choose which set
+   becomes --ink/--tint/--deep, the variables that the fill-(--ink)… classes read. So the ink palette lives
+   in one place, in TS, instead of 36 repeated variables here that would need a test to keep the two sides in sync;
+   and a theme change is pure CSS: no second render, no JS.
+
+   Only `[data-theme]`, no prefers-color-scheme, for the same reason as the Shiki block above: the boot script
+   in app/layout.tsx always writes light or dark on <html> before painting.
+
+   `:not([data-admin] *)` like the other dark-theme-only rules: cover art in admin (the post list,
+   the cover image cell) always uses the light ink set, matching the admin background. */
+.cover-art {
+  --ink: var(--ink-l);
+  --tint: var(--tint-l);
+  --deep: var(--deep-l);
+}
+
+[data-theme='dark'] .cover-art:not([data-admin] *) {
+  --ink: var(--ink-d);
+  --tint: var(--tint-d);
+  --deep: var(--deep-d);
+}
+
+/* The gallery image viewer (components/site/GalleryLightbox.tsx): while a <dialog> is open as a
+modal, the page behind does not scroll with a mouse wheel or a swipe on the dark backdrop.
+
+   CSS instead of JS writing `overflow` on <html>: there is no state to remember and restore, and every
+   way of closing the dialog — button, Esc, clicking the backdrop, the Android Back button — releases the lock the same way, because the lock only
+   exists as long as `dialog[open]:modal` still matches. `:modal` and not just `[open]`: a dialog opened
+   with `show()` (non-modal) does not cover the page, so there is no reason to lock. */
+html:has(dialog[open]:modal) {
+  overflow: hidden;
+}
+
+/* The print version of a post — a single block, placed at the end of the file.
+
+   The parts that are not the post (header, footer, like button, share row, comments, PostNav, related posts,
+   "What to read next", table of contents, the "Copy code" button) carry `print:hidden` on their own component, next to the markup. The light theme
+   when printing is ThemeToggle's job (beforeprint → data-theme="light", afterprint → the reader choice),
+   not a rule here: this file has no rule by prefers-color-scheme, and a `color-scheme` or a
+   data-theme rule inside a media query would be a second source of truth for the theme being painted.
+
+   The rest is the post body on paper, where there is no horizontal scrollbar to drag: */
+@media print {
+  /* Code blocks wrap instead of scrolling: a line longer than the page would be cut off at the edge. `anywhere` can break even a
+  token with no break opportunity (a URL, a long class name). */
+  .prose pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* The "Copy code" button is not printed, so the strip reserved for it (2.75rem, 2.25rem from 40rem — a printed page is wider than 40rem)
+  goes back to the padding of every <pre>. Same selector as the two strip rules: it wins by coming after them. */
+  .prose [data-code-block] > pre {
+    padding-top: 1rem;
+  }
+
+  /* Diagrams and tables show in full instead of scrolling in a frame; the diagram image shrinks to the page width (min-width 34rem only
+  makes sense when it can scroll). */
+  .prose figure,
+  .prose .table-scroll {
+    overflow: visible;
+  }
+
+  .prose figure img,
+  .prose figure img[src$='.svg'] {
+    min-width: 0;
+  }
+
+  /* Do not split a code block, a diagram or a table in two when they fit on one page; a heading does not stand alone at the
+  bottom of a page, apart from its paragraph. */
+  .prose pre,
+  .prose figure,
+  .prose table {
+    break-inside: avoid;
+  }
+
+  .prose :is(h2, h3, h4) {
+    break-after: avoid;
+  }
+
+  /* The # mark next to a heading on paper leads nowhere (and `hover: none` above also matches a printer). */
+  .prose .heading-anchor {
+    display: none;
+  }
+}

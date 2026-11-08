@@ -1,0 +1,19 @@
+{
+  "experienceSummary": "Tóm tắt kinh nghiệm của bạn trong một hai câu. Hãy thay đoạn này trong Quản trị > Cài đặt.",
+  "entries": [
+    {
+      "kind": "education",
+      "title": "Bằng cấp hoặc khoá học của bạn",
+      "org": null,
+      "period": null,
+      "summary": "Nói về điều bạn đã học."
+    },
+    {
+      "kind": "experience",
+      "title": "Vai trò của bạn",
+      "org": null,
+      "period": null,
+      "summary": "Nói về việc bạn đã làm và điều bạn học được."
+    }
+  ]
+}

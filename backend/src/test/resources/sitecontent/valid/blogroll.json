@@ -1,0 +1,1 @@
+{ "entries": [ { "name": "Example Blog", "url": "https://example.com/blog" }, { "name": "Another", "url": "https://example.org", "note": "Good reads" } ] }

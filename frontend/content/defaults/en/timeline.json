@@ -1,0 +1,19 @@
+{
+  "experienceSummary": "Summarise your experience in a sentence or two. Replace this in Admin > Settings.",
+  "entries": [
+    {
+      "kind": "education",
+      "title": "Your degree or course",
+      "org": null,
+      "period": null,
+      "summary": "Say what you studied."
+    },
+    {
+      "kind": "experience",
+      "title": "Your role",
+      "org": null,
+      "period": null,
+      "summary": "Say what you did and what you learned."
+    }
+  ]
+}

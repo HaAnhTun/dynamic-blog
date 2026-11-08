@@ -1,0 +1,10 @@
+# Documented license exceptions (read by collect-licenses.py). Format: ECOSYSTEM:NAME | LICENSE | reason
+# NAME may contain `*`. LICENSE is the license the package is accepted with (`*` accepts any license of the package).
+# An entry is a decision a human made: the reason must say why the license is acceptable here.
+
+npm:@img/sharp-libvips-* | LGPL-3.0-or-later | prebuilt libvips binaries of sharp (used by next/image), loaded dynamically as a separate shared library and not modified, which the LGPL allows
+npm:@img/sharp-win32-* | * | sharp native add-on bundling the LGPL libvips as a separate shared library (dynamic linking, unmodified) next to Apache-2.0 code
+npm:@img/sharp-wasm32 | * | sharp WebAssembly build: Apache-2.0 and MIT code plus the LGPL libvips as a separate module, unmodified
+maven:org.bouncycastle:bcprov-jdk18on | Bouncy Castle Licence | the Bouncy Castle licence is an MIT-style licence, accepted as such
+maven:org.apache.tomcat:tomcat-annotations-api | Apache-2.0 | part of Apache Tomcat (Apache-2.0); its POM is not in the local Maven repository so the tool cannot read it
+npm:khroma | MIT | color helper of mermaid: its package.json has no license field, but the license file shipped in the package is the MIT text
