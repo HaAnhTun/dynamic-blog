@@ -490,6 +490,10 @@ post by slug), counts, and posts that belong to no series (`admin/series.spec.ts
 all in one series). On a stack loaded with the packaged sample content instead, they fail on missing data and say nothing about the
 code. The published product has no `seed/` and drops those specs from its export; its CI job starts from the sample content:
 `node scripts/e2e-bootstrap.mjs --sample-content`.
+`e2e/site-frame.spec.ts` (the shared frame, the BROWSE sidebar and the text measure of the site pages) and `e2e/post-layout.spec.ts` (the
+three columns, the sticky rails, the skip links and the focus rings of the post page) belong to the same group: they open the owner's own
+bootstrap posts and series by slug, so they live in the private repository the product was published from and are not in this one. A
+neutral dataset (a post with a table of contents and a series description in the packaged sample content) is what would let them run here.
 
 The administrator cannot sign in with a password alone: two-step verification is mandatory, and the first sign-in of a new stack is
 an enrollment. The script signs in through the API as the development admin (a `202` with a challenge), enrolls an authenticator

@@ -4,7 +4,7 @@ import type { Backend } from './backend'
 import { applyLocale, msg } from './i18n'
 
 /**
- * Helpers of e2e/post-layout.spec.ts: the geometry of the 1400px site frame (header, body, footer), the three columns of a
+ * Helpers of the post layout specs and of e2e/gallery.spec.ts: the geometry of the 1400px site frame (header, body, footer), the three columns of a
  * post, the hero block, the Tab walk, the characters-per-line measure and a published post with many headings.
  *
  * Every measured element is a structural hook: `#main-content` (the frame: `main` IS the 1400px box), `[data-reader-grid]` (the post
