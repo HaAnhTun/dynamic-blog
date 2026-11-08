@@ -106,7 +106,7 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <!-- Not managed by Boot (see the properties). The Swagger UI webjar is in the jar but switched off in production: the paths
                  answer 404 unless the dev profile or SPRINGDOC_ENABLED turns them on (SpringDocExposureTest). -->
-            <version>3.1.1</version>
+            <version>3.2.0</version>
         </dependency>
         <!-- Pure-Java ImageIO plugins, BSD-3-Clause. imageio-jpeg reads CMYK/YCCK JPEGs and broken ICC profiles that
              the JDK reader rejects, and converts the embedded profile to sRGB itself; imageio-webp adds a WebP
