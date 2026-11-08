@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Offline pattern and entropy scan for a release snapshot (the documented fallback when gitleaks is unavailable).
 
-usage: python scripts/release/scan-generic.py [--root DIR] [--allow FILE] [--no-git] [--strict]
+usage: python scripts/release/scan-generic.py [--root DIR] [--allow FILE] [--no-git] [--strict] [--owner LOGIN]
 
 Without --root the repository of the current directory is scanned (tracked files). With --root DIR the files of DIR are
 scanned: `git ls-files` when DIR is a git repository, else a directory walk (--no-git forces the walk).
@@ -10,7 +10,7 @@ Rules (the id is the first column of the allow file):
   email        an email address outside example.com, example.org, example.net, blog.local, localhost, noreply and *.test, *.invalid, *.example
   abs-path     an absolute home or drive path such as C:\\Users\\name or /home/name
   private-ref  a reference to the private/ folder
-  github-url   a github.com/<login> URL whose login is not OWNER
+  github-url   a github.com/<login> URL whose login is not OWNER, nor the owner of this repository (see --owner)
   placeholder-image  an image name in the placeholder namespace of the GitHub registry (the word "owner" as the account): a pull of
                it would fetch whatever that account publishes, not this project
   placeholder  (--strict only) an unfilled <...> placeholder of the security contact, the copyright holder or the release date
@@ -22,6 +22,11 @@ Rules (the id is the first column of the allow file):
 --strict is the mode for a release snapshot, where the placeholders of the working tree must all have been filled in: a
 URL of the placeholder account (the word OWNER as the login) is a github-url finding, and a placeholder for the security contact, the copyright holder or the release date
 is a `placeholder` finding. Without it the placeholders are the working tree's normal content.
+
+--owner LOGIN names the GitHub account that owns the repository, so that the project may link to its own pages (the README, the
+issue template and the changelog of a published repository do). Without the flag the owner is read from GITHUB_REPOSITORY_OWNER (set
+by GitHub Actions) and else from the `origin` remote of the scanned repository. Only that exact login (any case) is let through, and
+never in --strict mode, which is the mode of a release snapshot.
 
 The allow file has one entry per line: `RULE | PATH_GLOB | MATCH | reason` (`*` as MATCH allows every match of the rule in
 those files, otherwise MATCH must be a substring of the matched text). The reason is mandatory. `#` starts a comment line.
@@ -122,7 +127,7 @@ def _email_ok(domain):
     return any(d == s or d.endswith('.' + s) for s in SAFE_EMAIL_DOMAINS)
 
 
-def _line_findings(line, strict=False):
+def _line_findings(line, strict=False, owner=None):
     """Yield (rule, matched text) for one line. `strict` is the snapshot mode: unfilled placeholders are findings."""
     for m in EMAIL.finditer(line):
         local = m.group(0).split('@', 1)[0].lower()
@@ -136,7 +141,7 @@ def _line_findings(line, strict=False):
     for m in PRIVATE_REF.finditer(line):
         yield 'private-ref', m.group(0)
     for m in GITHUB_URL.finditer(line):
-        if m.group(1) != 'OWNER' or strict:
+        if strict or (m.group(1) != 'OWNER' and not (owner and m.group(1).lower() == owner)):
             yield 'github-url', m.group(0)
     if strict:
         for placeholder in PLACEHOLDERS:
@@ -160,14 +165,14 @@ def _line_findings(line, strict=False):
             yield 'entropy', m.group(1)
 
 
-def scan_text(relpath, text, allow=(), strict=False):
+def scan_text(relpath, text, allow=(), strict=False, owner=None):
     """Return findings as (relpath, line number, rule, match prefix) for one text."""
     findings = []
     for number, line in enumerate(text.splitlines(), 1):
         if len(line) > 4000:
             line = line[:4000]
         seen = set()
-        for rule, matched in _line_findings(line, strict):
+        for rule, matched in _line_findings(line, strict, owner):
             if (rule, matched) in seen or _allowed(allow, rule, relpath, matched):
                 continue
             seen.add((rule, matched))
@@ -203,15 +208,28 @@ def read_text(path):
     return data.decode('utf-8', errors='replace')
 
 
-def scan_tree(root, allow=(), files=None, use_git=True, strict=False):
+def scan_tree(root, allow=(), files=None, use_git=True, strict=False, owner=None):
     findings = []
     for name in files if files is not None else list_files(root, use_git):
         if os.path.basename(name) in SKIP_NAMES or name in SKIP_PATHS or name.startswith('private/'):
             continue
         text = read_text(os.path.join(root, name))
         if text is not None:
-            findings.extend(scan_text(name, text, allow, strict))
+            findings.extend(scan_text(name, text, allow, strict, owner))
     return findings
+
+
+def repo_owner(root):
+    """The lower-cased GitHub login that owns the repository: GITHUB_REPOSITORY_OWNER, else the `origin` remote of `root`, else None."""
+    env = os.environ.get('GITHUB_REPOSITORY_OWNER', '').strip()
+    if env:
+        return env.lower()
+    try:
+        url = subprocess.run(['git', '-C', root, 'config', '--get', 'remote.origin.url'], capture_output=True).stdout.decode().strip()
+    except OSError:
+        return None
+    match = re.search(r'github\.com[:/]([A-Za-z0-9-]+)/', url)
+    return match.group(1).lower() if match else None
 
 
 def main(argv=None):
@@ -220,6 +238,7 @@ def main(argv=None):
     parser.add_argument('--allow', default=DEFAULT_ALLOW)
     parser.add_argument('--no-git', action='store_true')
     parser.add_argument('--strict', action='store_true', help='snapshot mode: unfilled placeholders are findings')
+    parser.add_argument('--owner', default=None, help='GitHub login of the repository owner, whose URLs are allowed (default: see above)')
     args = parser.parse_args(argv)
     root = args.root
     if root is None:
@@ -229,7 +248,8 @@ def main(argv=None):
     except ValueError as error:
         print('scan-generic: ' + str(error), file=sys.stderr)
         return 2
-    findings = scan_tree(root, allow, use_git=not args.no_git, strict=args.strict)
+    owner = args.owner.lower() if args.owner else repo_owner(root)
+    findings = scan_tree(root, allow, use_git=not args.no_git, strict=args.strict, owner=owner)
     for relpath, number, rule, prefix in findings:
         print(f'{relpath}:{number}: {rule} ({prefix})')
     print(f'scan-generic: {len(findings)} finding(s), {len(allow)} allow entr(ies)')
