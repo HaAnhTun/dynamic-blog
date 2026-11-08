@@ -23,7 +23,7 @@
     "hast-util-to-jsx-runtime": "2.3.6",
     "hast-util-to-string": "3.0.1",
     "mermaid": "12.1.0",
-    "next": "16.4.2",
+    "next": "16.4.3",
     "next-intl": "4.14.9",
     "react": "19.3.0",
     "react-dom": "19.3.0",
