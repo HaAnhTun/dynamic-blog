@@ -24,7 +24,7 @@ COPY src ./src
 # to be.
 RUN mvn -B -DskipTests package
 
-FROM eclipse-temurin:25-jre-alpine@sha256:b7528962e65d43064d8a8b67ba175367896bc948363ea2d3fcd7f10d34e1f048 AS runtime
+FROM eclipse-temurin:25-jre-alpine@sha256:e1898fd6a11fc965a994d8ace186fd3585aeb636cf8f05f47a723fcfee0b0918 AS runtime
 WORKDIR /app
 
 # Non-root. The JVM needs nothing it writes to outside /tmp, so there is no reason for this
