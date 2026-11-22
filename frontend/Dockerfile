@@ -5,7 +5,7 @@
 # The three stages use the same base image, pinned by digest (the tag says which version it is): a tag that moves would put different
 # bytes into the published image than the ones that were tested. The Dependabot docker entry updates all three lines
 # (scripts/test_image_pinning.py fails on a base image without a digest).
-FROM node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 AS deps
+FROM node:26-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 # npm ci, not npm install: it installs exactly the lockfile and fails if package.json and
@@ -16,7 +16,7 @@ COPY package.json package-lock.json ./
 # names them and fails when a fifth appears).
 RUN npm ci --ignore-scripts
 
-FROM node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 AS build
+FROM node:26-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -65,7 +65,7 @@ RUN npm run build
 # Pages that never revalidate (the icons, the global error page) stay. The step fails when the build wrote no manifest.
 RUN node scripts/clear-prerendered-pages.mjs .next/standalone/.next
 
-FROM node:22-alpine@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 AS runtime
+FROM node:26-alpine@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6e7f4afa43ddeccd6452710bffb5 AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 
