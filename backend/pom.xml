@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk18on</artifactId>
-            <version>1.86</version>
+            <version>1.87</version>
         </dependency>
         <!-- Newsletter: used only by SmtpMailTransport, and only when NEWSLETTER_TRANSPORT=smtp. Boot's JavaMailSender
              auto-config is excluded in application.yml: it builds a sender as soon as spring.mail.host is present. -->
